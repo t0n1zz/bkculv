@@ -37,13 +37,11 @@ if($s == 0){
                                 ->where('online','>',$bataswaktu)
                                 ->count();
 
-	$tanggal_hariini  = date('d-m-Y');
-
 ?>
 
 <p class="contact-us-details">
     <b>Reset :</b> 5 September 2014 <br/>
-    <b>Tanggal :</b> <?php echo $tanggal_hariini; ?> <br/>
+    <b>Tanggal Hari Ini :</b> {{ Date::now()->format('j F Y ')}}<br/>
     <b>Pengunjung Hari Ini :</b> <?php echo $pengunjung; ?> orang <br/>
     <b>Total Pengunjung :</b> <?php echo $totalpengunjung; ?> orang<br/>
     <b>Pengunjung Online :</b> <?php echo $pengunjungonline; ?> orang</br/>

@@ -12,6 +12,7 @@
     </div>
 </div>
 <!-- /Page Title -->
+<img class="img-responsive" src="{{ asset('images/top.png') }}" width="100%"  style="vertical-align: top;margin-top: -10px;margin-bottom: -3%;"/>
 <div class="section">
     <div class="container">
         <?php $i=1;$pos=""; ?>
@@ -37,6 +38,7 @@
                         @endif
                     </div>
                 </div>
+                 <br/>
             @elseif($pos ==2)
                 <div class="row" id="{{$pelayanan->id}}">
                     <h2>{{ $pelayanan->name }}</h2>
@@ -50,6 +52,7 @@
                         {{ $pelayanan->content }}
                     </div>
                 </div>
+                <br/>
             @endif
 
             <?php  $i++; ?>

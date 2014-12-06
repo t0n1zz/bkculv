@@ -87,9 +87,9 @@ class AdminPengumumanController extends \BaseController{
         $id = Input::get('id');
         $urutan = Input::get('urutan');
         $Pengumuman = Pengumuman::findOrFail($id);
-        $cariurutans = Pengumuman::where('urutan','=',$urutan)->get();
+        $cariurutan = Pengumuman::where('urutan','=',$urutan)->get()->first();
 
-        if(!empty($cariurutans) && $Pengumuman->urutan != $urutan) {
+        if(!empty($cariurutan) && $Pengumuman->urutan != $urutan) {
             $Pengumuman->urutan = $urutan;
             $Pengumuman->update();
 
@@ -117,11 +117,9 @@ class AdminPengumumanController extends \BaseController{
         }
         */
 
-            foreach($cariurutans as $cariurutan) {
-                $ubahurutan = Pengumuman::find($cariurutan->id);
-                $ubahurutan->urutan = $value;
-                $ubahurutan->update();
-            }
+            $ubahurutan = Pengumuman::find($cariurutan->id);
+            $ubahurutan->urutan = $value;
+            $ubahurutan->update();
 
             return Redirect::route('admins.pengumuman.index')->with('message', 'Urutan pengumuman telah berhasil diubah.');
         }else{

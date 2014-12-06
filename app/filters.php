@@ -94,7 +94,7 @@ Route::filter('admin', function()
 {
     if (! Entrust::can('admin') ) // Checks the current user
     {
-        return Redirect::to('/admin')->with('message', 'Maaf, anda tidak punya akses ke halaman <b>Admin</b>.');;
+        return Redirect::to('/admins')->with('message', 'Maaf, anda tidak punya akses ke halaman <b>Admin</b>.');;
     }
 });
 Route::filter('artikel', function()
@@ -167,3 +167,11 @@ Route::filter('staff', function()
         return Redirect::to('/admins')->with('message', 'Maaf, anda tidak punya akses ke halaman <b>Staff</b>.');;
     }
 });
+Route::filter('wilayahcuprimer', function()
+{
+    if (! Entrust::can('wilayahcuprimer') )
+    {
+        return Redirect::to('/admins')->with('message', 'Maaf, anda tidak punya akses ke halaman <b>Wilayah CU Primer</b>.');;
+    }
+});
+

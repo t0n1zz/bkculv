@@ -12,6 +12,7 @@
         </div>
     </div>
 <!-- /Page Title -->
+<img class="img-responsive" src="{{ asset('images/top.png') }}" width="100%"  style="vertical-align: top;margin-top: -10px;margin-bottom: -3%;"/>
 <div class="section">
     <div class="container">
         @foreach($jejarings as $jejaring)
@@ -42,7 +43,7 @@
             @endif
 
             <div class="col-sm-6 col-md-3" id="cu{{$cuprimer->id}}">
-                <div class="blog-post">
+                <div class="blog-post shadow">
                     <div class="post-title">
                         <h3>{{$cuprimer->name}}</h3>
                     </div>

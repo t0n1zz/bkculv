@@ -120,7 +120,7 @@
             <li @if($title == "Kelola Kegiatan" || $title == "Tambah Kegiatan" || $title == "Ubah Kegiatan" )
                     {{ "class='active'" }}
                 @endif
-            ><a href="#"><i class="fa fa-calendar fa-fw"></i> Agenda<span class="fa arrow"></span></a>
+            ><a href="#"><i class="fa fa-calendar fa-fw"></i> Kegiatan<span class="fa arrow"></span></a>
                     <ul class="nav nav-second-level">
                         <li>
                             <a @if($title == "Tambah Kegiatan")

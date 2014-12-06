@@ -49,6 +49,7 @@
 
       @yield('content')
 
+      <img class="img-responsive" src="{{ asset('images/footer.png') }}" width="100%"  style="vertical-align: bottom;margin-bottom: -20px;margin-top: -3%;"/>
       @include('_layouts.footer')
 
       <!-- Javascripts -->
@@ -65,7 +66,7 @@
       {{ HTML::style('js/newsticker/li-scroller.css') }}
       <script type="text/javascript">
       $('.marquee').marquee({
-        pauseOnHover: true,
+        pauseOnHover: false,
         //speed in milliseconds of the marquee
         duration: 20000,
         //gap in pixels between the tickers

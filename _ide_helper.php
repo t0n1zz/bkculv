@@ -1,7 +1,7 @@
 <?php
 /**
  * An helper file for Laravel 4, to provide autocomplete information to your IDE
- * Generated for Laravel 4.2.11 on 2014-10-27.
+ * Generated for Laravel 4.2.11 on 2014-12-05.
  *
  * @author Barry vd. Heuvel <barryvdh@gmail.com>
  * @see https://github.com/barryvdh/laravel-ide-helper
@@ -3542,6 +3542,95 @@ namespace {
         public static function withTablePrefix($grammar){
             //Method inherited from \Illuminate\Database\Connection            
             return \Illuminate\Database\MySqlConnection::withTablePrefix($grammar);
+        }
+        
+    }
+
+
+    class Entrust extends \Zizaco\Entrust\EntrustFacade{
+        
+        /**
+         * Checks if the current user has a Role by its name
+         *
+         * @param string $name Role name.
+         * @return bool 
+         * @static 
+         */
+        public static function hasRole($permission){
+            return \Zizaco\Entrust\Entrust::hasRole($permission);
+        }
+        
+        /**
+         * Check if the current user has a permission by its name
+         *
+         * @param string $permission Permission string.
+         * @return bool 
+         * @static 
+         */
+        public static function can($permission){
+            return \Zizaco\Entrust\Entrust::can($permission);
+        }
+        
+        /**
+         * Get the currently authenticated user or null.
+         *
+         * @return \Zizaco\Entrust\User|null 
+         * @static 
+         */
+        public static function user(){
+            return \Zizaco\Entrust\Entrust::user();
+        }
+        
+        /**
+         * Filters a route for the name Role.
+         * 
+         * If the third parameter is null then return 403.
+         * Overwise the $result is returned.
+         *
+         * @param string $route Route pattern. i.e: "admin/*"
+         * @param array|string $roles The role(s) needed.
+         * @param mixed $result i.e: Redirect::to('/')
+         * @param bool $cumulative Must have all roles.
+         * @return mixed 
+         * @static 
+         */
+        public static function routeNeedsRole($route, $roles, $result = null, $cumulative = true){
+            return \Zizaco\Entrust\Entrust::routeNeedsRole($route, $roles, $result, $cumulative);
+        }
+        
+        /**
+         * Filters a route for the permission.
+         * 
+         * If the third parameter is null then return 403.
+         * Overwise the $result is returned.
+         *
+         * @param string $route Route pattern. i.e: "admin/*"
+         * @param array|string $permissions The permission needed.
+         * @param mixed $result i.e: Redirect::to('/')
+         * @param bool $cumulative Must have all permissions
+         * @return mixed 
+         * @static 
+         */
+        public static function routeNeedsPermission($route, $permissions, $result = null, $cumulative = true){
+            return \Zizaco\Entrust\Entrust::routeNeedsPermission($route, $permissions, $result, $cumulative);
+        }
+        
+        /**
+         * Filters a route for the permission.
+         * 
+         * If the third parameter is null then return 403.
+         * Overwise the $result is returned.
+         *
+         * @param string $route Route pattern. i.e: "admin/*"
+         * @param array|string $roles The role(s) needed.
+         * @param array|string $permissions The permission needed.
+         * @param mixed $result i.e: Redirect::to('/')
+         * @param bool $cumulative Must have all permissions
+         * @return void 
+         * @static 
+         */
+        public static function routeNeedsRoleOrPermission($route, $roles, $permissions, $result = null, $cumulative = false){
+            \Zizaco\Entrust\Entrust::routeNeedsRoleOrPermission($route, $roles, $permissions, $result, $cumulative);
         }
         
     }
@@ -12284,6 +12373,11 @@ namespace {
         public static function getNames(){
             return \Illuminate\View\Factory::getNames();
         }
+        
+    }
+
+
+    class Date extends \Jenssegers\Date\Date{
         
     }
 

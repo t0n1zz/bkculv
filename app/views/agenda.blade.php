@@ -12,7 +12,7 @@
     </div>
 </div>
 <!-- /Page Title -->
-
+<img class="img-responsive" src="{{ asset('images/top.png') }}" width="100%"  style="vertical-align: top;margin-top: -10px;margin-bottom: -3%;"/>
 <div class="section blog-posts-wrapper">
     <div class="container">
         <div class="row">

@@ -49,6 +49,7 @@ Route::when('admins/kegiatan*', 'kegiatan');
 Route::when('admins/pelayanan*', 'pelayanan');
 Route::when('admins/pengumuman*', 'pengumuman');
 Route::when('admins/staff*', 'staff');
+Route::when('admins/wilayahcuprimer*', 'wilayahcuprimer');
 
 Route::group(array('prefix' => 'admins','before' => 'auth'), function(){
 
@@ -100,6 +101,20 @@ Route::group(array('prefix' => 'admins','before' => 'auth'), function(){
         'uses' => 'AdminPengumumanController@update_urutan'
     ));
 
+    Route::resource('admin','AdminAdminController',array('except' => array('show')));
+    Route::get('admin/edit_hak_akses/{id}',array(
+        'as' => 'admins.admin.edit_hak_akses',
+        'uses' => 'AdminAdminController@edit_hak_akses'
+    ));
+    Route::post('admin/update_hak_akses',array(
+        'as' => 'admins.admin.update_hak_akses',
+        'uses' => 'AdminAdminController@update_hak_akses'
+    ));
+    Route::post('admin/update_status',array(
+        'as' => 'admins.admin.update_status',
+        'uses' => 'AdminAdminController@update_status'
+    ));
+
     Route::get('statistik',array('as' => 'statistik', function()
     {
         $statistiks = DB::table('stat_pengunjung')
@@ -114,7 +129,6 @@ Route::group(array('prefix' => 'admins','before' => 'auth'), function(){
     Route::resource('pelayanan','AdminPelayananController',array('except' => array('show')));
     Route::resource('kegiatan','AdminKegiatanController',array('except' => array('show')));
     Route::resource('gambarkegiatan','AdminGambarKegiatanController',array('except' => array('show')));
-    Route::resource('admin','AdminAdminController',array('except' => array('show')));
     Route::resource('kantorpelayanan','AdminKantorPelayananController',array('except' => array('show')));
     Route::resource('kategoriartikel','AdminKategoriArtikelController',array('except' => array('show','create','edit')));
     Route::resource('wilayahcuprimer','AdminWilayahCuprimerController',array('except' => array('show','create','edit')));
@@ -123,16 +137,30 @@ Route::group(array('prefix' => 'admins','before' => 'auth'), function(){
 
 });
 
+Route::group(array('before' => 'auth'), function()
+{
+    \Route::get('elfinder', 'Barryvdh\Elfinder\ElfinderController@showIndex');
+    \Route::any('elfinder/connector', 'Barryvdh\Elfinder\ElfinderController@showConnector');
+});
+\Route::get('elfinder/tinymce', 'Barryvdh\Elfinder\ElfinderController@showTinyMCE4');
+
+
 /*
+Event::listen('illuminate.query', function($query)
+{
+    var_dump($query);
+});
+
+
 Route::get('/start', function()
 {
-    $master = new Role();
-    $master->name = 'Master';
-    $master->save();
+    $admin = new Role();
+    $admin->name = 'admin';
+    $admin->save();
 
     $user = Admin::where('username','=','t0n1zz')->first();
 
-    $user->attachRole( $master ); // Parameter can be an Role object, array or id.
+    $user->attachRole( $admin ); // Parameter can be an Role object, array or id.
 
     $user->roles()->attach( $master->id ); // id only
 
@@ -141,34 +169,40 @@ Route::get('/start', function()
     $aksesartikel->display_name = 'Akses Artikel';
     $aksesartikel->save();
 
-    $master->perms()->sync(array($aksesartikel->id));
+    $admin->perms()->sync(array($aksesartikel->id));
 
     return 'Woohoo!';
 });
-*/
-
 Route::get('/start', function()
 {
-    $master = new Role();
-    $master->name = 'Master';
+    $admin = Role::where('name','=','admin')->get()->first();
 
-    $akses = Permission::where('name','=','admin');
+    $akses = Permission::where('name','=','admin')->get()->first();
 
-    $master->perms()->sync(array($akses->id));
+    $admin->attachPermission($akses);
 
     return 'Woohoo!';
-});
 
-
-Route::group(array('before' => 'auth'), function()
-{
-    \Route::get('elfinder', 'Barryvdh\Elfinder\ElfinderController@showIndex');
-    \Route::any('elfinder/connector', 'Barryvdh\Elfinder\ElfinderController@showConnector');
 });
-\Route::get('elfinder/tinymce', 'Barryvdh\Elfinder\ElfinderController@showTinyMCE4');
-/*
-Event::listen('illuminate.query', function($query)
+Route::get('/start', function()
 {
-    var_dump($query);
+    $admin = Role::where('name','=','admin')->get()->first();
+
+    $akses = Permission::where('name','=','admin')->get()->first();
+
+    $admin->detachPermission($akses);
+
+    return 'Woohoo!';
+
+});
+Route::get('/start', function()
+{
+    $admin = Role::where('name','=','test3')->first();
+
+    //$admin->perms()->detach();
+    //Role::destroy($admin->id);
+
+    return 'Woohoo!';
+
 });
 */

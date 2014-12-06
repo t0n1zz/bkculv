@@ -53,23 +53,50 @@
     </div>
     <!--/name-->
     <hr/>
-    <!--password lama-->
-    <div class="col-lg-10">
-    <div class="form-group">
-        {{ Form::label('Password Lama') }}
-        {{ Form::password('oldpassword',array('class' => 'form-control','placeholder' => 'Silahkan masukkan password lama admin ini'))}}
-        {{ $errors->first('oldpassword', '<p class="text-warning"><i>:message</i></p>') }}
-    </div>
-    </div>
-    <!--/password lama-->
-    <!--password baru-->
-    <div class="col-lg-10">
-    <div class="form-group">
-        {{ Form::label('Password Baru') }}
-        {{ Form::password('password',array('class' => 'form-control','placeholder' => 'Silahkan masukkan password baru admin ini'))}}
-        {{ $errors->first('password', '<p class="text-warning"><i>:message</i></p>') }}
-    </div>
-    </div>
-    <!--/password baru-->
+    @if(!empty($admin))
+        <!--password lama-->
+        <div class="col-lg-10">
+        <div class="form-group">
+            {{ Form::label('Password Lama') }}
+            {{ Form::password('oldpassword',array('class' => 'form-control','placeholder' => 'Silahkan masukkan password lama admin ini'))}}
+            {{ $errors->first('oldpassword', '<p class="text-warning"><i>:message</i></p>') }}
+        </div>
+        </div>
+        <!--/password lama-->
+        <!--password baru-->
+        <div class="col-lg-10">
+        <div class="form-group">
+            {{ Form::label('Password Baru') }}
+            {{ Form::password('password',array('class' => 'form-control','placeholder' => 'Silahkan masukkan password baru admin ini'))}}
+            {{ $errors->first('password', '<p class="text-warning"><i>:message</i></p>') }}
+        </div>
+        </div>
+        <!--/password baru-->
+    @else
+        <!--password 1-->
+        <div class="col-lg-10">
+        <div class="form-group">
+            {{ Form::label('Password') }}
+            {{ Form::password('password',array('class' => 'form-control','placeholder' => 'Silahkan masukkan password admin'))}}
+            {{ $errors->first('password', '<p class="text-warning"><i>:message</i></p>') }}
+        </div>
+        </div>
+        <!--/password 1-->
+        <!--password 2-->
+        <div class="col-lg-10">
+        <div class="form-group">
+            {{ Form::label('Konfirmasi Password') }}
+            {{ Form::password('password2',array('class' => 'form-control','placeholder' => 'Silahkan masukkan password admin sekali lagi'))}}
+            {{ $errors->first('password2', '<p class="text-warning"><i>:message</i></p>') }}
+        </div>
+        </div>
+        <!--/password 2-->
+    @endif
+    @if(empty($admin))
+        <div class="col-lg-12">
+            {{ Form::label('Hak Akses') }}
+            @include('admins.admin.hak_akses')
+        </div>
+    @endif
 </div>
 </div>

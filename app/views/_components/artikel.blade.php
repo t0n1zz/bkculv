@@ -18,24 +18,24 @@
         @if($i % 3 == 0 || $i == 0)
            <div class="row">
         @endif
-                <div class="col-md-4 col-sm-6">
-                    <div class="blog-post">
+                <div class="col-md-4 col-sm-6 ">
+                    <div class="blog-post shadow">
                         @if(!empty($artikel->gambar) && is_file("images_artikel/{$artikel->gambar}"))
                             {{ HTML::image('images_artikel/'.$artikel->gambar, $artikel->judul, array(
                                 'class' => 'post-image')) }}
                         @endif
-                        <div class="post-title">
-                            <h3>{{ link_to_route('detail_artikel', $artikel->judul, array($artikel->id)) }}</h3>
+                        <div class="post-title" >
+                            <h3 >{{ link_to_route('detail_artikel', $artikel->judul, array($artikel->id)) }}</h3>
                         </div>
                         <div class="post-summary">
-                            <div class="date" style="font-size: 14px;">
-                                <i class="fa fa-clock-o"></i> {{ date('F j, Y, g:i a ', strtotime($artikel->created_at)) }}
+                            <div class="date" style="font-size: 14px;color: #017ebc;padding-bottom:10px">
+                                <?php $date = new Date($artikel->created_at); ?>
+                                <i class="fa fa-fw fa-clock-o"></i> {{ $date->format('l, j F Y, H:i:s') }}
                             </div>
-                            <br />
                             <p>{{ str_limit(preg_replace('/(<.*?>)|(&.*?;)/', '', $artikel->content),200) }}</p>
                         </div>
                         <div class="post-more">
-                            {{ link_to_route('detail_artikel', 'Selengkapnya...', array($artikel->id),array('class' => 'btn btn-small')) }}
+                            {{ link_to_route('detail_artikel', 'Selengkapnya', array($artikel->id),array('class' => 'btn btn-small')) }}
                         </div>
                     </div>
                 </div>

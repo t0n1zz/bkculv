@@ -2,8 +2,40 @@
 	General Style
 --------------------------------------------------------------------------*/
 body {
-  background: url(../images/page-background.png);
+    /*background: url(../images/page-background.png);*/
+
+    background-color: #9bcfff;
+    background-image: url('../images/snow1.png'), url('../images/snow3.png');
+
+    -webkit-animation: snow 20s linear infinite;
+    -moz-animation: snow 20s linear infinite;
+    -ms-animation: snow 20s linear infinite;
+    animation: snow 20s linear infinite;
 }
+
+/*Keyframes*/
+@keyframes snow {
+    0% {background-position: 0px 0px, 0px 0px, 0px 0px;}
+    100% {background-position: 500px 1000px, 400px 400px, 300px 300px;}
+}
+
+@-moz-keyframes snow {
+    0% {background-position: 0px 0px, 0px 0px, 0px 0px;}
+    100% {background-position: 500px 1000px, 400px 400px, 300px 300px;}
+}
+
+@-webkit-keyframes snow {
+    0% {background-position: 0px 0px, 0px 0px, 0px 0px;}
+    50% {background-color:#b4cfe0;}
+    100% {background-position: 500px 1000px, 400px 400px, 300px 300px; background-color:#9bcfff;}
+}
+
+@-ms-keyframes snow {
+    0% {background-position: 0px 0px, 0px 0px, 0px 0px;}
+    100% {background-position: 500px 1000px, 400px 400px, 300px 300px;}
+}
+
+
 .section {
   padding: 30px 0;
   -webkit-transform: translateZ(0);
@@ -591,7 +623,7 @@ a:hover {
 }
 .post-title h3 {
   font-size: 1.2em;
-  border-bottom: 1px dotted #828282;
+  /*border-bottom: 1px dotted #828282;*/
   margin: 0 20px;
   padding-top: 10px;
 }
@@ -1613,6 +1645,9 @@ span.color-red {
 .sitemap a {
   color: #535b60;
 }
+.sitemap a:hover {
+    color: #4f8db3;
+}
 .sitemap li {
   padding: 10px 0;
   font-weight: 600;
@@ -1698,8 +1733,9 @@ span.color-red {
 --------------------------------------------------------------------------*/
 .section-breadcrumbs {
   background: #222;
-  background: rgba(34, 34, 34, 0.8);
+  background: rgba(34, 34, 34, 1);
   margin-bottom: 10px;
+  border-bottom: 4px solid #4f8db3;
 }
 .section-breadcrumbs h1 {
   color: #FAFAFA;

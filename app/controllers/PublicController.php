@@ -7,13 +7,11 @@ class PublicController extends \BaseController{
         $artikelpilihans = Artikel::where('pilihan', '=', '1')->get();
 
         $beritaBKCUs = Artikel::with('KategoriArtikel')
-            ->where('pilihan','=','0')
             ->where('kategori','=','2')
             ->where('status','=','1')
             ->orderBy('created_at', 'desc')
             ->take(3)->get();
         $beritaCUs = Artikel::with('KategoriArtikel')
-            ->where('pilihan','=','0')
             ->where('kategori','=','3')
             ->where('status','=','1')
             ->orderBy('created_at', 'desc')
@@ -25,11 +23,7 @@ class PublicController extends \BaseController{
             ->get();
         $gambarkegiatans = GambarKegiatan::all();
 
-        $beritas = KategoriArtikel::with(array('Artikel' => function($query)
-        {
-            $query->where('pilihan', '=', '0');
-            $query->where('status', '=', '1');
-        }))->whereNotIn('id',array('1','2','3','4','8'))->get();
+        $beritas = KategoriArtikel::with('Artikel')->whereNotIn('id',array('1','2','3','4','8'))->get();
 
         //Cache::forget(Artikel::getCacheKey());
 

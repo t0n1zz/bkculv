@@ -5,8 +5,8 @@
     			<h3>Info Gerakan</h3>
                 <p class="contact-us-details">
                     @if(!empty($infogerakan->tanggal))
-                    <?php date_default_timezone_set('Asia/Jakarta'); ?>
-                        <b>Per tanggal :</b> {{ date("d F Y", strtotime($infogerakan->tanggal)) }}
+                    <?php $date = new Date($infogerakan->tanggal) ?>
+                        <b>Per tanggal :</b> {{ $date->format('j F Y ')}}
                         <br/>
                     @endif
                     @if(!empty($infogerakan->jumlah_anggota))
@@ -14,7 +14,7 @@
                         <br/>
                     @endif
                     @if(!empty($infogerakan->jumlah_cu))
-                        <b>Jumlah CU Primer :</b> {{ number_format($infogerakan->jumlah_cu,0,",",".") }}
+                        <b>Jumlah CU Primer :</b> <a href="{{ route('jejaring') }}">{{ number_format($infogerakan->jumlah_cu,0,",",".")}}</a>
                         <br/>
                     @endif
                     @if(!empty($infogerakan->jumlah_staff_cu))
@@ -74,7 +74,7 @@
     	<div class="row">
     		<div class="col-md-12">
     			<div class="footer-copyright">&copy; <?php echo date("Y") ?> Puskopdit BKCU Kalimantan • Badan Hukum Nomor : 927/BH/M.KUKM.2/X/2010 • Developed by <a
-    			    href="http://www.laurensius.esy.es" target="_blank">Laurensius Tony</a> with base template by <a
+    			    href="http://www.laurensius.esy.es/about" target="_blank">Laurensius Tony</a> with base template by <a
     			    href="https://github.com/dragdropsite/mPurpose" target="_blank">mPurpose</a>
     		</div>
     	</div>

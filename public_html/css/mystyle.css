@@ -115,3 +115,17 @@
     border-top: 0;
     padding-bottom: 0;
 }
+
+/* a no underline */
+a:hover{
+    text-decoration: none;
+}
+
+/* shadow on hover */
+.shadow:hover{
+    -webkit-box-shadow: 0 0 8px #333;
+    -moz-box-shadow: 0 0 8px #333;
+    box-shadow: 0 0 8px #333;
+    color: 0 0 8px #333;
+    z-index: 5;
+}

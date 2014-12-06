@@ -19,8 +19,13 @@ class AdminAuthController extends \BaseController{
             if(Auth::check()) { $id = Auth::user()->getId();}
 
             $admin = Admin::find($id);
-            $admin->login = Date::now();
 
+            if($admin->status == 0){
+                Auth::logout();
+                return Redirect::route('admins.login')->with('errormessage','Maaf akun anda tidak aktif.');
+            }
+
+            $admin->login = Date::now();
             if($admin->update())
                 return Redirect::intended('admins');
 

@@ -18,7 +18,7 @@ class Admin extends Eloquent implements UserInterface, RemindableInterface {
         'password' => 'required'
     ];
 
-    protected $fillable = ['username','password','name','last_login','last_logout'];
+    protected $fillable = ['username','password','name','status','last_login','last_logout'];
 
 	/**
 	 * The database table used by the model.

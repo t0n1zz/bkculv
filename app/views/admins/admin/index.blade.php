@@ -27,11 +27,9 @@
 	    @endif
 		<div class="panel panel-default">
 		    <div class="panel-heading tooltip-demo">
-		        <div class="form-group">
-		            <a type="button" data-toggle="tooltip" data-placement="top" 
-		                title="Tekan untuk menambah CU baru"
-		                class="btn btn-default" href="{{ route('admins.admin.create') }}"><i class="fa fa-plus"></i> Tambah Admin</a>
-		        </div>
+                <a type="button" data-toggle="tooltip" data-placement="top"
+                    title="Tekan untuk menambah CU baru"
+                    class="btn btn-default" href="{{ route('admins.admin.create') }}"><i class="fa fa-plus"></i> Tambah Admin</a>
 		    </div>
 		    <!-- /.panel-heading -->
 		    <div class="panel-body tooltip-demo">
@@ -42,6 +40,7 @@
 		                <th>No.</th>
 		                <th>Nama </th>
 		                <th>Username</th>
+		                <th>Status</th>
 		                <th>Hak Akses</th>
 		                <th>Hapus</th>
 		            </tr>
@@ -80,27 +79,49 @@
                                 >-</a></td>
                     @endif
 
+                    @if($admin->id != 0)
+                        @if($admin->status == 0)
+                           <td><a href="#" class="modal1"
+                                data-toggle="tooltip" data-placement="top"
+                                title="Tekan untuk mengubah status admin ini"
+                                name="{{$admin->id}}">Tidak Aktif</a</td>
+                        @elseif($admin->status == 1)
+                            <td><a href="#" class="modal1"
+                                data-toggle="tooltip" data-placement="top"
+                                title="Tekan untuk mengubah status admin ini"
+                                name="{{$admin->id}}">Aktif</a></td>
+                        @else
+                            <td><a href="#" class="modal1"
+                                data-toggle="tooltip" data-placement="top"
+                                title="Tekan untuk mengubah status admin ini"
+                                name="{{$admin->id}}">-</a></td>";
+                        @endif
+                    @else
+                        <td>Aktif</td>
+                    @endif
+
                     @if(!empty($admin->id))
                         @if($admin->id == 1)
-                            <td><button class="btn btn-default"
+                            <td><a class="btn btn-default"
                                 name="{{ $admin->id }}"
                                 data-toggle="tooltip" data-placement="top"
                                 title="Tekan untuk mengubah hak askses admin ini" disabled><span
-                                class="glyphicon glyphicon-eye-open"></span></button></td>
+                                class="glyphicon glyphicon-eye-open"></span></a></td>
                         @else
-                            <td><button class="btn btn-default modal1"
-                                name="{{ $admin->id }}"
+                            <td><a class="btn btn-default"
+a                               name="{{ $admin->id }}"
                                 data-toggle="tooltip" data-placement="top"
+                                href="{{route('admins.admin.edit_hak_akses', array($admin->id))}}"
                                 title="Tekan untuk mengubah hak askses admin ini" ><span
-                                class="glyphicon glyphicon-eye-open"></span></button></td>
+                                class="glyphicon glyphicon-eye-open"></span></a></td>
                         @endif
                     @else
-                        <td><button class="btn btn-default"
+                        <td><a class="btn btn-default"
                             name="{{ $admin->id }}"
                             data-toggle="tooltip" data-placement="top"
                             title="Tekan untuk mengubah hak askses admin ini" disabled><span
                             class="glyphicon glyphicon-eye-open
-                            "></span></button></td>
+                            "></span></a></td>
                     @endif
 
 
@@ -138,20 +159,25 @@
 </div>  
 
     <!-- modal -->
-    <!-- wilayah -->
+    <!-- status -->
     <div class="modal fade" id="modal1show" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
-       {{ Form::open(array('route' => array('admins.cuprimer.update_wilayah'))) }}
+       {{ Form::open(array('route' => array('admins.admin.update_status'))) }}
         <div class="modal-dialog">
           <div class="modal-content">
             <div class="modal-header">
               <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
-              <h4 class="modal-title ">Wilayah CU</h4>
+              <h4 class="modal-title ">Status Admin</h4>
             </div>
             <div class="modal-body">
-              <strong>Mengubah wilayah cu</strong>
+              <strong>Mengubah status admin</strong>
               <br />
               <br />
                     <input type="text" name="id" value="" id="modal1id" hidden>
+                    <select class="form-control" name="status">
+                        <option >Pilih Status Admin</option>
+                        <option >Non-aktifkan</option>
+                        <option value="1" >Aktifkan</option>
+                    </select>
                <br />
                <br />
             </div>
@@ -163,7 +189,7 @@
         </div><!-- /.modal-dialog -->
        {{ Form::close() }}
     </div>
-    <!-- /wilayah -->
+    <!-- /status -->
     <!-- Hapus -->
     <div class="modal fade" id="modal2show" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
        {{ Form::open(array('route' => array('admins.admin.destroy'), 'method' => 'delete')) }}

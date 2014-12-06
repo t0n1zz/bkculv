@@ -3,7 +3,7 @@
 @section('content')
 <style>
   #map_canvas {
-    width: 700px;
+    width: 100%;
     height: 350px;
   }
 </style>
@@ -38,6 +38,7 @@
     </div>
 </div>
 <!-- /Page Title -->
+<img class="img-responsive" src="{{ asset('images/top.png') }}" width="100%"  style="vertical-align: top;margin-top: -10px;margin-bottom: -3%;"/>
 <div class="section">
     <div class="container">
         <div class="row">
@@ -73,7 +74,7 @@
             @endif
 
             <div class="testimonial col-md-4 col-sm-4">
-                <div class="testimonial-bubble">
+                <div class="testimonial-bubble shadow">
                         <h3>{{ $kantor_pelayanan->name }}</h3>
                     <br />
                         {{ $kantor_pelayanan->alamat }}
@@ -98,10 +99,15 @@
                 </div>
             @endif
         @endforeach
+    </div>
+</div>
 
+<div class="section">
+    <div class="container">
+        <h2 id="temui">Peta Lokasi Kantor Pusat Kami</h2>
         <div class="row">
             <div class="col-sm-12">
-                <div id="map_canvas"></div>
+                <div id="map_canvas" class="shadow"></div>
                 <!--<div id="contact-us-map">
                 </div>-->
             </div>
@@ -111,11 +117,46 @@
 
 <div class="section">
     <div class="container">
-        <h2 id="hadir">Artikel Terkait</h2>
-        <ul class="recent-posts">
-            <li><a href="sejarah_bkcu.php">Sejarah Puskopdit BKCU Kalimantan</a></li>
-            <li><a href="hymne.php">Hymne Credit Union</a></li>
-        </ul>
+        <h2 id="hadir">Informasi Terkait</h2>
+        <div class="col-md-4 col-sm-6">
+            <div class="portfolio-item">
+                <div class="portfolio-image">
+                    <a href="page-portfolio-item.html"><img src="{{ asset('images/sejarah.jpg') }}" alt="sejarah"></a>
+                </div>
+                <div class="portfolio-info-fade">
+                    <ul>
+                        <li class="portfolio-project-name">Sejarah Puskopdit BKCU</li>
+                        <li class="read-more"><a href="page-portfolio-item.html" class="btn">Selengkapnya</a></li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-4 col-sm-6">
+            <div class="portfolio-item">
+                <div class="portfolio-image">
+                    <a href="{{ route('jejaring') }}"><img src="{{ asset('images/jejaring.jpg') }}" alt="jejaring"></a>
+                </div>
+                <div class="portfolio-info-fade">
+                    <ul>
+                        <li class="portfolio-project-name">Jejaring</li>
+                        <li class="read-more"><a href="{{ route('jejaring') }}" class="btn">Selengkapnya</a></li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-4 col-sm-6">
+            <div class="portfolio-item">
+                <div class="portfolio-image">
+                    <a href="{{ route('tim') }}"><img src="{{ asset('images/tim.jpg') }}" alt="Tim"></a>
+                </div>
+                <div class="portfolio-info-fade">
+                    <ul>
+                        <li class="portfolio-project-name">Tim Kami</li>
+                        <li class="read-more"><a href="{{ route('tim') }}" class="btn">Selengkapnya</a></li>
+                    </ul>
+                </div>
+            </div>
+        </div>
     </div>
 </div>
 @stop

@@ -11,6 +11,9 @@ class KategoriArtikel extends \Eloquent {
     protected $fillable = ['name','jumlah'];
 
     public function Artikel(){
-        return $this->hasMany('Artikel','kategori','id');
+        return $this->hasMany('Artikel','kategori','id')
+                    ->where('status','=','1')
+                    ->orderBy('created_at','desc')
+                    ->take(3);
     }
 }

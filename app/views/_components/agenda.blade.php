@@ -17,13 +17,9 @@
             <tr>
                 <td>
                     <div class="event-date">
-                        <?php
-                            $phpdate = strtotime( $kegiatan->tanggal );
-                            $mysqldate1 = date( 'd ', $phpdate );
-                            $mysqldate2 = date( 'M ', $phpdate );
-                        ?>
-                        <div class="event-day">{{ $mysqldate1}}</div>
-                        <div class="event-month">{{ $mysqldate2 }}</div>
+                        <?php $mysqldate = new Date($kegiatan->tanggal ); ?>
+                        <div class="event-day">{{ $mysqldate->format('d')}}</div>
+                        <div class="event-month" style="color: #808080">{{ $mysqldate->format('M') }}</div>
                     </div>
                 </td>
                 <td>{{ $kegiatan->name }}</td>

@@ -21,8 +21,9 @@
                 <div class="col-md-4 col-sm-6 ">
                     <div class="blog-post shadow">
                         @if(!empty($artikel->gambar) && is_file("images_artikel/{$artikel->gambar}"))
-                            {{ HTML::image('images_artikel/'.$artikel->gambar, $artikel->judul, array(
-                                'class' => 'post-image')) }}
+                            <a href="{{ route('detail_artikel',array($artikel->id)) }}"
+                               >{{ HTML::image('images_artikel/'.$artikel->gambar, $artikel->judul, array(
+                                'class' => 'post-image')) }}</a>
                         @endif
                         <div class="post-title" >
                             <h3 >{{ link_to_route('detail_artikel', $artikel->judul, array($artikel->id)) }}</h3>

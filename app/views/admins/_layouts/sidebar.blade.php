@@ -187,6 +187,28 @@
                 </ul>
             </li>
             <!-- /staff -->
+            <!-- download -->
+            <li @if($title == "Kelola File" || $title == "Tambah File" || $title == "Ubah File" )
+                    {{ "class='active'" }}
+                @endif
+            >
+                <a href="#"><i class="fa fa-download fa-fw"></i> Download <span class="fa arrow"></span></a>
+                <ul class="nav nav-second-level">
+                    <li>
+                        <a @if($title == "Tambah File")
+                                {{ "class='active'" }}
+                            @endif
+                            href="{{ route('admins.download.create') }}"><span class="fa fa-plus"></span> Tambah File</a>
+                    </li>
+                    <li>
+                        <a @if($title == "Kelola File")
+                                {{ "class='active'" }}
+                            @endif
+                            href="{{ route('admins.download.index') }}"><span class="fa fa-archive"></span> Kelola File</a>
+                    </li>
+                </ul>
+            </li>
+            <!-- /download -->
             <!-- admin -->
             <li @if($title == "Kelola Admin" || $title == "Tambah Admin" || $title == "Ubah Admin" )
                     {{ "class='active'" }}

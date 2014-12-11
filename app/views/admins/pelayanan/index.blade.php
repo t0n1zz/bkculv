@@ -79,7 +79,8 @@
 			        @endif
 
                     @if(!empty($pelayanan->created_at ))
-                        <td>{{ $pelayanan->created_at }}</td>
+                        <?php $date = new Date($pelayanan->created_at); ?>
+                        <td>{{  $date->format('d/n/Y') }}</td>
                     @else
                         <td>-</td>
                     @endif

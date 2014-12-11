@@ -6,28 +6,88 @@
 <div class="homepage-slider" >
 	<div id="sequence" style="border-bottom: 4px solid #4f8db3;">
 		<ul class="sequence-canvas">
-		<?php $i=0; ?>
-		@foreach($artikelpilihans as $artikelpilihan)
-		    <?php $i++; ?>
-		    <li class="bg{{$i}}">
-		        <h2 class="title"><a
-		            href="{{ route('detail_artikel',array($artikelpilihan->id)) }}"
-		            style="color: white"
-		            >{{ $artikelpilihan->judul }}</a></h2>
-		        <h3 class="subtitle"><a
-                    href="{{ route('detail_artikel',array($artikelpilihan->id)) }}"
+		    @if(!empty($ultahcu))
+		        <li style=" background-image: url('{{asset('images/slider-birthday.jpg')}}');">
+                    <h3 class="title"><a href="#" style="color: white"
+                        >Selamat Ulang Tahun Ke Kepada CU
+                        <?php $i3=0; ?>
+                        @foreach($ultahcu as $ultah)
+                            <?php
+                                $i3++;
+                                $total = count($ultahcu);
+                             ?>
+                            {{ $ultah->name }}
+                            @if( $total == 1 && $i3 != $total)
+                                {{ 'dan' }}
+                            @elseif( $total > 1 && $i3 < ($total-1))
+                                {{ ',' }}
+                            @elseif( $total > 1 && $i3 == ($total-1))
+                                {{ 'dan' }}
+                            @endif
+                        @endforeach
+                        </a></h3>
+                    <h4 class="subtitle"><p align="justify"><a
+                        href="#"
+                        style="color: white"
+                        >Pengurus, Pengawas, Dan Manajemen Puskopdit BKCU Mengucapkan Selamat Ulang Tahun Kepada
+                        <?php $i4=0; ?>
+                         @foreach($ultahcu as $ultah)
+                            <?php
+                                $i4++;
+                                $total2 = count($ultahcu);
+                            ?>
+                            {{ $ultah->name }}
+                            @if( $total2 == 1 && $i4 != $total2)
+                                {{ 'dan' }}
+                            @elseif( $total2 > 1 && $i4 < ($total2-1))
+                                {{ ', ' }}
+                            @elseif( $total2 > 1 && $i4 == ($total2-1))
+                                {{ 'dan' }}
+                            @endif
+                         @endforeach
+                         Semoga Semakin Maju Dan Terus Berkarya</a></p></h4>
+                    {{ HTML::image('images/birthday.png', 'birthday', array(
+                                            'class' => 'slide-img img-rounded img-responsive', 'width' => '400')) }}
+                </li>
+		    @endif
+            <li style=" background-image: url('{{asset('images/slider-christmast.jpg')}}');">
+                <h3 class="title"><a href="#" style="color: white"
+                    >Selamat Natal Dan Tahun Baru</a></h3>
+                <h4 class="subtitle"><p align="justify"><a
+                    href="#"
                     style="color: white"
-                    >{{ str_limit(preg_replace('/(<.*?>)|(&.*?;)/', '', $artikelpilihan->content),200) }}</a></h3>
-		         @if(!empty($artikelpilihan->gambar) && is_file("images_artikel/{$artikelpilihan->gambar}"))
-                    {{ HTML::image('images_artikel/'.$artikelpilihan->gambar, $artikelpilihan->judul, array(
-                        'class' => 'slide-img img-rounded img-responsive', 'width' => '400')) }}
-                 @endif
-		    </li>
-		@endforeach
+                    >Pengurus, Pengawas, Dan Manajemen Puskopdit BKCU Mengucapkan Selamat Natal dan Tahun Baru 2015.</a></p></h4>
+                {{ HTML::image('images/christmast.jpg', 'christmast', array(
+                                        'class' => 'slide-img img-rounded img-responsive', 'width' => '400')) }}
+            </li>
+            <?php $i=0; ?>
+            @foreach($artikelpilihans as $artikelpilihan)
+                <?php $i++; ?>
+                <li class="bg{{$i}}">
+                    <h3 class="title"><a
+                        href="{{ route('detail_artikel',array($artikelpilihan->id)) }}"
+                        style="color: white"
+                        >{{ $artikelpilihan->judul }}</a></h3>
+                    <h4 class="subtitle"><p align="justify"><a
+                        href="{{ route('detail_artikel',array($artikelpilihan->id)) }}"
+                        style="color: white"
+                        >{{ str_limit(preg_replace('/(<.*?>)|(&.*?;)/', '', $artikelpilihan->content),250) }}</a></p></h4>
+                     @if(!empty($artikelpilihan->gambar) && is_file("images_artikel/{$artikelpilihan->gambar}"))
+                        {{ HTML::image('images_artikel/'.$artikelpilihan->gambar, $artikelpilihan->judul, array(
+                            'class' => 'slide-img img-rounded img-responsive', 'width' => '400')) }}
+                     @endif
+                </li>
+            @endforeach
 		</ul>
 		<div class="sequence-pagination-wrapper">
 		    <ul class="sequence-pagination">
 		        <?php $i2 = 0; ?>
+		        @if(!empty($ultahcu))
+		            <?php $i2++; ?>
+                    <li>{{$i2}}</li>
+		        @endif
+                <?php $i2++; ?>
+                <li>{{$i2}}</li>
 		        @foreach($artikelpilihans as $artikelpilihan)
 		            <?php $i2++; ?>
 		            <li>{{$i2}}</li>
@@ -49,20 +109,23 @@
                     @foreach($beritaBKCUs as $bkcu)
                     <div class="row">
                         @if(!empty($bkcu->gambar) && is_file("images_artikel/{$bkcu->gambar}"))
-                        <div class="col-xs-4"><a href="{{ route('detail_artikel',array($artikel->id)) }}">{{ HTML::image('images_artikel/'.$bkcu->gambar, 'a picture', array('class' => 'img-responsive',
-                                                                                                                'alt' => '{$bkcu->judul}', 'width' => '50')) }}</a></div>
+                        <div class="col-xs-4"><a href="{{ route('detail_artikel',array($bkcu->id)) }}"
+                                >{{ HTML::image('images_artikel/'.$bkcu->gambar, 'a picture', array('class' => 'img-rounded shadow',
+                                    'alt' => '{$bkcu->judul}', 'width' => '100%')) }}</a></div>
                         <div class="col-xs-8">
                             <div class="caption">{{ link_to_route('detail_artikel', $bkcu->judul, array($bkcu->id)) }}</div>
                             <?php $date = new Date($bkcu->created_at); ?>
                             <div class="date" style="font-size: 14px;color: #017ebc;padding-bottom: 5px"><i class="fa fa-fw fa-clock-o"></i> {{ $date->format('l, j F Y, H:i:s') }}</div>
-                            <div class="intro">{{{ str_limit(preg_replace('/(<.*?>)|(&.*?;)/', '', $bkcu->content),200) }}} <b>• {{ link_to_route('detail_artikel', 'Selengkapnya', array($bkcu->id)) }}</b></div>
+                            <div class="intro"><p align="justify">{{{ str_limit(preg_replace('/(<.*?>)|(&.*?;)/', '', $bkcu->content),150) }}}<b>
+                            <br/> {{ link_to_route('detail_artikel', 'Selengkapnya', array($bkcu->id)) }}</b></p> </div>
                         </div>
                         @else
                         <div class="col-xs-12">
                             <div class="caption">{{ link_to_route('detail_artikel', $bkcu->judul, array($bkcu->id)) }}</div>
                             <?php $date = new Date($bkcu->created_at); ?>
                             <div class="date" style="font-size: 14px;color: #017ebc;padding-bottom: 5px;"><i class="fa fa-fw fa-clock-o"></i> {{ $date->format('l, j F Y, H:i:s') }}</div>
-                            <div class="intro">{{{ str_limit(preg_replace('/(<.*?>)|(&.*?;)/', '', $bkcu->content),200) }}} <b>• {{ link_to_route('detail_artikel','Selengkapnya', array($bkcu->id)) }}</b></div>
+                            <div class="intro"><p align="justify">{{{ str_limit(preg_replace('/(<.*?>)|(&.*?;)/', '', $bkcu->content),200) }}} <b>
+                             {{ link_to_route('detail_artikel','Selengkapnya', array($bkcu->id)) }}</b></p></div>
                         </div>
                         @endif
                     </div>
@@ -82,26 +145,29 @@
             </div>
             <!-- /BKCU -->
             <!-- CU -->
-            <div class="col-sm-6 latest-news">
+            <div class="col-sm-6 featured-news">
                 <h2><a href="{{ route('artikel',array(3)) }}" style="color: #53555c">Berita CU</a></h2>
                 @if(!$beritaCUs->isEmpty())
                     @foreach($beritaCUs as $cu)
                     <div class="row">
                         @if(!empty($cu->gambar) && is_file("images_artikel/{$cu->gambar}"))
-                        <div class="col-xs-4"><a href="{{ route('detail_artikel',array($cu->id)) }}">{{ HTML::image('images_artikel/'.$cu->gambar, 'a picture', array('class' => 'img-responsive',
-                                                                                                                'alt' => '{$cu->judul}', 'width' => '50')) }}</a></div>
+                        <div class="col-xs-4"><a href="{{ route('detail_artikel',array($cu->id)) }}"
+                            >{{ HTML::image('images_artikel/'.$cu->gambar, 'a picture', array('class' => 'img-rounded shadow',
+                                      'alt' => '{$cu->judul}', 'width' => '100%')) }}</a></div>
                         <div class="col-xs-8">
-                            <div class="caption">{{ link_to_route('detail_artikel', $cu->judul, array($cu->id)) }}/div>
+                            <div class="caption">{{ link_to_route('detail_artikel', $cu->judul, array($cu->id)) }}</div>
                             <?php $date = new Date($cu->created_at); ?>
                             <div class="date" style="font-size: 14px;color: #017ebc;padding-bottom: 5px"><i class="fa fa-fw fa-clock-o"></i> {{ $date->format('l, j F Y, H:i:s') }}</div>
-                            <div class="intro">{{{ str_limit(preg_replace('/(<.*?>)|(&.*?;)/', '', $cu->content),200) }}} <b>• {{ link_to_route('detail_artikel', 'Selengkapnya', array($cu->id)) }}</b></div>
+                            <div class="intro"><p align="justify">{{{ str_limit(preg_replace('/(<.*?>)|(&.*?;)/', '', $cu->content),150) }}} <b>
+                            <br/> {{ link_to_route('detail_artikel', 'Selengkapnya', array($cu->id)) }}</b></p></div>
                         </div>
                         @else
                         <div class="col-xs-12">
                             <div class="caption">{{ link_to_route('detail_artikel', $cu->judul, array($cu->id)) }}</div>
                             <?php $date = new Date($cu->created_at); ?>
                             <div class="date" style="font-size: 14px;color: #017ebc;padding-bottom: 5px"><i class="fa fa-fw fa-clock-o"></i> {{ $date->format('l, j F Y, H:i:s') }}</div>
-                            <div class="intro">{{{ str_limit(preg_replace('/(<.*?>)|(&.*?;)/', '', $cu->content),200) }}} <b>• {{ link_to_route('detail_artikel', 'Selengkapnya', array($cu->id)) }}</b></div>
+                            <div class="intro"><p align="justify">{{{ str_limit(preg_replace('/(<.*?>)|(&.*?;)/', '', $cu->content),200) }}} <b>
+                             {{ link_to_route('detail_artikel', 'Selengkapnya', array($cu->id)) }}</b></p></div>
                         </div>
                         @endif
                     </div>
@@ -122,6 +188,7 @@
             <!-- /cu -->
         </div>
         <br />
+
         <?php $i=0; ?>
         @foreach($beritas as $berita)
             @if($i % 3 == 0 || $i == 0)
@@ -150,6 +217,7 @@
                 </div>
             @endif
         @endforeach
+
     </div>
 </div>
 <!-- /berita -->

@@ -25,26 +25,30 @@ class PublicController extends \BaseController{
 
         $beritas = KategoriArtikel::with('Artikel')->whereNotIn('id',array('1','2','3','4','8'))->get();
 
+        $date = Date::now()->format('d-m');
+        $query = "SELECT  id,name FROM cuprimer WHERE DATE_FORMAT(ultah, '%d-%m') = '$date' ";
+        $ultahcu = DB::select(DB::raw($query));
+
         //Cache::forget(Artikel::getCacheKey());
 
         /*
         echo '<pre>';
-        var_dump($beritas->toArray()); // <---- or toJson()
+        var_dump($ultahcu->toArray()); // <---- or toJson()
         echo '</pre>';
         */
 
+
         return View::make('index',compact(
             'artikelpilihans','beritaBKCUs','beritaCUs',
-            'pelayanans','kegiatans','gambarkegiatans','beritas'
+            'pelayanans','kegiatans','gambarkegiatans','beritas','ultahcu'
         ));
-
     }
 
     public function artikel($id){
         $artikels = Artikel::with('KategoriArtikel')
             ->where('kategori','=',$id)
             ->where('status','=','1')
-            ->whereNotIn('kategori',array('1','8'))
+            ->whereNotIn('kategori',array('1'))
             ->orderBy('created_at', 'desc')
             ->paginate(12);
 
@@ -94,8 +98,9 @@ class PublicController extends \BaseController{
 
     public function profil(){
         $kantor_pelayanans = KantorPelayanan::all();
+        $visi = Artikel::where("id",'=','4')->first();
 
-        return View::make('profil',compact('kantor_pelayanans'));
+        return View::make('profil',compact('kantor_pelayanans','visi'));
     }
 
     public function tim(){
@@ -122,6 +127,19 @@ class PublicController extends \BaseController{
 
     public function hymnecu(){
         return View::make('hymne');
+    }
+
+    public function download(){
+        $downloads = Download::all();
+
+        return View::make('download',compact('downloads'));
+    }
+
+    public function download_file($filename){
+        $destinationPath = public_path() . "/files/";
+        $file= $destinationPath . $filename;
+
+        return Response::download($file);
     }
 
     public function getcari(){

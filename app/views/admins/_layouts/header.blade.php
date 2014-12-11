@@ -82,7 +82,7 @@
          $admin = Admin::find($id);
          $date = new Date($admin->logout);
     ?>
-    Terakhir login pada : {{ $date->ago() }}
+    <b>Terakhir login pada :</b> {{ $date->format('d/n/Y, H:i') }}
     </li>
     <!-- user -->
     <li class="dropdown">

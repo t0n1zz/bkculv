@@ -236,7 +236,7 @@
 
                                 @if(!empty($login->login))
                                 <?php $datelogin = new Date($login->login); ?>
-                                     <td>{{ $datelogin->ago() }}</td>
+                                     <td>{{ $datelogin->format('l, j F Y, H:i:s') }}</td>
                                 @else
                                     <td>-</td>
                                 @endif
@@ -276,7 +276,7 @@
 
                                 @if(!empty($logout->logout))
                                 <?php $datelogout = new Date($logout->logout); ?>
-                                     <td>{{ $datelogout->ago() }}</td>
+                                     <td>{{ $datelogout->format('l, j F Y, H:i:s') }}</td>
                                 @else
                                     <td>-</td>
                                 @endif

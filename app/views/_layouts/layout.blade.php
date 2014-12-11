@@ -9,20 +9,24 @@
         <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
         <title>Puskopdit BKCU Kalimantan</title>
         <link rel="shortcut icon" href="{{ asset('images/logo.png') }}">
-        <meta name="description" content="">
+        <meta name="description" content="Puskopdit BKCU Kalimantan (awalnya BK3D Kalbar) berdiri pada tanggal 27 November 1988 di Pontianak. Sebagai credit union sekunder, Puskopdit BKCU Kalimantan aktif mempromosikan dan memfasilitasi berdirinya credit union - credit union primer.">
         <meta name="viewport" content="width=device-width">
+
+        @if(!empty($detail_artikel))
+            <!-- Facebook Open Graph Meta Tags -->
+            <meta property="og:title" content="{{ $detail_artikel->judul }}" />
+            <meta property="og:type" content="website" />
+            <meta property="og:url" content="{{Request::url()}}" />
+            <meta property="og:image" content="{{ asset('images_artikel/'.$detail_artikel->gambar) }}" />
+            <meta property="og:description" content="{{ str_limit(preg_replace('/(<.*?>)|(&.*?;)/', '', $detail_artikel->content),200) }}" />
+            {{ HTML::style('plugins/social/css/rrssb.css') }}
+        @endif
+
         {{ HTML::style('css/bootstrap.css') }}
         {{ HTML::style('css/icomoon-social.css') }}
         {{ HTML::style('font-awesome-4.2.0/css/font-awesome.min.css') }}
-        <!--<link href='http://fonts.googleapis.com/css?family=Open+Sans:400,700,600,800' rel='stylesheet' type='text/css'>-->
-        {{ HTML::style('css/leaflet.css') }}
-        <!--[if lte IE 8]>
-            <link rel="stylesheet" href="css/leaflet.ie.css" />
-        <![endif]-->
         {{ HTML::style('css/main.css') }}
-
         {{ HTML::script('js/modernizr-2.6.2-respond-1.1.0.min.js') }}
-
         {{ HTML::style('css/mystyle.css') }}
     </head>
     <body>

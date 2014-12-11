@@ -130,23 +130,26 @@
                                >-</a></td>
                     @endif
 
+                    @if(!empty($kegiatan->tanggal))
+                        <?php $date = new Date($kegiatan->tanggal); ?>
+                        <td>{{  $date->format('d/n/Y') }}</td>
+                    @else
+                        <td>-</td>
+                    @endif
+
+                     @if(!empty($kegiatan->tanggal2))
+                        <?php $date2 = new Date($kegiatan->tanggal2); ?>
+                        <td>{{ $date2->format('d/n/Y') }}</td>
+                    @else
+                        <td>-</td>
+                    @endif
+
                     @if(!empty($kegiatan->admin->name))
                         <td>{{ $kegiatan->admin->name }}</td>
                     @else
                         <td>-</td>
                     @endif
 
-                    @if(!empty($kegiatan->tanggal))
-                        <td>{{ $kegiatan->tanggal }}</td>
-                    @else
-                        <td>-</td>
-                    @endif
-
-                     @if(!empty($kegiatan->tanggal2))
-                        <td>{{ $kegiatan->tanggal2 }}</td>
-                    @else
-                        <td>-</td>
-                    @endif
 
 			        @if(!empty($kegiatan->id))
 			            <td><button class="btn btn-default modal2"

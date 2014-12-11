@@ -10,8 +10,6 @@
         "intervention/image": "2.*",
 		"barryvdh/laravel-ide-helper": "~1.11",
         "zizaco/entrust": "1.2.*@dev",
-        "pragmarx/tracker": "0.7.*",
-        "barryvdh/laravel-elfinder": "0.1.x",
 		"barryvdh/laravel-debugbar": "~1.8",
 		"jenssegers/date": "~2.0"
 	},

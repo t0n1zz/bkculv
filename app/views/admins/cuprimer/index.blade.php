@@ -97,10 +97,11 @@
                     @endif
 
                     @if(!empty($cuprimer->ultah))
+                        <?php $date = new Date($cuprimer->ultah); ?>
                         <td><a data-toggle="tooltip" data-placement="top"
                             title="Tekan untuk mengubah tanggal berdiri cu ini"
                             href="#" class="modal3" name={{ $cuprimer->id }}
-                            >{{ $cuprimer->ultah }}</a></td>
+                            >{{  $date->format('d/n/Y') }}</a></td>
                     @else
                         <td><a data-toggle="tooltip" data-placement="top"
                             title="Tekan untuk mengubah tanggal berdiri cu ini"

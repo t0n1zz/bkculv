@@ -40,8 +40,8 @@
                     <li class="dropdown">
                         <a href="#" class="dropdown-toggle" data-toggle="dropdown">Lain-lain <i class="fa fa-angle-down"></i></a>
                         <ul class="dropdown-menu">
-                            <li><a href="{{ route('profil') }}">Download</a></li>
-                            <li><a href="{{ route('tim') }}">Foto Kegiatan</a></li>
+                            <li><a href="{{ route('download') }}">Download</a></li>
+                            <li><a href="https://www.flickr.com/photos/127271987@N07/" target="_BLANK">Foto Kegiatan</a></li>
                             <li><a href="{{ route('hymnecu') }}">Hymne CU</a></li>
                         </ul>
                     </li>

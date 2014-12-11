@@ -95,7 +95,8 @@
                     @endif
 
                     @if(!empty($pengumuman->created_at ))
-                        <td>{{ $pengumuman->created_at }}</td>
+                        <?php $date = new Date($pengumuman->created_at); ?>
+                        <td>{{  $date->format('d/n/Y') }}</td>
                     @else
                         <td>-</td>
                     @endif

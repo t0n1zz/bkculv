@@ -34,7 +34,7 @@
                     <div class="col-sm-6">
                         @if(!empty($pelayanan->gambar) && is_file("images_artikel/{$pelayanan->gambar}"))
                             {{ HTML::image('images_artikel/'.$pelayanan->gambar, $pelayanan->judul, array(
-                                'class' => 'img-responsive img-thumbnail','width' => '700px')) }}
+                                'class' => 'img-responsive img-thumbnail shadow','width' => '700px')) }}
                         @endif
                     </div>
                 </div>
@@ -45,7 +45,7 @@
                     <div class="col-sm-6">
                         @if(!empty($pelayanan->gambar) && is_file("images_artikel/{$pelayanan->gambar}"))
                             {{ HTML::image('images_artikel/'.$pelayanan->gambar, $pelayanan->judul, array(
-                                'class' => 'img-responsive img-thumbnail','width' => '700px')) }}
+                                'class' => 'img-responsive img-thumbnail shadow','width' => '700px')) }}
                         @endif
                     </div>
                     <div class="col-sm-6">

@@ -41,15 +41,24 @@
             @if($i % 4 == 0 || $i == 0)
                 <div class="row">
             @endif
-
+            <?php
+                $date = new Date($cuprimer->ultah);
+                $date2 =  Date::now()->format('d-m');
+            ?>
             <div class="col-sm-6 col-md-3" id="cu{{$cuprimer->id}}">
                 <div class="blog-post shadow">
                     <div class="post-title">
-                        <h3>{{$cuprimer->name}}</h3>
+                        <h3 style="font-size: large">{{$cuprimer->name}}</h3>
                     </div>
-                    <br />
+                    @if($date->format('d-m') == $date2)
+                        <div class="ribbon-wrapper">
+                            <div class="price-ribbon ribbon-green">Anniversary</div>
+                        </div>
+                    @endif
+                    <hr style="border:1px solid #D2D2D2;" />
                     <div class="post-summary">
                         <div class="actions">
+                            <p><b>Berdiri :</b> {{$date->format('j F Y')}}</p>
                             {{ $cuprimer->content }}
                         </div>
                     </div>

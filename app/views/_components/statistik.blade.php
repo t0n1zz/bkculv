@@ -40,7 +40,7 @@ if($s == 0){
 ?>
 
 <p class="contact-us-details">
-    <b>Reset :</b> 5 September 2014 <br/>
+    <b>Dari :</b> 5 September 2014 <br/>
     <b>Tanggal Hari Ini :</b> {{ Date::now()->format('j F Y ')}}<br/>
     <b>Pengunjung Hari Ini :</b> <?php echo $pengunjung; ?> orang <br/>
     <b>Total Pengunjung :</b> <?php echo $totalpengunjung; ?> orang<br/>

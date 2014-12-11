@@ -94,7 +94,8 @@
                     @endif
 
                     @if(!empty($artikel->created_at ))
-                        <td>{{ $artikel->created_at }}</td>
+                        <?php $date = new Date($artikel->created_at); ?>
+                        <td>{{  $date->format('d/n/Y') }}</td>
                     @else
                         <td>-</td>
                     @endif

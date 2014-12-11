@@ -6,7 +6,8 @@
     <div class="container">
         <div class="row">
             <div class="col-md-12">
-                <h1>{{ $detail_artikel->KategoriArtikel->name }}</h1>
+                <h1><a href="{{ route('artikel',array($detail_artikel->kategori)) }}"
+                       style="color: #ffffff"><i class="fa fa-fw fa-arrow-circle-left"></i></a>  {{ $detail_artikel->KategoriArtikel->name }}</h1>
             </div>
         </div>
     </div>
@@ -20,15 +21,20 @@
             <div class="col-sm-8">
                 <div class="blog-post blog-single-post">
                     <div class="single-post-title">
-                        <h3>{{ $detail_artikel->judul }}</h3>
+                        <h3 style="font-size: xx-large">{{ $detail_artikel->judul }}</h3>
                     </div>
-                    <br />
-                    <div class="single-post-info">
-                        <i class="fa fa-clock-o"></i> {{ date('F j, Y, g:i a ',strtotime($detail_artikel->created_at)) }}
+                    <div class="single-post-info" style="font-size: 14px;color: #017ebc;padding-bottom:10px">
+                        <?php $date = new Date($detail_artikel->created_at); ?>
+                        <i class="fa fa-fw fa-clock-o"></i> {{ $date->format('l, j F Y, H:i:s') }}
+                        <div class="row">
+                            <div class="col-sm-7 col-md-5 col-lg-4 ">@include('_components/share')</div>
+                        </div>
+
                     </div>
+
                     <div class="single-post-content">
                         @if(!empty($detail_artikel->gambar) && is_file("images_artikel/{$detail_artikel->gambar}"))
-                            {{ HTML::image('images_artikel/'.$detail_artikel->gambar, $artikel->judul, array(
+                            {{ HTML::image('images_artikel/'.$detail_artikel->gambar, $detail_artikel->judul, array(
                                 'class' => 'img-responsive')) }}
                         @endif
                         <br />

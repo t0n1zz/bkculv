@@ -24,6 +24,8 @@ Route::get('hymnecu',array('as' => 'hymnecu','uses' => 'PublicController@hymnecu
 Route::get('artikel/{id}',array( 'as' => 'artikel','uses' => 'PublicController@artikel'));
 Route::get('detail_artikel/{id}',array( 'as' => 'detail_artikel','uses' => 'PublicController@detail_artikel'));
 Route::get('cari',array('as' => 'cari','uses' => 'PublicController@getcari'));
+Route::get('download',array('as' => 'download','uses' => 'PublicController@download'));
+Route::get('download/{filename}',array('as' => 'file','uses' => 'PublicController@download_file'));
 
 //admin
 Route::group(array('prefix' => 'admins'), function(){
@@ -128,6 +130,7 @@ Route::group(array('prefix' => 'admins','before' => 'auth'), function(){
 
     Route::resource('pelayanan','AdminPelayananController',array('except' => array('show')));
     Route::resource('kegiatan','AdminKegiatanController',array('except' => array('show')));
+    Route::resource('download','AdminDownloadController',array('except' => array('show')));
     Route::resource('gambarkegiatan','AdminGambarKegiatanController',array('except' => array('show')));
     Route::resource('kantorpelayanan','AdminKantorPelayananController',array('except' => array('show')));
     Route::resource('kategoriartikel','AdminKategoriArtikelController',array('except' => array('show','create','edit')));

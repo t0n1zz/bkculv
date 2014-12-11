@@ -45,20 +45,31 @@
             <div class="col-sm-6">
                 <h2 id="tentang">Puskopdit BKCU Kalimantan</h2>
                 <p>
-                    BKCU Kalimantan (awalnya BK3D Kalbar) berdiri pada tanggal 27 November 1988 di Pontianak.<br/><br/>
-                    Sebagai credit union sekunder, BKCU Kalimantan aktif mempromosikan dan memfasilitasi berdirinya credit union - credit union primer.<br/>
+                    Puskopdit BKCU Kalimantan (awalnya BK3D Kalbar) berdiri pada tanggal 27 November 1988 di Pontianak.<br/><br/>
+                    Sebagai credit union sekunder,Puskopdit BKCU Kalimantan aktif mempromosikan dan memfasilitasi berdirinya credit union - credit union primer.<br/>
 
                 </p>
                 <br/>
-                <h3>&nbsp Jaringan BKCU Kalimantan</h3>
+                <h3>&nbsp Jaringan Puskopdit BKCU Kalimantan</h3>
                 <p>
-                    Jaringan BKCU Kalimantan tersebar hampir ke seluruh wilayah Republik Indonesia.<br/>
-                    Mayoritas credit union anggota BKCU Kalimantan berkembang dengan baik;aset dan jumlah anggota cukup kencang peningkatannya.<br/><br/>
+                    Jaringan Puskopdit BKCU Kalimantan tersebar hampir ke seluruh wilayah Republik Indonesia.<br/>
+                    Mayoritas credit union anggota Puskopdit BKCU Kalimantan berkembang dengan baik;aset dan jumlah anggota cukup kencang peningkatannya.<br/><br/>
                     Walaupun demikian, kami tetap menyadari masih diperlukan pembenahan-pembenahan baik internal maupun eksternal pada masa yang akan datang agar credit union mampu menghadapi berbagai dinamika yang terjadi.
                 </p>
             </div>
             <div class="col-sm-6">
-                <img src="images/bkcu.jpg" class="img-rounded" width="550">
+                <img src="{{ asset('images/bkcu.jpg') }}" class="img-rounded" width="550">
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="section">
+    <div class="container">
+        <h2 id="visi">{{ $visi->judul }}</h2>
+        <div class="row">
+            <div class="col-md-12 col-sm-12">
+            {{ $visi->content }}
             </div>
         </div>
     </div>
@@ -125,8 +136,8 @@
                 </div>
                 <div class="portfolio-info-fade">
                     <ul>
-                        <li class="portfolio-project-name">Sejarah Puskopdit BKCU</li>
-                        <li class="read-more"><a href="page-portfolio-item.html" class="btn">Selengkapnya</a></li>
+                        <li class="portfolio-project-name">Sejarah</li>
+                        <li class="read-more"><a href="{{ route('artikel',array(8)) }}" class="btn">Selengkapnya</a></li>
                     </ul>
                 </div>
             </div>

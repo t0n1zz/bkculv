@@ -10,7 +10,7 @@ class AdminPengumumanController extends \BaseController{
      */
     public function index()
     {
-        $pengumumans = Pengumuman::all();
+        $pengumumans = Pengumuman::orderBy('urutan','asc')->get();;
         return View::make('admins.pengumuman.index', compact('pengumumans'));
     }
 

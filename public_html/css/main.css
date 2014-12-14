@@ -7,10 +7,15 @@ body {
     background-color: #9bcfff;
     background-image: url('../images/snow1.png'), url('../images/snow3.png');
 
-    -webkit-animation: snow 20s linear infinite;
-    -moz-animation: snow 20s linear infinite;
-    -ms-animation: snow 20s linear infinite;
-    animation: snow 20s linear infinite;
+
+}
+@media (min-width: 768px) {
+    body{
+        -webkit-animation: snow 20s linear infinite;
+        -moz-animation: snow 20s linear infinite;
+        -ms-animation: snow 20s linear infinite;
+        animation: snow 20s linear infinite;
+    }
 }
 
 /*Keyframes*/

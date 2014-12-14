@@ -126,6 +126,56 @@
     </div>
 </div>
 
+<div class="section ">
+    <div class="container">
+    <h2 id="link">Links </h2>
+        <div class="row">
+            <div class="col-md-4 col-sm-6">
+                <div class="portfolio-item">
+                <a href="http://woccu.org/" target="_blank">
+                    <div class="portfolio-image">
+                        <img src="{{ asset('images/woccu.jpg') }}" class="img-rounded" alt="woccu">
+                    </div>
+                    <div class="portfolio-info-fade">
+                        <ul>
+                            <li class="portfolio-project-name">Website WOCCU</li>
+                        </ul>
+                    </div>
+                </a>
+                </div>
+            </div>
+            <div class="col-md-4 col-sm-6">
+                <div class="portfolio-item">
+                <a href="http://www.aaccu.coop/" target="_blank">
+                    <div class="portfolio-image">
+                        <img src="{{asset('images/accu.jpg')}}" class="img-rounded" alt="accu" >
+                    </div>
+                    <div class="portfolio-info-fade">
+                        <ul>
+                            <li class="portfolio-project-name">Website ACCU</li>
+                        </ul>
+                    </div>
+                </a>
+                </div>
+            </div>
+            <div class="col-md-4 col-sm-6">
+                <div class="portfolio-item">
+                <a href="http://www.cucoindo.org/" target="_blank">
+                    <div class="portfolio-image">
+                        <img src="{{ asset('images/cuco.jpg') }}" class="img-rounded" alt="cuco">
+                    </div>
+                    <div class="portfolio-info-fade">
+                        <ul>
+                            <li class="portfolio-project-name">Website Inkopdit</li>
+                        </ul>
+                    </div>
+                </a>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
 <div class="section">
     <div class="container">
         <h2 id="hadir">Informasi Terkait</h2>

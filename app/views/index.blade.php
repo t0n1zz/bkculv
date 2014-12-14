@@ -8,8 +8,8 @@
 		<ul class="sequence-canvas">
 		    @if(!empty($ultahcu))
 		        <li style=" background-image: url('{{asset('images/slider-birthday.jpg')}}');">
-                    <h3 class="title"><a href="#" style="color: white"
-                        >Selamat Ulang Tahun Ke Kepada CU
+                    <h3 class="title"><a href="{{ route('jejaring') }}" style="color: white"
+                        >Selamat Ulang Tahun Kepada CU
                         <?php $i3=0; ?>
                         @foreach($ultahcu as $ultah)
                             <?php
@@ -27,9 +27,9 @@
                         @endforeach
                         </a></h3>
                     <h4 class="subtitle"><p align="justify"><a
-                        href="#"
+                        href="{{ route('jejaring') }}"
                         style="color: white"
-                        >Pengurus, Pengawas, Dan Manajemen Puskopdit BKCU Mengucapkan Selamat Ulang Tahun Kepada
+                        >Pengurus, Pengawas, Dan Manajemen Puskopdit BKCU Mengucapkan Selamat Ulang Tahun Kepada Credit Union
                         <?php $i4=0; ?>
                          @foreach($ultahcu as $ultah)
                             <?php
@@ -79,7 +79,7 @@
                 </li>
             @endforeach
 		</ul>
-		<div class="sequence-pagination-wrapper">
+		<div class="sequence-pagination-wrapper hidden-xs">
 		    <ul class="sequence-pagination">
 		        <?php $i2 = 0; ?>
 		        @if(!empty($ultahcu))
@@ -275,7 +275,7 @@
                             <div class="image modalphotos">
                             @if(!empty($gambarkegiatan->gambar) && is_file("images_kegiatan/{$gambarkegiatan->gambar}"))
                                 {{ HTML::image('images_kegiatan/'.$gambarkegiatan->gambar, 'a picture',
-                                    array('class' => 'img-rounded img-responsive','alt' => '{$cu->judul}', 'width' => '300',
+                                    array('class' => 'img-rounded img-responsive','alt' => '{$cu->judul}', 'width' => '100%',
                                            'style' => 'cursor: pointer;cursor: hand')) }}
                             @endif
                             </div>

@@ -129,7 +129,7 @@ class AdminStaffController extends \BaseController{
                 $filename = str_random(10) . "-" . date('Y-m-d') . ".jpg";
 
                 if ($this->save_image($img, $staff, $filename))
-                    $pelayanan->gambar = $filename;
+                    $staff->gambar = $filename;
                 else
                     return Redirect::back()->withInput()->with('errormessage', 'Terjadi kesalahan dalam penyimpanan gambar.');
             }

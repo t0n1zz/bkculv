@@ -20,12 +20,14 @@ Route::get('tim',array( 'as' => 'tim','uses' => 'PublicController@tim'));
 Route::get('berita',array( 'as' => 'berita','uses' => 'PublicController@berita'));
 Route::get('sejarah',array( 'as' => 'sejarah','uses' => 'PublicController@sejarah'));
 Route::get('jejaring',array('as' => 'jejaring','uses' => 'PublicController@jejaring'));
+Route::get('cudetail/{id}',array( 'as' => 'cudetail','uses' => 'PublicController@cudetail'));
 Route::get('hymnecu',array('as' => 'hymnecu','uses' => 'PublicController@hymnecu'));
 Route::get('artikel/{id}',array( 'as' => 'artikel','uses' => 'PublicController@artikel'));
 Route::get('detail_artikel/{id}',array( 'as' => 'detail_artikel','uses' => 'PublicController@detail_artikel'));
 Route::get('cari',array('as' => 'cari','uses' => 'PublicController@getcari'));
 Route::get('download',array('as' => 'download','uses' => 'PublicController@download'));
 Route::get('download/{filename}',array('as' => 'file','uses' => 'PublicController@download_file'));
+Route::get('attribution',array('as' => 'attribution','uses' => 'PublicController@attribution'));
 
 //admin
 Route::group(array('prefix' => 'admins'), function(){

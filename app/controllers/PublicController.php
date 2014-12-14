@@ -108,7 +108,9 @@ class PublicController extends \BaseController{
         $pengawases = Staff::where('tingkat','=','2')->get();
         $manajemens = Staff::where('tingkat','=','3')->get();
 
-        return View::make('tim',compact('manajemens','penguruses','pengawases'));
+        $staffs = Staff::orderBy('tingkat','asc')->get();
+
+        return View::make('tim',compact('manajemens','penguruses','pengawases','staffs'));
     }
 
     public function sejarah(){
@@ -125,8 +127,20 @@ class PublicController extends \BaseController{
         return View::make('jejaring',compact('jejarings'));
     }
 
+    public function cudetail($id){
+        $cudetail = Cuprimer::with('wilayahcuprimer')
+                            ->where('id','=',$id)
+                            ->first();
+
+        return View::make('cudetail',compact('cudetail'));
+    }
+
     public function hymnecu(){
         return View::make('hymne');
+    }
+
+    public function attribution(){
+        return View::make('attribution');
     }
 
     public function download(){

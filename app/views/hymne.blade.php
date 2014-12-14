@@ -21,7 +21,7 @@
             <div class="blog-post blog-single-post">
                 <div class="single-post-content modalphotos">
                     <img style="cursor: pointer;cursor: hand;"
-                         src="{{ asset('images/HymneCu.png') }}" class="img-responsive">
+                         src="{{ asset('images/hymnecu.png') }}" class="img-responsive">
                 </div>
             </div>
         </div>

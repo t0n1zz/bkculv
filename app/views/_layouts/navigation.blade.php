@@ -19,11 +19,9 @@
                     <li class="dropdown">
                         <a href="#" class="dropdown-toggle" data-toggle="dropdown">Berita <i class="fa fa-angle-down"></i></a>
                         <ul class="dropdown-menu">
-                            <li><a href="{{ route('artikel',array(2)) }}">BKCU</a></li>
-                            <li><a href="{{ route('artikel',array(3)) }}">CU</a></li>
-                            <li><a href="{{ route('artikel',array(5)) }}">Internasional</a></li>
-                            <li><a href="{{ route('artikel',array(6)) }}">Teknologi</a></li>
-                            <li><a href="{{ route('artikel',array(7)) }}">Ekonomi</a></li>
+                            @foreach($navberita as $berita)
+                                <li><a href="{{ route('artikel',array($berita->id)) }}">{{$berita->name}}</a></li>
+                            @endforeach
                         </ul>
                     </li>
                     <li><a href="{{ route('artikel',array(4)) }}">Filosofi</a></li>
@@ -35,6 +33,7 @@
                             <li><a href="{{ route('profil') }}">Profil</a></li>
                             <li><a href="{{ route('tim') }}">Tim</a></li>
                             <li><a href="{{ route('jejaring') }}">Jejaring</a></li>
+                            <li><a href="{{ route('artikel',array(8)) }}">Sejarah</a></li>
                         </ul>
                     </li>
                     <li class="dropdown">

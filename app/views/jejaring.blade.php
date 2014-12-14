@@ -17,11 +17,19 @@
     <div class="container">
         @foreach($jejarings as $jejaring)
         <div class="col-sm-2">
-            <ul class="sitemap">
-                <li><a href="#wilayah{{$jejaring->id}}">{{ $jejaring->name }}</a>
+            <ul class="sitemap" style="font-size: medium">
+                <li><a class="smoothscroll" href="#wilayah{{$jejaring->id}}">{{ $jejaring->name }}</a>
                     <ul>
                         @foreach($jejaring->cuprimer as $cuprimer)
-                            <li><a href="#cu{{$cuprimer->id}}">{{ $cuprimer->name }}</a> </li>
+                            <li><a class="smoothscroll" href="#cu{{$cuprimer->id}}">{{ $cuprimer->name }}
+                            <?php
+                                $date = new Date($cuprimer->ultah);
+                                $date2 =  Date::now()->format('d-m');
+                            ?>
+                            @if($date->format('d-m') == $date2)
+                            <sup style="color: red"><b>Anniversary</b></sup>
+                            @endif
+                            </a> </li>
                         @endforeach
                     </ul>
                 </li>
@@ -47,6 +55,7 @@
             ?>
             <div class="col-sm-6 col-md-3" id="cu{{$cuprimer->id}}">
                 <div class="blog-post shadow">
+                <a href="{{ route('cudetail',array($cuprimer->id)) }}">
                     <div class="post-title">
                         <h3 style="font-size: large">{{$cuprimer->name}}</h3>
                     </div>
@@ -62,6 +71,7 @@
                             {{ $cuprimer->content }}
                         </div>
                     </div>
+                </a>
                 </div>
             </div>
             <?php $result = $jejaring->cuprimer->count(); ?>
@@ -74,4 +84,5 @@
     @endforeach
     </div>
 </div>
+
 @stop

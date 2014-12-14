@@ -47,20 +47,36 @@
                     @endif
                 </p>
     		</div>
-    		<div class="col-footer col-md-3 col-xs-6">
+    		<div class="col-footer col-md-4 col-xs-6">
     			<h3>Navigasi Website</h3>
-    			<ul class="no-list-style footer-navigate-section">
-    				<li><a href="{{ route('home') }}">Home</a></li>
-    				<li><a href="{{ route('berita') }}">Berita</a></li>
-    				<li><a href="{{ route('artikel',array(4)) }}">Filosofi</a></li>
-    				<li><a href="{{ route('pelayanan') }}">Solusi</a></li>
-                    <li><a href="{{ route('agenda') }}">Agenda</a></li>
-    				<li><a href="{{ route('jejaring') }}">Jejaring</a></li>
-    				<li><a href="{{ route('profil') }}">Profil Perusahaan</a></li>
-    			</ul>
+    			<div class="row">
+    			    <div class="col-md-7">
+                        <ul class="no-list-style footer-navigate-section">
+                            <li><a href="{{ route('home') }}">Beranda</a></li>
+                            @foreach($navberita as $berita)
+                                <li><a href="{{ route('artikel',array($berita->id)) }}">{{$berita->name}}</a></li>
+                            @endforeach
+                            <li><a href="{{ route('artikel',array(4)) }}">Filosofi</a></li>
+                            <li><a href="{{ route('pelayanan') }}">Solusi</a></li>
+                        </ul>
+    			    </div>
+    			    <div class="col-md-5">
+    			        <ul class="no-list-style footer-navigate-section">
+                            <li><a href="{{ route('agenda') }}">Agenda</a></li>
+                            <li><a href="{{ route('profil') }}">Profil</a></li>
+                            <li><a href="{{ route('tim') }}">Tim</a></li>
+                            <li><a href="{{ route('jejaring') }}">Jejaring</a></li>
+                            <li><a href="{{ route('artikel',array(8)) }}">Sejarah</a></li>
+                            <li><a href="{{ route('download') }}">Download</a></li>
+                            <li><a href="https://www.flickr.com/photos/127271987@N07/" target="_BLANK">Foto Kegiatan</a></li>
+                            <li><a href="{{ route('hymnecu') }}">Hymne CU</a></li>
+                        </ul>
+    			    </div>
+    			</div>
+
     		</div>
     		
-    		<div class="col-footer col-md-4 col-xs-6">
+    		<div class="col-footer col-md-3 col-xs-6">
     			<h3>Statistik Website </h3>
                 @include('_components.statistik')
     		</div>
@@ -74,8 +90,7 @@
     	<div class="row">
     		<div class="col-md-12">
     			<div class="footer-copyright">&copy; <?php echo date("Y") ?> Puskopdit BKCU Kalimantan • Badan Hukum Nomor : 927/BH/M.KUKM.2/X/2010 • Developed by <a
-    			    href="http://www.laurensius.esy.es/about" target="_blank">Laurensius Tony</a> with base template by <a
-    			    href="https://github.com/dragdropsite/mPurpose" target="_blank">mPurpose</a>
+    			    href="http://www.laurensius.esy.es/about" target="_blank">Laurensius Tony</a> • <a href="{{ route('attribution') }}">Attribution</a>
     		</div>
     	</div>
     </div>

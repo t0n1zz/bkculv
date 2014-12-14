@@ -296,8 +296,8 @@ class AdminArtikelController extends \BaseController{
         $path = public_path('images_artikel/');
         File::delete($path . $artikel->gambar);
 
-        if($width > 400){
-            if(Image::make($img->getRealPath())->resize(400, null, function ($constraint) {
+        if($width > 720){
+            if(Image::make($img->getRealPath())->resize(720, null, function ($constraint) {
                 $constraint->aspectRatio();})->save($path . $filename))
                 return true;
             else

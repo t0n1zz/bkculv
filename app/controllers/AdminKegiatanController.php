@@ -4,7 +4,7 @@ class AdminKegiatanController extends \BaseController{
 
     public function index()
     {
-        $kegiatans = Kegiatan::with('Admin')->get();
+        $kegiatans = kegiatan::with('Admin')->get();
         return View::make('admins.kegiatan.index', compact('kegiatans'));
     }
 

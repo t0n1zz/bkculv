@@ -10,7 +10,7 @@
 <div class="row">
     <div class=" col-lg-12">
 
-	{{ Form::model($staff,array('route' => array('admins.staff.update',$staff->id),'method' => 'put')) }}
+	{{ Form::model($staff,array('route' => array('admins.staff.update',$staff->id),'method' => 'put', 'files' => true)) }}
 		@include('admins.staff.form')
 	{{ Form::close() }}
 

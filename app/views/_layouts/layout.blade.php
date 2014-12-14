@@ -1,4 +1,8 @@
-
+<?php
+    $navberita = KategoriArtikel::whereNotIn('id',array(1,4,8))->get();
+    $infogerakan = InfoGerakan::find(1);
+    $pengumumans = Pengumuman::orderBy('urutan','asc')->get();
+?>
 <!DOCTYPE html>
 <!--[if lt IE 7]>      <html class="no-js lt-ie9 lt-ie8 lt-ie7"> <![endif]-->
 <!--[if IE 7]>         <html class="no-js lt-ie9 lt-ie8"> <![endif]-->
@@ -35,10 +39,6 @@
     <![endif]-->
     <div style="padding-right: 15px;">
         <div class="row">
-        <?php
-            $infogerakan = InfoGerakan::find(1);
-            $pengumumans = Pengumuman::orderBy('urutan','asc')->get();
-        ?>
             <div class="col-sm-12 marquee" style="background: #222;padding-top: 10px;border-bottom: 4px solid #4f8db3;color: white;">
                 @foreach($pengumumans as $pengumuman)
                     <b> • {{ $pengumuman->name }} • </b>

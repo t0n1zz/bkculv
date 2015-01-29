@@ -1,6 +1,4 @@
 .scrollToTop {
-    width: 50;
-    height: 50;
     padding: 10px;
     text-align: center;
     background: #4f8db3;
@@ -134,4 +132,10 @@ img {
     display: inline-block;
     height: auto;
     max-width: 100%;
+
+}
+
+.modalphotos img:hover{
+    cursor: pointer;
+    cursor: hand;
 }

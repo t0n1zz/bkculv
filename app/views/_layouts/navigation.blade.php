@@ -2,20 +2,21 @@
 <div class="mainmenu-wrapper">
     <nav class="navbar navbar-inverse" role="banner">
         <div class="container">
-            <div class="navbar-header">
+            <div class="navbar-header ">
                 <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
                     <span class="sr-only"  style="background: black">Toggle navigation</span>
                     <span class="icon-bar" style="background: black"></span>
                     <span class="icon-bar" style="background: black"></span>
                     <span class="icon-bar" style="background: black"></span>
                 </button>
-                <a class="navbar-brand" href="{{ route('home') }}"><img src="{{ asset('images/logo2.png') }}"
-                class="img-responsive" width="200" alt="logo"></a>
+                <a class="navbar-brand " href="{{ route('home') }}"
+                ><img src="{{ asset('images/logo2.png') }}" width="60%"
+                class="img-responsive" alt="logo"></a>
             </div>
 
             <div class="collapse navbar-collapse navbar-right">
                 <ul class="nav navbar-nav">
-                    <li><a href="{{ route('home') }}">Beranda</a></li>
+                    <li><a href="{{ route('home') }}">Home</a></li>
                     <li class="dropdown">
                         <a href="#" class="dropdown-toggle" data-toggle="dropdown">Berita <i class="fa fa-angle-down"></i></a>
                         <ul class="dropdown-menu">
@@ -26,7 +27,7 @@
                     </li>
                     <li><a href="{{ route('artikel',array(4)) }}">Filosofi</a></li>
                     <li><a href="{{ route('pelayanan') }}">Solusi</a></li>
-                    <li><a href="{{ route('agenda') }}">Agenda</a></li>
+                    <li><a href="{{ route('kegiatan') }}">Kegiatan</a></li>
                     <li class="dropdown">
                         <a href="#" class="dropdown-toggle" data-toggle="dropdown">Tentang Kami <i class="fa fa-angle-down"></i></a>
                         <ul class="dropdown-menu">

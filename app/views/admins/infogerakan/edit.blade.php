@@ -36,8 +36,9 @@
 	{{ Form::model($infogerakan,array('route' => array('admins.infogerakan.update',$infogerakan->id),'method' => 'put')) }}
 	<div class="panel panel-default">
         <div class="panel-heading tooltip-demo">
-            <button type="submit" name="simpan" data-toggle="tooltip" data-placement="top"
-                        title="Menyimpan data informasi gerakan" class="btn btn-primary"><span class="fa fa-save"></span> Simpan</button>
+            <button type="submit" name="simpan" accesskey="s" data-toggle="tooltip" data-placement="top"
+                        title="Menyimpan data informasi gerakan" class="btn btn-primary"><span
+                        class="fa fa-save"></span> <u>S</u>impan</button>
         </div>
         <!-- /.panel-heading -->
         <div class="panel-body">
@@ -54,7 +55,7 @@
                                ?>">
                 <input id="datepickers" type="text" class="datepicker" >
               </div>
-              {{ $errors->first('tanggal', '<p class="text-warning"><i>:message</i></p>') }}
+              {{ $errors->first('tanggal', '<p class="text-warning">:message</p>') }}
             </div>
             </div>
             <div class="col-lg-12">
@@ -62,8 +63,8 @@
                 <div class="input-group">
                   <div class="input-group-addon">Jumlah Anggota</div>
                   {{ Form::text('jumlah_anggota',null,array('class' => 'form-control', 'placeholder' => 'Silahkan masukkan jumlah anggota',
-                                'onKeyPress' => 'return isNumberKey(event)'))}}
-                  {{ $errors->first('jumlah_anggota', '<p class="text-warning"><i>:message</i></p>') }}
+                                'onKeyPress' => 'return isNumberKey(event)','autocomplete'=>'off'))}}
+                  {{ $errors->first('jumlah_anggota', '<p class="text-warning">:message</p>') }}
                 </div>
             </div>
             </div>
@@ -72,8 +73,8 @@
                 <div class="input-group">
                   <div class="input-group-addon">Jumlah CU Primer</div>
                   {{ Form::text('jumlah_cu',null,array('class' => 'form-control', 'placeholder' => 'Silahkan masukkan jumlah cu primer',
-                                'onKeyPress' => 'return isNumberKey(event)'))}}
-                  {{ $errors->first('jumlah_cu', '<p class="text-warning"><i>:message</i></p>') }}
+                                'onKeyPress' => 'return isNumberKey(event)','autocomplete'=>'off'))}}
+                  {{ $errors->first('jumlah_cu', '<p class="text-warning">:message</p>') }}
                 </div>
             </div>
             </div>
@@ -83,8 +84,8 @@
                   <div class="input-group-addon">Jumlah Staff CU Primer</div>
                   {{ Form::text('jumlah_staff_cu',null,array('class' => 'form-control',
                                 'placeholder' => 'Silahkan masukkan jumlah staff cu primer',
-                                'onKeyPress' => 'return isNumberKey(event)'))}}
-                  {{ $errors->first('jumlah_staff_cu', '<p class="text-warning"><i>:message</i></p>') }}
+                                'onKeyPress' => 'return isNumberKey(event)','autocomplete'=>'off'))}}
+                  {{ $errors->first('jumlah_staff_cu', '<p class="text-warning">:message</p>') }}
                 </div>
             </div>
             </div>
@@ -93,8 +94,8 @@
                 <div class="input-group">
                   <div class="input-group-addon">Jumlah Piutang Beredar</div>
                   {{ Form::text('piutang_beredar',null,array('class' => 'form-control', 'placeholder' => 'Silahkan masukkan jumlah piutang beredar',
-                                'onKeyPress' => 'return isNumberKey(event)'))}}
-                  {{ $errors->first('piutang_beredar', '<p class="text-warning"><i>:message</i></p>') }}
+                                'onKeyPress' => 'return isNumberKey(event)','autocomplete'=>'off'))}}
+                  {{ $errors->first('piutang_beredar', '<p class="text-warning">:message</p>') }}
                 </div>
             </div>
             </div>
@@ -103,8 +104,8 @@
                 <div class="input-group">
                   <div class="input-group-addon">Jumlah Piutang Lalai 1 s.d. 12 Bulan</div>
                   {{ Form::text('piutang_lalai_1',null,array('class' => 'form-control', 'placeholder' => 'Masukkan jumlah piutang lalai 1 s.d. 12 bulan',
-                                'onKeyPress' => 'return isNumberKey(event)'))}}
-                  {{ $errors->first('piutang_lalai_1', '<p class="text-warning"><i>:message</i></p>') }}
+                                'onKeyPress' => 'return isNumberKey(event)','autocomplete'=>'off'))}}
+                  {{ $errors->first('piutang_lalai_1', '<p class="text-warning">:message</p>') }}
                 </div>
             </div>
             </div>
@@ -113,8 +114,8 @@
                 <div class="input-group">
                   <div class="input-group-addon">Jumlah Piutang Bersih</div>
                   {{ Form::text('piutang_bersih',null,array('class' => 'form-control', 'placeholder' => 'Masukkan jumlah piutang bersih',
-                                'onKeyPress' => 'return isNumberKey(event)'))}}
-                  {{ $errors->first('piutang_bersih', '<p class="text-warning"><i>:message</i></p>') }}
+                                'onKeyPress' => 'return isNumberKey(event)','autocomplete'=>'off'))}}
+                  {{ $errors->first('piutang_bersih', '<p class="text-warning">:message</p>') }}
                 </div>
             </div>
             </div>
@@ -123,8 +124,8 @@
                 <div class="input-group">
                   <div class="input-group-addon">Asset</div>
                   {{ Form::text('asset',null,array('class' => 'form-control', 'placeholder' => 'Masukkan jumlah asset',
-                                'onKeyPress' => 'return isNumberKey(event)'))}}
-                  {{ $errors->first('asset', '<p class="text-warning"><i>:message</i></p>') }}
+                                'onKeyPress' => 'return isNumberKey(event)','autocomplete'=>'off'))}}
+                  {{ $errors->first('asset', '<p class="text-warning">:message</p>') }}
                 </div>
             </div>
             </div>
@@ -133,8 +134,8 @@
                 <div class="input-group">
                   <div class="input-group-addon">SHU</div>
                   {{ Form::text('shu',null,array('class' => 'form-control', 'placeholder' => 'Masukkan SHU',
-                                'onKeyPress' => 'return isNumberKey(event)'))}}
-                  {{ $errors->first('shu', '<p class="text-warning"><i>:message</i></p>') }}
+                                'onKeyPress' => 'return isNumberKey(event)','autocomplete'=>'off'))}}
+                  {{ $errors->first('shu', '<p class="text-warning">:message</p>') }}
                 </div>
             </div>
             </div>

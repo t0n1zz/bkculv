@@ -62,7 +62,7 @@
     			    </div>
     			    <div class="col-md-5">
     			        <ul class="no-list-style footer-navigate-section">
-                            <li><a href="{{ route('agenda') }}">Agenda</a></li>
+                            <li><a href="{{ route('kegiatan') }}">Kegiatan</a></li>
                             <li><a href="{{ route('profil') }}">Profil</a></li>
                             <li><a href="{{ route('tim') }}">Tim</a></li>
                             <li><a href="{{ route('jejaring') }}">Jejaring</a></li>
@@ -89,15 +89,13 @@
     	</div>
     	<div class="row">
     		<div class="col-md-12">
-    			<div class="footer-copyright">&copy; <?php echo date("Y") ?> Puskopdit BKCU Kalimantan • Badan Hukum Nomor : 927/BH/M.KUKM.2/X/2010 • Developed by <a
-    			    href="http://www.laurensius.esy.es/about" target="_blank">Laurensius Tony</a> • <a href="{{ route('attribution') }}">Attribution</a>
+    			<div class="footer-copyright">&copy; <?php echo date("Y") ?> Puskopdit BKCU Kalimantan • Badan Hukum Nomor : 927/BH/M.KUKM.2/X/2010  • <a href="{{ route('attribution') }}">Attribution</a>
     		</div>
+    		<br/>
+    		<div align="center">
+                <a href="#" class="scrollToTop2" style="color: #808080;">
+                    <b>-</b> <i class="fa fa-fw fa-2x fa-chevron-up" ></i> <b>-</b>
+                </a>
     	</div>
     </div>
-</div>
-
-<div class="visible-lg">
-<a href="#" class="scrollToTop">
-    <i class="fa fa-arrow-up" style="font-size: 30px;color: white;"></i>
-</a>
 </div>

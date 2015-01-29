@@ -26,12 +26,20 @@
             {{ HTML::style('plugins/social/css/rrssb.css') }}
         @endif
 
+        @if (Request::is('cudetail/*') || Request::is('kegiatan') )
+            <!-- DataTables CSS -->
+            {{ HTML::style('admin/css/plugins/dataTables.bootstrap.css') }}
+            {{ HTML::script('js/modernizr-2.6.2-respond-1.1.0.min.js') }}
+            {{ HTML::style('admin/css/sb-admin-2.css') }}
+        @endif
+
         {{ HTML::style('css/bootstrap.css') }}
         {{ HTML::style('css/icomoon-social.css') }}
         {{ HTML::style('font-awesome-4.2.0/css/font-awesome.min.css') }}
         {{ HTML::style('css/main.css') }}
-        {{ HTML::script('js/modernizr-2.6.2-respond-1.1.0.min.js') }}
         {{ HTML::style('css/mystyle.css') }}
+
+
     </head>
     <body>
     <!--[if lt IE 7]>
@@ -53,8 +61,17 @@
 
       @yield('content')
 
-      <img class="img-responsive" src="{{ asset('images/footer.png') }}" width="100%"  style="vertical-align: bottom;margin-bottom: -20px;margin-top: -3%;"/>
+      <!--<img class="img-responsive" src="{{ asset('images/footer.png') }}"
+               width="100%"  style="vertical-align: bottom;margin-bottom: -20px;margin-top: -3%;"/>-->
       @include('_layouts.footer')
+
+      <!--modal photos-->
+      <div class="modal fade" id="modalphotoshow">
+          <div class="modal-body">
+            <img class="pointer img-responsive center-block" src="" id="modalimage"/>
+          </div>
+      </div>
+      <!--/modal photos-->
 
       <!-- Javascripts -->
 
@@ -101,6 +118,16 @@
           }
       });
       </script>
+
+      @if (Request::is('cudetail/*') || Request::is('kegiatan'))
+          {{ HTML::script('admin/js/plugins/dataTables/jquery.dataTables.js') }}
+          {{ HTML::script('admin/js/plugins/dataTables/dataTables.bootstrap.js') }}
+          <script>
+            $(document).ready(function() {
+                $('#dataTables-example').dataTable();
+            });
+          </script>
+      @endif
       {{ HTML::script('js/myscript.js') }}
     </body>
 </html>

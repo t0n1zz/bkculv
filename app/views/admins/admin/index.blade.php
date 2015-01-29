@@ -28,8 +28,8 @@
 		<div class="panel panel-default">
 		    <div class="panel-heading tooltip-demo">
                 <a type="button" data-toggle="tooltip" data-placement="top"
-                    title="Tekan untuk menambah CU baru"
-                    class="btn btn-default" href="{{ route('admins.admin.create') }}"><i class="fa fa-plus"></i> Tambah Admin</a>
+                    title="Tekan untuk menambah CU baru" accesskey="t"
+                    class="btn btn-default" href="{{ route('admins.admin.create') }}"><i class="fa fa-plus"></i> <u>T</u>ambah Admin</a>
 		    </div>
 		    <!-- /.panel-heading -->
 		    <div class="panel-body tooltip-demo">
@@ -174,7 +174,7 @@ a                               name="{{ $admin->id }}"
               <br />
                     <input type="text" name="id" value="" id="modal1id" hidden>
                     <select class="form-control" name="status">
-                        <option >Pilih Status Admin</option>
+                        <option disabled selected>Silahkan pilih Status Admin</option>
                         <option >Non-aktifkan</option>
                         <option value="1" >Aktifkan</option>
                     </select>

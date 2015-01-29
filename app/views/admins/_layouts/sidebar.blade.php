@@ -61,27 +61,6 @@
                 </ul>
             </li>
             <!-- /artikel -->
-            <!-- gambar -->
-            <li @if($title == "Kelola Gambar Kegiatan" || $title == "Tambah Gambar Kegiatan" || $title == "Ubah Gambar Kegiatan")
-                   {{ "class='active'" }}
-               @endif
-            ><a href="#"><i class="fa fa-image fa-fw"></i> Gambar<span class="fa arrow"></span></a>
-                <ul class="nav nav-second-level">
-                	<li>
-                        <a  @if($title == "Tambah Gambar Kegiatan")
-                                {{ "class='active'" }}
-                            @endif
-                            href="{{ route('admins.gambarkegiatan.create') }}"><span class="fa fa-plus"></span> Tambah Gambar Kegiatan</a>
-                    </li>
-                    <li>
-                        <a  @if($title == "Kelola Gambar Kegiatan")
-                                {{ "class='active'" }}
-                            @endif
-                            href="{{ route('admins.gambarkegiatan.index') }}"><span class="fa fa-archive"></span> Kelola Gambar Kegiatan</a>
-                    </li>
-                </ul>
-            </li>
-            <!-- /gambar -->
             <!-- pelayanan -->
             <li @if($title == "Kelola Pelayanan" || $title == "Tambah Pelayanan" || $title == "Ubah Pelayanan" ||
                     $title == "Tambah Kantor Pelayanan" || $title == "Kelola Kantor Pelayanan" || $title == "Ubah Informasi Kantor Pelayanan")
@@ -138,11 +117,12 @@
             </li>
             <!-- /diklat -->
             <!-- cuprimer -->
-            <li @if($title == "Kelola CU" || $title == "Tambah CU" || $title == "Ubah CU" || $title == "Kelola Wilayah CU" )
+            <li @if($title == "Kelola CU" || $title == "Tambah CU" || $title == "Ubah CU" || $title == "Kelola Wilayah CU" ||
+                    $title == "Kelola Staff CU" || $title == "Tambah Staff CU" || $title == "Ubah Staff CU")
                     {{ "class='active'" }}
                 @endif
             >
-                    <a href="#"><i class="fa fa-building-o fa-fw"></i> CU Primer<span class="fa arrow"></span></a>
+                    <a href="#"><i class="fa fa-building-o fa-fw"></i> CU <span class="fa arrow"></span></a>
                     <ul class="nav nav-second-level">
                         <li>
                             <a  @if($title == "Tambah CU")
@@ -166,23 +146,23 @@
             </li>
             <!-- /cuprimer -->
             <!-- staff -->
-            <li @if($title == "Kelola Staff" || $title == "Tambah Staff" || $title == "Ubah Staff" )
+            <li @if($title == "Kelola Staf" || $title == "Tambah Staf" || $title == "Ubah Staf" )
                     {{ "class='active'" }}
                 @endif
             >
-                <a href="#"><i class="fa fa-sitemap fa-fw"></i> Staff <span class="fa arrow"></span></a>
+                <a href="#"><i class="fa fa-sitemap fa-fw"></i> Staf <span class="fa arrow"></span></a>
                 <ul class="nav nav-second-level">
                     <li>
-                        <a @if($title == "Tambah Staff")
+                        <a @if($title == "Tambah Staf")
                                 {{ "class='active'" }}
                             @endif
-                            href="{{ route('admins.staff.create') }}"><span class="fa fa-plus"></span> Tambah Staff</a>
+                            href="{{ route('admins.staff.create') }}"><span class="fa fa-plus"></span> Tambah Staf</a>
                     </li>
                     <li>
-                        <a @if($title == "Kelola Staff")
+                        <a @if($title == "Kelola Staf")
                                 {{ "class='active'" }}
                             @endif
-                            href="{{ route('admins.staff.index') }}"><span class="fa fa-archive"></span> Kelola staff</a>
+                            href="{{ route('admins.staff.index') }}"><span class="fa fa-archive"></span> Kelola staf</a>
                     </li>
                 </ul>
             </li>

@@ -5,8 +5,7 @@ class Pelayanan extends \Eloquent {
     protected $table = 'pelayanan';
     
     public static $rules = [
-        'name' => 'required|between:5,30',
-        'gambar' => 'image|mimes:jpeg,jpg,png,bmp',
+        'name' => 'required|min:5',
         'content' => 'required|min:10'
     ];
     

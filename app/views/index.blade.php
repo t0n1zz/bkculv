@@ -50,16 +50,6 @@
                                             'class' => 'slide-img img-rounded img-responsive', 'width' => '400')) }}
                 </li>
 		    @endif
-            <li style=" background-image: url('{{asset('images/slider-christmast.jpg')}}');">
-                <h3 class="title"><a href="#" style="color: white"
-                    >Selamat Natal Dan Tahun Baru</a></h3>
-                <h4 class="subtitle"><p align="justify"><a
-                    href="#"
-                    style="color: white"
-                    >Pengurus, Pengawas, Dan Manajemen Puskopdit BKCU Mengucapkan Selamat Natal dan Tahun Baru 2015.</a></p></h4>
-                {{ HTML::image('images/christmast.jpg', 'christmast', array(
-                                        'class' => 'slide-img img-rounded img-responsive', 'width' => '400')) }}
-            </li>
             <?php $i=0; ?>
             @foreach($artikelpilihans as $artikelpilihan)
                 <?php $i++; ?>
@@ -86,8 +76,6 @@
 		            <?php $i2++; ?>
                     <li>{{$i2}}</li>
 		        @endif
-                <?php $i2++; ?>
-                <li>{{$i2}}</li>
 		        @foreach($artikelpilihans as $artikelpilihan)
 		            <?php $i2++; ?>
 		            <li>{{$i2}}</li>
@@ -97,7 +85,8 @@
 	</div>
 </div>
 <!-- /slider -->
-      <img class="img-responsive" src="{{ asset('images/top.png') }}" width="100%"  style="vertical-align: top;margin-top: -30px;margin-bottom: -3%;"/>
+     <!-- <img class="img-responsive" src="{{ asset('images/top.png') }}" width="100%"
+               style="vertical-align: top;margin-top: -30px;margin-bottom: -3%;"/>-->
 <!-- berita -->
 <div class="section">
     <div class="container">
@@ -256,7 +245,7 @@
 <!-- agenda-->
 <div class="section">
     <div class="container">
-        <h2>Agenda Pelatihan</h2>
+        <h2>Kegiatan</h2>
         <div class="row">
             @include('_components.agenda')
         </div>
@@ -266,21 +255,20 @@
 <!-- gambar kegiatan-->
 <div class="section">
     <div class="container">
-        <h2>Kegiatan Kami</h2>
+        <h2>Foto Kegiatan Terbaru</h2>
         <div class="row">
             <div class="col-md-12">
                 <div class="products-slider">
-                    @foreach($gambarkegiatans as $gambarkegiatan)
-                        <div class="shop-item shadow">
-                            <div class="image modalphotos">
-                            @if(!empty($gambarkegiatan->gambar) && is_file("images_kegiatan/{$gambarkegiatan->gambar}"))
-                                {{ HTML::image('images_kegiatan/'.$gambarkegiatan->gambar, 'a picture',
-                                    array('class' => 'img-rounded img-responsive','alt' => '{$cu->judul}', 'width' => '100%',
+                    @foreach($gambars as $gambar)
+                        <div class="shop-item shadow" >
+                            <div class="image modalflickr" >
+                                <?php
+                                    $img_url = "http://farm{$gambar['farm']}.staticflickr.com/{$gambar['server']}/{$gambar['id']}_{$gambar['secret']}_q.jpg";
+                                    $img_url_big = "http://farm{$gambar['farm']}.staticflickr.com/{$gambar['server']}/{$gambar['id']}_{$gambar['secret']}_b.jpg";
+                                 ?>
+                                {{ HTML::image($img_url,$img_url_big,
+                                    array('class' => 'img-rounded img-responsive', 'width' => '100%',
                                            'style' => 'cursor: pointer;cursor: hand')) }}
-                            @endif
-                            </div>
-                            <div class="title">
-                                <h3>{{ $gambarkegiatan->name }}</h3>
                             </div>
                         </div>
                     @endforeach
@@ -301,12 +289,11 @@
 </div>
 <!-- gambar kegiatan-->
 
-<!--modal photos-->
-<div class="modal fade" id="modalphotoshow">
-    <div class="modal-body">
-      <img class="pointer img-responsive center-block" src="" id="modalimage"/>
-    </div>
+<!--modal flickr-->
+<div class="modal fade" id="modalflickrshow">
+  <div class="modal-body">
+    <img class="pointer img-responsive center-block" src="" id="modalflickr"/>
+  </div>
 </div>
-<!--/modal photos-->
-
+<!--/modal flickr-->
 @stop

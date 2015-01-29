@@ -10,7 +10,8 @@
 <div class="row">
     <div class=" col-lg-12">
 
-	{{ Form::model($pelayanan,array('route' => array('admins.pelayanan.update',$pelayanan->id),'method' => 'put', 'files' => true)) }}
+	{{ Form::model($pelayanan,array('route' => array('admins.pelayanan.update',$pelayanan->id),'method' => 'put', 'files' => true,
+	    'data-toggle' => 'validator','role' => 'form')) }}
 		@include('admins.pelayanan.form')
 	{{ Form::close() }}
 

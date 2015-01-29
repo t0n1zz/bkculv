@@ -13,7 +13,7 @@ return array(
 	|
 	*/
 
-	'debug' => false,
+	'debug' => true,
 
 	/*
 	|--------------------------------------------------------------------------
@@ -126,7 +126,8 @@ return array(
         'Barryvdh\LaravelIdeHelper\IdeHelperServiceProvider',
         'Zizaco\Entrust\EntrustServiceProvider',
         'Barryvdh\Debugbar\ServiceProvider',
-        'Jenssegers\Date\DateServiceProvider'
+        'Jenssegers\Date\DateServiceProvider',
+        'Flickering\FlickeringServiceProvider'
 	),
 
 	/*
@@ -196,7 +197,8 @@ return array(
 		'URL'             => 'Illuminate\Support\Facades\URL',
 		'Validator'       => 'Illuminate\Support\Facades\Validator',
 		'View'            => 'Illuminate\Support\Facades\View',
-        'Date'            => 'Jenssegers\Date\Date'
+        'Date'            => 'Jenssegers\Date\Date',
+        'Flickering'      => 'Flickering\Facades\Flickering'
 	),
 
 );

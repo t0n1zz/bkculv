@@ -1,7 +1,7 @@
 <?php
 /**
  * An helper file for Laravel 4, to provide autocomplete information to your IDE
- * Generated for Laravel 4.2.12 on 2014-12-14.
+ * Generated for Laravel 4.2.16 on 2015-01-02.
  *
  * @author Barry vd. Heuvel <barryvdh@gmail.com>
  * @see https://github.com/barryvdh/laravel-ide-helper
@@ -3111,7 +3111,7 @@ namespace {
          *
          * @param string $query
          * @param array $bindings
-         * @param $time
+         * @param float|null $time
          * @return void 
          * @static 
          */
@@ -3812,12 +3812,25 @@ namespace {
          * @param string $operator
          * @param int $count
          * @param string $boolean
-         * @param \Closure $callback
+         * @param \Closure|null $callback
          * @return \Illuminate\Database\Eloquent\Builder|static 
          * @static 
          */
         public static function has($relation, $operator = '>=', $count = 1, $boolean = 'and', $callback = null){
             return \Illuminate\Database\Eloquent\Builder::has($relation, $operator, $count, $boolean, $callback);
+        }
+        
+        /**
+         * Add a relationship count condition to the query.
+         *
+         * @param string $relation
+         * @param string $boolean
+         * @param \Closure|null $callback
+         * @return \Illuminate\Database\Eloquent\Builder|static 
+         * @static 
+         */
+        public static function doesntHave($relation, $boolean = 'and', $callback = null){
+            return \Illuminate\Database\Eloquent\Builder::doesntHave($relation, $boolean, $callback);
         }
         
         /**
@@ -3832,6 +3845,18 @@ namespace {
          */
         public static function whereHas($relation, $callback, $operator = '>=', $count = 1){
             return \Illuminate\Database\Eloquent\Builder::whereHas($relation, $callback, $operator, $count);
+        }
+        
+        /**
+         * Add a relationship count condition to the query with where clauses.
+         *
+         * @param string $relation
+         * @param \Closure|null $callback
+         * @return \Illuminate\Database\Eloquent\Builder|static 
+         * @static 
+         */
+        public static function whereDoesntHave($relation, $callback = null){
+            return \Illuminate\Database\Eloquent\Builder::whereDoesntHave($relation, $callback);
         }
         
         /**
@@ -4391,6 +4416,7 @@ namespace {
         /**
          * Add a "group by" clause to the query.
          *
+         * @param array|string $column,...
          * @return $this 
          * @static 
          */
@@ -4948,6 +4974,16 @@ namespace {
             return \Illuminate\Database\Query\Builder::getGrammar();
         }
         
+        /**
+         * Use the write pdo for query.
+         *
+         * @return $this 
+         * @static 
+         */
+        public static function useWritePdo(){
+            return \Illuminate\Database\Query\Builder::useWritePdo();
+        }
+        
     }
 
 
@@ -5220,6 +5256,17 @@ namespace {
          */
         public static function copy($path, $target){
             return \Illuminate\Filesystem\Filesystem::copy($path, $target);
+        }
+        
+        /**
+         * Extract the file name from a file path.
+         *
+         * @param string $path
+         * @return string 
+         * @static 
+         */
+        public static function name($path){
+            return \Illuminate\Filesystem\Filesystem::name($path);
         }
         
         /**
@@ -5861,6 +5908,17 @@ namespace {
          */
         public static function needsRehash($hashedValue, $options = array()){
             return \Illuminate\Hashing\BcryptHasher::needsRehash($hashedValue, $options);
+        }
+        
+        /**
+         * Set the default crypt cost factor.
+         *
+         * @param int $rounds
+         * @return void 
+         * @static 
+         */
+        public static function setRounds($rounds){
+            \Illuminate\Hashing\BcryptHasher::setRounds($rounds);
         }
         
     }
@@ -12384,6 +12442,132 @@ namespace {
 
 
     class Date extends \Jenssegers\Date\Date{
+        
+    }
+
+
+    class Flickering extends \Flickering\Facades\Flickering{
+        
+        /**
+         * Set the API credentials
+         *
+         * @param string $key The API key
+         * @param string $secret The API secret key
+         * @static 
+         */
+        public static function handshake($key = null, $secret = null){
+            return \Flickering\Flickering::handshake($key, $secret);
+        }
+        
+        /**
+         * Call a method on the current API
+         *
+         * @param string $method The method name
+         * @param array $parameters Its parameters
+         * @return \Flickering\Method 
+         * @static 
+         */
+        public static function callMethod($method, $parameters = array()){
+            return \Flickering\Flickering::callMethod($method, $parameters);
+        }
+        
+        /**
+         * Directly get raw response of Method
+         *
+         * @param string $method The method name
+         * @param array $parameters Its parameters
+         * @return string 
+         * @static 
+         */
+        public static function getRawResponseOf($method, $parameters = array()){
+            return \Flickering\Flickering::getRawResponseOf($method, $parameters);
+        }
+        
+        /**
+         * Directly get response of Method
+         *
+         * @param string $method The method name
+         * @param array $parameters Its parameters
+         * @return array 
+         * @static 
+         */
+        public static function getResponseOf($method, $parameters = array()){
+            return \Flickering\Flickering::getResponseOf($method, $parameters);
+        }
+        
+        /**
+         * Directly get the results of a method
+         *
+         * @param string $method The method name
+         * @param array $parameters Its parameters
+         * @param string $subresults Subresults to fetch
+         * @return \Flickering\Results 
+         * @static 
+         */
+        public static function getResultsOf($method, $parameters = array(), $subresults = null){
+            return \Flickering\Flickering::getResultsOf($method, $parameters, $subresults);
+        }
+        
+        /**
+         * Get the API Consumer
+         *
+         * @return \Flickering\Consumer 
+         * @static 
+         */
+        public static function getConsumer(){
+            return \Flickering\Flickering::getConsumer();
+        }
+        
+        /**
+         * Get the currently authentified User
+         *
+         * @return \Flickering\User 
+         * @static 
+         */
+        public static function getUser(){
+            return \Flickering\Flickering::getUser();
+        }
+        
+        /**
+         * Check if we have an authentified User
+         *
+         * @return boolean 
+         * @static 
+         */
+        public static function isAuthentified(){
+            return \Flickering\Flickering::isAuthentified();
+        }
+        
+        /**
+         * Get an option from the config file
+         *
+         * @param string $option The option to fetch
+         * @param mixed $fallback A fallback
+         * @return mixed 
+         * @static 
+         */
+        public static function getOption($option, $fallback = null){
+            return \Flickering\Flickering::getOption($option, $fallback);
+        }
+        
+        /**
+         * Return Opauth instance for authentification
+         *
+         * @return \Flickering\Opauth 
+         * @static 
+         */
+        public static function getOpauth(){
+            return \Flickering\Flickering::getOpauth();
+        }
+        
+        /**
+         * Process the post-authentification response
+         *
+         * @static 
+         */
+        public static function getOpauthCallback(){
+            return \Flickering\Flickering::getOpauthCallback();
+        }
         
     }
 

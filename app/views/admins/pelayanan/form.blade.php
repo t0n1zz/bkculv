@@ -25,12 +25,15 @@
 <div class="panel panel-default">
 <!--button-->
 <div class="panel-heading tooltip-demo">
-	<button type="submit" name="simpan" class="btn btn-primary" data-toggle ='tooltip'
-	    data-placement='top' title ='Menyimpan informasi pelayanan' value="simpan"><i class="fa fa-save"></i> Simpan</button>
-    <button type="submit" name="simpan2" class="btn btn-primary" data-toggle ='tooltip'
-    	    data-placement='top' title ='Menyimpan informasi pelayanan dan memulai menambah pelayanan baru' value="simpan"><i class="fa fa-save fa-fw"></i><i class="fa fa-plus"></i> Simpan dan buat baru</button>
-	<button type="submit" name="batal" class="btn btn-danger" data-toggle ='tooltip'
-	    data-placement='top' title ='Batal menyimpan informasi pelayanan dan kembali ke halaman kelola pelayanan' value="batal"><i class="fa fa-times"></i> Batal</button>
+	<button type="submit" name="simpan" accesskey="s" class="btn btn-primary" data-toggle ='tooltip'
+	    data-placement='top' title ='Menyimpan informasi pelayanan' value="simpan"><i
+                class="fa fa-save"></i> <u>S</u>impan</button>
+    <button type="submit" name="simpan2" accesskey="m" class="btn btn-primary" data-toggle ='tooltip'
+    	    data-placement='top' title ='Menyimpan informasi pelayanan dan memulai menambah pelayanan baru'
+            value="simpan"><i class="fa fa-save fa-fw"></i><i class="fa fa-plus"></i> Si<u>m</u>pan dan buat baru</button>
+	<a href="{{ route('admins.pelayanan.index') }}" name="batal" accesskey="b" class="btn btn-danger" data-toggle ='tooltip'
+	    data-placement='top' title ='Batal menyimpan informasi pelayanan dan kembali ke halaman kelola pelayanan'
+        value="batal"><i class="fa fa-times"></i> <u>B</u>atal</a>
 </div>
 <!--/button-->
 <div class="panel-body">
@@ -38,8 +41,10 @@
     <div class="col-lg-10">
     <div class="form-group">
         {{ Form::label('Nama Pelayanan') }}
-        {{ Form::text('name',null,array('class' => 'form-control', 'placeholder' => 'Silahkan masukkan nama pelayanan'))}}
-        {{ $errors->first('name', '<p class="text-warning"><i>:message</i></p>') }}
+        {{ Form::text('name',null,array('class' => 'form-control', 'placeholder' => 'Silahkan masukkan nama pelayanan',
+            'required','min-length' => '5','data-error' => 'Nama pelayanan wajib diisi dan minimal 5 karakter','autocomplete'=>'off','autofocus'))}}
+        <div class="help-block with-errors"></div>
+        {{ $errors->first('name', '<p class="text-warning">:message</p>') }}
     </div>
     </div>
     <!--/nama-->
@@ -54,10 +59,10 @@
         	{{ HTML::image('images/no_image.jpg', 'a picture', array('class' => 'img-responsive', 'id' => 'tampilgambar')) }}
         @endif
              <div class="caption">
-                {{ Form::file('gambar', array('onChange' => 'readURL(this)')) }}
+                {{ Form::file('gambar', array('onChange' => 'readURL(this)','accept' => 'image/*')) }}
              </div>
         </div>
-        {{ $errors->first('gambar', '<p class="text-warning"><i>:message</i></p>') }}
+        {{ $errors->first('gambar', '<p class="text-warning">:message</p>') }}
     </div>
     </div>
     <!--/gambar-->
@@ -65,53 +70,18 @@
     <div class="col-lg-12">
         {{ Form::label('Deskripsi pelayanan') }}
         {{ Form::textarea('content',null,array('style' => 'height:300px')) }}
-        {{ $errors->first('content', '<p class="text-warning"><i>:message</i></p>') }}
+        {{ $errors->first('content', '<p class="text-warning">:message</p>') }}
     </div>
     <!--/content-->
 </div>
 </div>
-
-{{ HTML::script('js/tinymce/tinymce.min.js') }}
+{{ HTML::script('plugins/ckeditor/ckeditor.js') }}
 <script type="text/javascript">
-    tinymce.init({
-        selector: "textarea",
-        theme: "modern",
-        skin: 'light',
-        plugins: [
-            "advlist autolink lists link image charmap print preview hr anchor pagebreak",
-            "searchreplace wordcount visualblocks visualchars code fullscreen",
-            "insertdatetime media nonbreaking save table contextmenu directionality",
-            "emoticons template paste textcolor colorpicker textpattern"
-        ],
-        toolbar1: "insertfile undo redo | styleselect | bold italic | alignleft aligncenter alignright alignjustify | bullist numlist outdent indent | link image",
-        toolbar2: "print preview media | forecolor backcolor emoticons | fontselect fontsizeselect",
-        image_advtab: true,
-        templates: [
-            {title: 'Test template 1', content: 'Test 1'},
-            {title: 'Test template 2', content: 'Test 2'}
-        ],
-        file_browser_callback: RoxyFileBrowser
-    });
+    var roxyFileman = '{{ asset('plugins/fileman/index.html')  }}';
 
-    function RoxyFileBrowser(field_name, url, type, win) {
-      var roxyFileman = '{{ asset('js/tinymce/plugins/fileman/index.html?integration=tinymce4')  }}';
-      if (roxyFileman.indexOf("?") < 0) {
-        roxyFileman += "?type=" + type;
-      }
-      else {
-        roxyFileman += "&type=" + type;
-      }
-      roxyFileman += '&input=' + field_name + '&value=' + document.getElementById(field_name).value;
-      tinyMCE.activeEditor.windowManager.open({
-         file: roxyFileman,
-         title: 'File Manager',
-         width: 800,
-         height: 480,
-         resizable: "yes",
-         plugins: "media",
-         inline: "yes",
-         close_previous: "no"
-      }, {     window: win,     input: field_name    });
-      return false;
-    }
+    CKEDITOR.replace( 'content',{
+        filebrowserBrowseUrl:roxyFileman,
+        filebrowserImageBrowseUrl:roxyFileman+'?type=image',
+        removeDialogTabs: 'link:upload;image:upload'});
+
 </script>

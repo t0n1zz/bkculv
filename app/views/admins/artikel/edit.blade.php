@@ -10,7 +10,8 @@
 <div class="row">
     <div class=" col-lg-12">
 
-	{{ Form::model($artikel,array('route' => array('admins.artikel.update',$artikel->id),'method' => 'put', 'files' => true)) }}
+	{{ Form::model($artikel,array('route' => array('admins.artikel.update',$artikel->id),'method' => 'put', 'files' => true,
+		'data-toggle' => 'validator','role' => 'form')) }}
 	    {{ Form::text('penulis',null,array('hidden'))}}
 		@include('admins.artikel.form')
 	{{ Form::close() }}

@@ -61,18 +61,18 @@
             <div class="panel-heading">
                 <div class="row">
                     <div class="col-xs-3">
-                        <i class="fa fa-image fa-5x"></i>
+                        <i class="fa fa-sitemap fa-5x"></i>
                     </div>
                     <div class="col-xs-9 text-right">
                     <?php
-                        $total_gambar = GambarKegiatan::count();
+                        $total_gambar = Staff::count();
                     ?>
                         <div class="huge">{{ $total_gambar }}</div>
-                        <div>Gambar Kegiatan</div>
+                        <div>Staff</div>
                     </div>
                 </div>
             </div>
-            <a href="{{ route('admins.gambarkegiatan.index') }}">
+            <a href="{{ route('admins.staff.index') }}">
                 <div class="panel-footer">
                     <span class="pull-left">Detail</span>
                     <span class="pull-right"><i class="fa fa-arrow-circle-right"></i></span>
@@ -95,7 +95,7 @@
                         $total_kegiatan = kegiatan::count();
                     ?>
                         <div class="huge">{{ $total_kegiatan }}</div>
-                        <div>Agenda</div>
+                        <div>Kegiatan</div>
                     </div>
                 </div>
             </div>

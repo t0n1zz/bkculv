@@ -13,12 +13,11 @@
     </div>
 </div>
 <!-- Page Title -->
-<img class="img-responsive" src="{{ asset('images/top.png') }}" width="100%"  style="vertical-align: top;margin-top: -10px;margin-bottom: -3%;"/>
 <div class="section">
     <div class="container">
         <div class="row">
             <!-- Blog Post -->
-            <div class="col-sm-8">
+            <div class="col-sm-9">
                 <div class="blog-post blog-single-post">
                     <div class="single-post-title">
                         <h3 style="font-size: xx-large">{{ $detail_artikel->judul }}</h3>
@@ -32,7 +31,7 @@
 
                     </div>
 
-                    <div class="single-post-content">
+                    <div class="single-post-content modalphotos">
                         @if(!empty($detail_artikel->gambar) && is_file("images_artikel/{$detail_artikel->gambar}"))
                             {{ HTML::image('images_artikel/'.$detail_artikel->gambar, $detail_artikel->judul, array(
                                 'class' => 'img-responsive')) }}
@@ -44,11 +43,11 @@
             </div>
             <!-- /Blog Post -->
             <!-- Sidebar -->
-            <div class="col-sm-4 blog-sidebar">
+            <div class="col-sm-3 blog-sidebar">
                 <h4>Pencarian</h4>
-                {{ Form::open(array('route' => array('cari'))) }}
+                {{ Form::open(array('route' => array('cari'),'method' => 'get')) }}
                     <div class="input-group">
-                        {{ Form::text('searchkey',null,array('class' => 'form-control', 'placeholder' => 'Masukkan kata kunci'))}}
+                        {{ Form::text('q',null,array('class' => 'form-control', 'placeholder' => 'Masukkan kata kunci'))}}
                         <span class="input-group-btn">
                             <button class="btn btn-default" type="submit"><i class="fa fa-search"></i></button>
                          </span>

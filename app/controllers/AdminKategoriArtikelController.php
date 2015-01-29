@@ -10,7 +10,7 @@ class AdminKategoriArtikelController extends \BaseController{
      */
     public function index()
     {
-        $kategori_artikels = KategoriArtikel::all();
+        $kategori_artikels = KategoriArtikel::orderBy('name','asc')->get();;
         return View::make('admins.kategoriartikel.index', compact('kategori_artikels'));
     }
     /**

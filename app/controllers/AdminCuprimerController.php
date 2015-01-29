@@ -4,7 +4,10 @@ class AdminCuprimerController extends \BaseController{
 
     public function index()
     {
-        $cuprimers = Cuprimer::with('WilayahCuprimer')->get();
+        $cuprimers = Cuprimer::with('WilayahCuprimer')
+            ->orderBy('name','asc')
+            ->get();
+
         $wilayahcuprimers = WilayahCuprimer::all();
         $is_wilayah = false;
 
@@ -13,7 +16,11 @@ class AdminCuprimerController extends \BaseController{
 
     public function index_wilayah($id){
 
-        $cuprimers = Cuprimer::with('WilayahCuprimer')->where('wilayah','=', $id)->get();
+        $cuprimers = Cuprimer::with('WilayahCuprimer')
+            ->where('wilayah','=', $id)
+            ->orderBy('name','asc')
+            ->get();
+
         $wilayahcuprimers = WilayahCuprimer::all();
         $is_wilayah = true;
         //dd($artikels);
@@ -22,71 +29,62 @@ class AdminCuprimerController extends \BaseController{
 
     public function create()
     {
-        $wilayahcuprimers = WilayahCuprimer::all();
-
+        $wilayahcuprimers = WilayahCuprimer::orderBy('name','asc')->get();
         return View::make('admins.cuprimer.create',compact('wilayahcuprimers'));
     }
 
 
     public function store()
     {
-        if(Input::get('simpan') || Input::get('simpan2')){
-            $validator = Validator::make($data = Input::all(), Cuprimer::$rules);
+        $validator = Validator::make($data = Input::all(), Cuprimer::$rules);
 
-            if ($validator->fails())
-            {
-                return Redirect::back()->withErrors($validator)->withInput();
-            }
-            $cuprimer = new Cuprimer();
-            $name = Input::get('name');
-
-            $this->input_data($cuprimer,$name);
-
-            if($cuprimer->save()) {
-                if (Input::Get('simpan2'))
-                    return Redirect::route('admins.cuprimer.create')->with('message', 'CU <b><i>' . $name . '</i></b> Telah berhasil ditambah.');
-                else
-                    return Redirect::route('admins.cuprimer.index')->with('message', 'CU <b><i>' . $name . '</i></b> Telah berhasil ditambah.');
-            }
-            return Redirect::back()->withInput()->with('errormessage','Terjadi kesalahan dalam penambahan CU.');
-        }elseif(Input::get('batal')){
-            return Redirect::route('admins.cuprimer.index');
+        if ($validator->fails())
+        {
+            return Redirect::back()->withErrors($validator)->withInput();
         }
+        $cuprimer = new Cuprimer();
+        $name = Input::get('name');
+
+        $data2 = $this->input_data($cuprimer,$data);
+
+        if(Cuprimer::create($data2)) {
+            if (Input::Get('simpan2'))
+                return Redirect::route('admins.cuprimer.create')->with('message', 'CU <b><i>' . $name . '</i></b> Telah berhasil ditambah.');
+            else
+                return Redirect::route('admins.cuprimer.index')->with('message', 'CU <b><i>' . $name . '</i></b> Telah berhasil ditambah.');
+        }
+        return Redirect::back()->withInput()->with('errormessage','Terjadi kesalahan dalam penambahan CU.');
     }
 
     public function edit($id)
     {
         $cuprimer = Cuprimer::find($id);
-        $wilayahcuprimers = WilayahCuprimer::all();
+        $wilayahcuprimers = WilayahCuprimer::orderBy('name','asc')->get();
 
         return View::make('admins.cuprimer.edit', compact('cuprimer','wilayahcuprimers'));
     }
 
     public function update($id)
     {
-        if(Input::get('simpan') || Input::get('simpan2')){
-            //validasi
-            $validator = Validator::make($data = Input::all(), Cuprimer::$rules);
-            if ($validator->fails())
-            {
-                return Redirect::back()->withErrors($validator)->withInput();
-            }
-
-            $name = Input::get('name');
-            $cuprimer = Cuprimer::findOrFail($id);
-            $this->input_data($cuprimer,$name);
-
-            //simpan
-            if($cuprimer->update()) {
-                if (Input::Get('simpan2'))
-                    return Redirect::route('admins.cuprimer.create')->with('message', 'CU <b><i>' . $name . '</i></b> Telah berhasil diubah.');
-                else
-                    return Redirect::route('admins.cuprimer.index')->with('message', 'CU <b><i>' . $name . '</i></b> Telah berhasil diubah.');
-            }
-            return Redirect::back()->withInput()->with('errormessage','Terjadi kesalahan dalam pengubahan informasi CU.');
-        }elseif(Input::get('batal')){
-            return Redirect::route('admins.cuprimer.index');
+        //validasi
+        $validator = Validator::make($data = Input::all(), Cuprimer::$rules);
+        if ($validator->fails())
+        {
+            return Redirect::back()->withErrors($validator)->withInput();
         }
+
+        $name = Input::get('name');
+        $cuprimer = Cuprimer::findOrFail($id);
+        $data2 = $this->input_data($cuprimer,$data);
+
+        //simpan
+        if($cuprimer->update($data2)) {
+            if (Input::Get('simpan2'))
+                return Redirect::route('admins.cuprimer.create')->with('message', 'CU <b><i>' . $name . '</i></b> Telah berhasil diubah.');
+            else
+                return Redirect::route('admins.cuprimer.index')->with('message', 'CU <b><i>' . $name . '</i></b> Telah berhasil diubah.');
+        }
+        return Redirect::back()->withInput()->with('errormessage','Terjadi kesalahan dalam pengubahan informasi CU.');
     }
 
     public function update_wilayah(){
@@ -133,14 +131,40 @@ class AdminCuprimerController extends \BaseController{
         return Redirect::back()->withInput()->with('errormessage','Terjadi kesalahan dalam pengubahan tanggal berdiri CU.');
     }
 
-    public function input_data($cuprimer,$name){
-        $cuprimer->name = $name;
+    public function update_bergabung(){
+        $id = Input::get('id');
+        $cuprimer = Cuprimer::findOrFail($id);
+
+        $timestamp = strtotime(Input::get('bergabung'));
+        $tanggal = date('Y-m-d',$timestamp);
+        $cuprimer->bergabung = $tanggal;
+
+        $name = $cuprimer->name;
+
+        //simpan
+        if($cuprimer->update())
+            return Redirect::route('admins.cuprimer.index')->with('message', 'Tanggal bergabung CU <b><i>' .$name. '</i></b> Telah berhasil di ubah.');
+
+        return Redirect::back()->withInput()->with('errormessage','Terjadi kesalahan dalam pengubahan tanggal bergabung CU.');
+    }
+
+    public function input_data($cuprimer,$data){
+
+        //get php max file upload size
+        $file_max = ini_get('upload_max_filesize');
+        $file_max_str_leng = strlen($file_max);
+        $file_max_meassure_unit = substr($file_max,$file_max_str_leng - 1,1);
+        $file_max_meassure_unit = $file_max_meassure_unit == 'K' ? 'kb' : ($file_max_meassure_unit == 'M' ? 'mb' : ($file_max_meassure_unit == 'G' ? 'gb' : 'unidades'));
+        $file_max = substr($file_max,0,$file_max_str_leng - 1);
+        $file_max = intval($file_max);
 
         $timestamp = strtotime(Input::get('ultah'));
         $tanggal = date('Y-m-d',$timestamp);
-        $cuprimer->ultah = $tanggal;
+        array_set($data,'ultah',$tanggal);
 
-        $cuprimer->content = Input::get('content');
+        $timestamp2 = strtotime(Input::get('bergabung'));
+        $tanggal2 = date('Y-m-d',$timestamp2);
+        array_set($data,'bergabung',$tanggal2);
 
         //kategori
         $wilayah = Input::get('wilayah');
@@ -156,7 +180,7 @@ class AdminCuprimerController extends \BaseController{
                     $oldwilayahcuprimer->update();
                 }
 
-                $cuprimer->wilayah = $last_id;
+                array_set($data,'wilayah',$last_id);
 
                 $newwilayah = $last_id;
                 if($newwilayah == 0){ $newwilayah = 1; }
@@ -180,8 +204,47 @@ class AdminCuprimerController extends \BaseController{
                 $newwilayahcuprimer->jumlah += 1;
                 $newwilayahcuprimer->update();
             }
-            $cuprimer->wilayah = $wilayah;
+
+            array_set($data,'wilayah',$wilayah);
         }
+
+        //gambar
+        try {
+            $img = Input::file('gambar');
+            if (!is_null($img)) {
+                $filename = str_random(10) . "-" . date('Y-m-d') . ".jpg";
+
+                if ($this->save_image($img, $cuprimer, $filename))
+                    array_set($data,'gambar',$filename);
+                else
+                    return Redirect::back()->withInput()->with('errormessage', 'Terjadi kesalahan dalam penyimpanan gambar.');
+            }else{
+                $filename = $cuprimer->gambar;
+                array_set($data,'gambar',$filename);
+            }
+        } catch (Exception $e) {
+            return Redirect::back()->withInput()->with('errormessage', 'Ukuran gambar harus lebih kecil dari ' . $file_max . " " . $file_max_meassure_unit);
+        }
+
+        //logo
+        try {
+            $img = Input::file('logo');
+            if (!is_null($img)) {
+                $filename = str_random(10) . "-" . date('Y-m-d') . ".jpg";
+
+                if ($this->save_image($img, $cuprimer, $filename))
+                    array_set($data,'logo',$filename);
+                else
+                    return Redirect::back()->withInput()->with('errormessage', 'Terjadi kesalahan dalam penyimpanan logo.');
+            }else{
+                $filename = $cuprimer->logo;
+                array_set($data,'logo',$filename);
+            }
+        } catch (Exception $e) {
+            return Redirect::back()->withInput()->with('errormessage', 'Ukuran gambar harus lebih kecil dari ' . $file_max . " " . $file_max_meassure_unit);
+        }
+
+        return $data;
     }
 
     public function destroy()

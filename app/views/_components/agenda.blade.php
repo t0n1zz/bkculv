@@ -1,75 +1,69 @@
 <div class="col-md-12 visible-md visible-lg">
-    <table class="events-list ">
-    <thead>
-    <tr>
-        <th>Tanggal</th>
-        <th>Jenis Diklat</th>
-        <th>Wilayah</th>
-        <th>Tempat</th>
-        <th>Waktu</th>
-        <th>Sasaran Peserta</th>
-        <th>Fasilitator</th>
-    </tr>
-    </thead>
-    <tbody>
     @if(!$kegiatans->isEmpty())
-        @foreach($kegiatans as $kegiatan)
-            <tr>
-                <td>
-                    <div class="event-date">
-                        <?php $mysqldate = new Date($kegiatan->tanggal ); ?>
-                        <div class="event-day">{{ $mysqldate->format('d')}}</div>
-                        <div class="event-month" style="color: #808080">{{ $mysqldate->format('M') }}</div>
-                    </div>
-                </td>
-                <td>{{ $kegiatan->name }}</td>
-                @if($kegiatan->wilayah == 1)
-                    <td class="event-venue">Barat</td>
-                @elseif($kegiatan->wilayah == 2)
-                    <td class="event-venue">Tengah</td>
-                @elseif($kegiatan->wilayah == 3)
-                    <td class="event-venue">Timur</td>
-                @else
-                    <td class="event-venue">-</td>
-                @endif
-
-                @if(!empty($kegiatan->tempat))
-                    <td class="event-venue">{{ $kegiatan->tempat }}</td>
-                @else
-                    <td class="event-venue">-</td>
-                @endif
-
-                <?php
-                    $startTimeStamp = strtotime($kegiatan->tanggal);
-                    $endTimeStamp = strtotime($kegiatan->tanggal2);
-                    $timeDiff = abs($endTimeStamp - $startTimeStamp);
-                    $numberDays = $timeDiff/86400;
-                    $numberDays = intval($numberDays) + 1;
-                ?>
-                <td class="event-venue">{{ $numberDays  }} Hari</td>
-
-                @if(!empty($kegiatan->sasaran))
-                    <td class="event-venue">{{ $kegiatan->sasaran }}</td>
-                @else
-                    <td class="event-venue">-</td>
-                @endif
-
-                @if(!empty($kegiatan->fasilitator))
-                    <td class="event-venue">{{$kegiatan->fasilitator}}</td>
-                @else
-                    <td class="event-venue">-</td>
-                @endif
-
-                <td>&nbsp;</td>
-            </tr>
-        @endforeach
-    @else
+        <table class="events-list ">
+        <thead>
         <tr>
-            <td colspan="7"><a class="btn btn-grey btn-block">Belum terdapat agenda kegiatan</a></td>
+            <th>Tanggal</th>
+            <th>Jenis Diklat</th>
+            <th>Wilayah</th>
+            <th>Tempat</th>
+            <th>Waktu</th>
+            <th>Sasaran Peserta</th>
         </tr>
+        </thead>
+        <tbody>
+
+            @foreach($kegiatans as $kegiatan)
+                <tr>
+                    <td>
+                        <div class="event-date">
+                            <?php $mysqldate = new Date($kegiatan->tanggal ); ?>
+                            <div class="event-day">{{ $mysqldate->format('d')}}</div>
+                            <div class="event-month" style="color: #808080">{{ $mysqldate->format('M') }}</div>
+                        </div>
+                    </td>
+
+                    <td>{{ $kegiatan->name }}</td>
+
+                    @if(!empty($kegiatan->wilayah))
+                        <td>{{ $kegiatan->wilayah }}</td>
+                    @else
+                        <td>-</td>
+                    @endif
+
+                    @if(!empty($kegiatan->tempat))
+                        <td class="event-venue">{{ $kegiatan->tempat }}</td>
+                    @else
+                        <td class="event-venue">-</td>
+                    @endif
+
+                    <?php
+                        $startTimeStamp = strtotime($kegiatan->tanggal);
+                        $endTimeStamp = strtotime($kegiatan->tanggal2);
+                        $timeDiff = abs($endTimeStamp - $startTimeStamp);
+                        $numberDays = $timeDiff/86400;
+                        $numberDays = intval($numberDays) + 1;
+                    ?>
+                    <td class="event-venue">{{ $numberDays  }} Hari</td>
+
+                    @if(!empty($kegiatan->sasaran))
+                        <td class="event-venue">{{ $kegiatan->sasaran }}</td>
+                    @else
+                        <td class="event-venue">-</td>
+                    @endif
+
+                    <td>&nbsp;</td>
+                </tr>
+            @endforeach
+        </tbody>
+        </table>
+    @else
+        <div class="blog-post shadow">
+            <div class="post-summary">
+                <h3>Belum terdapat agenda pelatihan</h3>
+            </div>
+        </div>
     @endif
-    </tbody>
-    </table>
 </div>
 <div class="col-sm-12 visible-sm visible-xs">
     @if(!$kegiatans->isEmpty())
@@ -79,14 +73,10 @@
                 <br />
                     <b>Jenis Diklat :</b> {{ $kegiatan->name }}
                 <br />
-                    @if($kegiatan->wilayah == 1)
-                        <b>Wilayah :</b> Barat
-                    @elseif($kegiatan->wilayah == 2)
-                        <b>Wilayah :</b> Tengah
-                    @elseif($kegiatan->wilayah == 3)
-                        <b>Wilayah :</b> Timur
+                    @if(!empty($kegiatan->wilayah))
+                        <td><b>Wilayah :</b>{{ $kegiatan->wilayah }}</td>
                     @else
-                        <b>Wilayah :</b> -
+                        <td>-</td>
                     @endif
                 <br />
                     @if(!empty($kegiatan->tempat))
@@ -109,17 +99,18 @@
                     @else
                         <b>Sasaran :</b> -
                     @endif
-                <br />
-                    @if(!empty($kegiatan->fasilitator))
-                        <b>Fasilitator :</b> {{$kegiatan->fasilitator}}
-                    @else
-                        <b>Fasilitator :</b> -
-                    @endif
             </div>
         @endforeach
     @else
         <div class="well well-sm">
-            Belum terdapat agenda kegiatan
+            Belum terdapat agenda pelatihan
         </div>
     @endif
 </div>
+
+@if($kegiatans->count() > 4)
+    <div class="col-sm-12">
+        <hr style="border-top:1px solid #D2D2D2;"/>
+        <a href="{{ route('kegiatan') }}" class="btn pull-right"><b>Selengkapnya</b></a>
+    </div>
+@endif

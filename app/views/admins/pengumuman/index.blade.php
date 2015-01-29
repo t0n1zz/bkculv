@@ -37,8 +37,8 @@
 		<div class="panel panel-default">
 		    <div class="panel-heading tooltip-demo">
                 <a type="button" data-toggle="tooltip" data-placement="top"
-                    title="Tekan untuk menambah pengumuman baru"
-                    class="btn btn-default modal1" href="#"><i class="fa fa-plus"></i> Tambah Pengumuman</a>
+                    title="Tekan untuk menambah pengumuman baru" accesskey="t"
+                    class="btn btn-default modal1" href="#"><i class="fa fa-plus"></i> <u>T</u>ambah Pengumuman</a>
 		    </div>
 		    <!-- /.panel-heading -->
 		    <div class="panel-body tooltip-demo">
@@ -96,7 +96,7 @@
 
                     @if(!empty($pengumuman->created_at ))
                         <?php $date = new Date($pengumuman->created_at); ?>
-                        <td>{{  $date->format('d/n/Y') }}</td>
+                        <td><i hidden="true">{{$pengumuman->created_at}}</i> {{  $date->format('d/n/Y') }}</td>
                     @else
                         <td>-</td>
                     @endif
@@ -147,7 +147,8 @@
               <input type="text" name="penulis" value="{{ $id }}" hidden>
               <input type="text" name="urutan" value="{{$urutan + 1}}"  hidden>
               <input type="text" name="id" value="" id="modal1id" hidden>
-              {{ Form::text('name',null,array('class' => 'form-control', 'placeholder' => 'Silahkan masukkan informasi pengumuman baru'))}}
+              {{ Form::text('name',null,array('class' => 'form-control', 'placeholder' => 'Silahkan masukkan informasi pengumuman baru',
+                'autocomplete'=>'off'))}}
            <br />
            <br />
         </div>
@@ -196,7 +197,8 @@
           <br />
           <br />
                 <input type="text" name="id" value="" id="modal3id" hidden>
-                {{ Form::text('name',null,array('class' => 'form-control', 'placeholder' => 'Silahkan masukkan informasi pengumuman baru'))}}
+                {{ Form::text('name',null,array('class' => 'form-control', 'placeholder' => 'Silahkan masukkan informasi pengumuman baru',
+                    'autocomplete'=>'off'))}}
            <br />
            <br />
         </div>
@@ -224,7 +226,7 @@
           <br />
                 <input type="text" name="id" value="" id="modal4id" hidden>
                 <select class="form-control" name="urutan">
-                    <option >Pilih Urutan </option>
+                    <option disabled selected>Silahkan pilih Urutan </option>
                     <?php $i=0; ?>
                     @foreach($pengumumans as $pengumuman)
                         <?php $i++; ?>

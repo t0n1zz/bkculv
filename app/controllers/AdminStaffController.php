@@ -4,91 +4,73 @@ class AdminStaffController extends \BaseController{
 
     public function index()
     {
-        $staffs = Staff::all();
+        $staffs = Staff::with('cuprimer')->orderBy('cu','asc')->get();;
+        $cuprimers = Cuprimer::all();
 
-        return View::make('admins.staff.index', compact('staffs'));
+        return View::make('admins.staff.index', compact('staffs','cuprimers'));
     }
 
     public function create()
     {
-        $staff = Staff::all();
-
-        return View::make('admins.staff.create', compact('staff'));
+        $cuprimers = Cuprimer::orderBy('name','asc')->get();;
+        return View::make('admins.staff.create',compact('cuprimers'));
     }
 
     public function store()
     {
-        if(Input::get('simpan') || Input::get('simpan2')){
-            $validator = Validator::make($data = Input::all(), Staff::$rules);
+        $validator = Validator::make($data = Input::all(), Staff::$rules);
 
-            if ($validator->fails())
-            {
-                return Redirect::back()->withErrors($validator)->withInput();
-            }
-            $name = Input::get('name');
-
-            $staff = new Staff();
-            $this->input_data($staff,$name);
-
-            if($staff->save()){
-                if(Input::Get('simpan2'))
-                    return Redirect::route('admins.staff.create')->with('message', 'Staff <b><i>' .$name. '</i></b> Telah berhasil ditambah.');
-                else
-                    return Redirect::route('admins.staff.index')->with('message', 'Staff <b><i>' .$name. '</i></b> Telah berhasil ditambah.');
-            }
-
-            return Redirect::back()->withInput()->with('errormessage','Terjadi kesalahan dalam menambah staff.');
-        }elseif(Input::get('batal')){
-            return Redirect::route('admins.staff.index');
+        if ($validator->fails())
+        {
+            return Redirect::back()->withErrors($validator)->withInput();
         }
+        $name = Input::get('name');
+
+        $staff = new Staff();
+        $data2 = $this->input_data($staff,$data);
+
+        if(Staff::create($data2)){
+            if(Input::Get('simpan2'))
+                return Redirect::route('admins.staff.create')->with('message', 'Staff <b><i>' .$name. '</i></b> Telah berhasil ditambah.');
+            else
+                return Redirect::route('admins.staff.index')->with('message', 'Staff <b><i>' .$name. '</i></b> Telah berhasil ditambah.');
+        }
+
+        return Redirect::back()->withInput()->with('errormessage','Terjadi kesalahan dalam menambah staf.');
     }
 
     public function edit($id)
     {
         $staff = Staff::find($id);
-
-        return View::make('admins.staff.edit', compact('staff'));
+        $cuprimers = Cuprimer::orderBy('name','asc')->get();;
+        return View::make('admins.staff.edit', compact('staff','cuprimers'));
     }
 
     public function update($id)
     {
         $staff = Staff::findOrFail($id);
 
-        //get php max file upload size
-        $file_max = ini_get('upload_max_filesize');
-        $file_max_str_leng = strlen($file_max);
-        $file_max_meassure_unit = substr($file_max,$file_max_str_leng - 1,1);
-        $file_max_meassure_unit = $file_max_meassure_unit == 'K' ? 'kb' : ($file_max_meassure_unit == 'M' ? 'mb' : ($file_max_meassure_unit == 'G' ? 'gb' : 'unidades'));
-        $file_max = substr($file_max,0,$file_max_str_leng - 1);
-        $file_max = intval($file_max);
+        //dd(Input::all());
 
-        if(Input::get('simpan') || Input::get('simpan2')){
-            //dd(Input::all());
-
-            //validasi
-            $validator = Validator::make($data = Input::all(), Staff::$rules);
-            if ($validator->fails())
-            {
-                return Redirect::back()->withErrors($validator)->withInput();
-            }
-
-            $name = Input::get('name');
-
-            $this->input_data($staff,$name);
-
-            //simpan
-            if($staff->update()) {
-                if (Input::Get('simpan2'))
-                    return Redirect::route('admins.staff.create')->with('message', 'Staff <b><i>' . $name . '</i></b> Telah berhasil diubah.');
-                else
-                    return Redirect::route('admins.staff.index')->with('message', 'Staff <b><i>' . $name . '</i></b> Telah berhasil diubah.');
-            }
-
-            return Redirect::back()->withInput()->with('errormessage','Terjadi kesalahan dalam mengubah staff.');
-
-        }elseif(Input::get('batal')){
-            return Redirect::route('admins.staff.index');
+        //validasi
+        $validator = Validator::make($data = Input::all(), Staff::$rules);
+        if ($validator->fails())
+        {
+            return Redirect::back()->withErrors($validator)->withInput();
         }
+
+        $name = Input::get('name');
+        $data2 = $this->input_data($staff,$data);
+
+        //simpan
+        if($staff->update($data2)) {
+            if (Input::Get('simpan2'))
+                return Redirect::route('admins.staff.create')->with('message', 'Staff <b><i>' . $name . '</i></b> Telah berhasil diubah.');
+            else
+                return Redirect::route('admins.staff.index')->with('message', 'Staff <b><i>' . $name . '</i></b> Telah berhasil diubah.');
+        }
+
+        return Redirect::back()->withInput()->with('errormessage','Terjadi kesalahan dalam mengubah staf.');
     }
 
     public function update_jabatan(){
@@ -117,25 +99,47 @@ class AdminStaffController extends \BaseController{
         return Redirect::back()->withInput()->with('errormessage','Terjadi kesalahan dalam pengubahan tingkatan.');
     }
 
-    public function input_data($staff,$name){
-        $staff->name = $name;
-        $staff->jabatan = Input::get('jabatan');
-        $staff->tingkat = Input::get('tingkat');
+    public function update_cu(){
+        $id = Input::get('id');
+        $staff = Staff::findOrFail($id);
+        $staff->cu = Input::get('cu');
+        $name = $staff->name;
+
+        //simpan
+        if($staff->update())
+            return Redirect::route('admins.staff.index')->with('message', 'CU <b><i>' .$name. '</i></b> Telah berhasil di ubah.');
+
+        return Redirect::back()->withInput()->with('errormessage','Terjadi kesalahan dalam pengubahan cu.');
+    }
+
+    public function input_data($staff,$data){
+        //get php max file upload size
+        $file_max = ini_get('upload_max_filesize');
+        $file_max_str_leng = strlen($file_max);
+        $file_max_meassure_unit = substr($file_max,$file_max_str_leng - 1,1);
+        $file_max_meassure_unit = $file_max_meassure_unit == 'K' ? 'kb' : ($file_max_meassure_unit == 'M' ? 'mb' : ($file_max_meassure_unit == 'G' ? 'gb' : 'unidades'));
+        $file_max = substr($file_max,0,$file_max_str_leng - 1);
+        $file_max = intval($file_max);
 
         //gambar
         try {
             $img = Input::file('gambar');
-            if (!empty($img)) {
+            if (!is_null($img)) {
                 $filename = str_random(10) . "-" . date('Y-m-d') . ".jpg";
 
                 if ($this->save_image($img, $staff, $filename))
-                    $staff->gambar = $filename;
+                    array_set($data,'gambar',$filename);
                 else
                     return Redirect::back()->withInput()->with('errormessage', 'Terjadi kesalahan dalam penyimpanan gambar.');
+            }else{
+                $filename = $staff->gambar;
+                array_set($data,'gambar',$filename);
             }
         } catch (Exception $e) {
             return Redirect::back()->withInput()->with('errormessage', 'Ukuran gambar harus lebih kecil dari ' . $file_max . " " . $file_max_meassure_unit);
         }
+
+        return $data;
     }
 
     public function destroy()

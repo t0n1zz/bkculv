@@ -5,9 +5,10 @@ class kegiatan extends \Eloquent {
     protected $table = 'kegiatan';
     
     public static $rules = [
-        'name' => 'required|min:3',
+        'name' => 'required|min:5',
         'wilayah' => 'required',
         'tempat' => 'required',
+        'sasaran' => 'required',
         'tanggal' => 'required|date',
         'tanggal2' => 'required|date'
     ];

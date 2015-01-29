@@ -4,43 +4,37 @@ class AdminPelayananController extends \BaseController{
 
     public function index()
     {
-        $pelayanans = Pelayanan::all();
+        $pelayanans = Pelayanan::orderBy('name','asc')->get();;
 
         return View::make('admins.pelayanan.index', compact('pelayanans'));
     }
 
     public function create()
     {
-        $pelayanan = Pelayanan::all();
-
-        return View::make('admins.pelayanan.create', compact('pelayanan'));
+        return View::make('admins.pelayanan.create');
     }
 
     public function store()
     {
-        if(Input::get('simpan') || Input::get('simpan2')){
-            $validator = Validator::make($data = Input::all(), Pelayanan::$rules);
+        $validator = Validator::make($data = Input::all(), Pelayanan::$rules);
 
-            if ($validator->fails())
-            {
-                return Redirect::back()->withErrors($validator)->withInput();
-            }
-            $name = Input::get('name');
-
-            $pelayanan = new Pelayanan();
-            $this->input_data($pelayanan,$name);
-
-            if($pelayanan->save()){
-                if(Input::Get('simpan2'))
-                    return Redirect::route('admins.pelayanan.create')->with('message', 'Pelayanan <b><i>' .$name. '</i></b> Telah berhasil ditambah.');
-                else
-                    return Redirect::route('admins.pelayanan.index')->with('message', 'Pelayanan <b><i>' .$name. '</i></b> Telah berhasil ditambah.');
-            }
-
-            return Redirect::back()->withInput()->with('errormessage','Terjadi kesalahan dalam menambah pelayanan.');
-        }elseif(Input::get('batal')){
-            return Redirect::route('admins.pelayanan.index');
+        if ($validator->fails())
+        {
+            return Redirect::back()->withErrors($validator)->withInput();
         }
+        $name = Input::get('name');
+
+        $pelayanan = new Pelayanan();
+        $data2 = $this->input_data($pelayanan,$data);
+
+        if(Pelayanan::create($data2)){
+            if(Input::Get('simpan2'))
+                return Redirect::route('admins.pelayanan.create')->with('message', 'Pelayanan <b><i>' .$name. '</i></b> Telah berhasil ditambah.');
+            else
+                return Redirect::route('admins.pelayanan.index')->with('message', 'Pelayanan <b><i>' .$name. '</i></b> Telah berhasil ditambah.');
+        }
+
+        return Redirect::back()->withInput()->with('errormessage','Terjadi kesalahan dalam menambah pelayanan.');
     }
 
     public function edit($id)
@@ -54,6 +48,30 @@ class AdminPelayananController extends \BaseController{
     {
         $pelayanan = Pelayanan::findOrFail($id);
 
+        //dd(Input::all());
+
+        //validasi
+        $validator = Validator::make($data = Input::all(), Pelayanan::$rules);
+        if ($validator->fails())
+        {
+            return Redirect::back()->withErrors($validator)->withInput();
+        }
+
+        $name = Input::get('name');
+        $data2 = $this->input_data($pelayanan,$data);
+
+        //simpan
+        if($pelayanan->update($data2)) {
+            if (Input::Get('simpan2'))
+                return Redirect::route('admins.pelayanan.create')->with('message', 'Pelayanan <b><i>' . $name . '</i></b> Telah berhasil diubah.');
+            else
+                return Redirect::route('admins.pelayanan.index')->with('message', 'Pelayanan <b><i>' . $name . '</i></b> Telah berhasil diubah.');
+        }
+
+        return Redirect::back()->withInput()->with('errormessage','Terjadi kesalahan dalam mengubah pelayanan.');
+    }
+
+    public function input_data($pelayanan,$data){
         //get php max file upload size
         $file_max = ini_get('upload_max_filesize');
         $file_max_str_leng = strlen($file_max);
@@ -62,53 +80,25 @@ class AdminPelayananController extends \BaseController{
         $file_max = substr($file_max,0,$file_max_str_leng - 1);
         $file_max = intval($file_max);
 
-        if(Input::get('simpan') || Input::get('simpan2')){
-            //dd(Input::all());
-
-            //validasi
-            $validator = Validator::make($data = Input::all(), Pelayanan::$rules);
-            if ($validator->fails())
-            {
-                return Redirect::back()->withErrors($validator)->withInput();
-            }
-
-            $name = Input::get('name');
-
-            $this->input_data($pelayanan,$name);
-
-            //simpan
-            if($pelayanan->update()) {
-                if (Input::Get('simpan2'))
-                    return Redirect::route('admins.pelayanan.create')->with('message', 'Pelayanan <b><i>' . $name . '</i></b> Telah berhasil diubah.');
-                else
-                    return Redirect::route('admins.pelayanan.index')->with('message', 'Pelayanan <b><i>' . $name . '</i></b> Telah berhasil diubah.');
-            }
-
-            return Redirect::back()->withInput()->with('errormessage','Terjadi kesalahan dalam mengubah pelayanan.');
-
-        }elseif(Input::get('batal')){
-            return Redirect::route('admins.pelayanan.index');
-        }
-    }
-
-    public function input_data($pelayanan,$name){
-        $pelayanan->name = $name;
-        $pelayanan->content = Input::get('content');
-
         //gambar
         try {
             $img = Input::file('gambar');
-            if (!empty($img)) {
+            if (!is_null($img)) {
                 $filename = str_random(10) . "-" . date('Y-m-d') . ".jpg";
 
                 if ($this->save_image($img, $pelayanan, $filename))
-                    $pelayanan->gambar = $filename;
+                    array_set($data,'gambar',$filename);
                 else
                     return Redirect::back()->withInput()->with('errormessage', 'Terjadi kesalahan dalam penyimpanan gambar.');
+            }else{
+                $filename = $pelayanan->gambar;
+                array_set($data,'gambar',$filename);
             }
         } catch (Exception $e) {
             return Redirect::back()->withInput()->with('errormessage', 'Ukuran gambar harus lebih kecil dari ' . $file_max . " " . $file_max_meassure_unit);
         }
+
+        return $data;
     }
 
     public function destroy()

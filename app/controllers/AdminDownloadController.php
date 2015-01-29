@@ -4,7 +4,7 @@ class AdminDownloadController extends \BaseController {
 
     public function index()
     {
-        $downloads = Download::all();
+        $downloads = Download::orderBy('name','asc')->get();;
         return View::make('admins.download.index', compact('downloads'));
     }
 
@@ -16,21 +16,24 @@ class AdminDownloadController extends \BaseController {
 
     public function store()
     {
-        if(Input::get('simpan') || Input::get('simpan2')){
-            $validator = Validator::make($data = Input::all(), Download::$rules);
+        $validator = Validator::make($data = Input::all(), Download::$rules);
 
-            if ($validator->fails())
-            {
-                return Redirect::back()->withErrors($validator)->withInput();
-            }
-            $download = new Download();
-            $extension = Input::file('upload')->getClientOriginalExtension();
+        if ($validator->fails())
+        {
+            return Redirect::back()->withErrors($validator)->withInput();
+        }
+        $download = new Download();
+        $file = Input::file('upload');
+
+        if(!empty($file)) {
+
+            $extension = $file->getClientOriginalExtension();
             $name = Input::get('name');
             $string = str_random(20);
             $filename = Date::now()->format('d_m_Y_H_i_s_') . preg_replace('/\s+/', '', $string) . "." . $extension;
             $destinationPath = public_path() . "/files/";
 
-            if (Input::file('upload')->move($destinationPath, $filename)){
+            if (Input::file('upload')->move($destinationPath, $filename)) {
                 $download->name = $name;
                 $download->filename = $filename;
                 $download->ekstensi = $extension;
@@ -41,11 +44,11 @@ class AdminDownloadController extends \BaseController {
                         return Redirect::route('admins.download.index')->with('message', 'File <b><i>' . $name . '</i></b> telah berhasil ditambah.');
                 }
             }
-
-            return Redirect::back()->withInput()->with('errormessage','Terjadi kesalahan dalam penambahan file.');
-        }elseif(Input::get('batal')){
-            return Redirect::route('admins.download.index');
+        }else{
+            return Redirect::back()->withInput()->with('errormessage','Anda belum memilih file apa pun.');
         }
+
+        return Redirect::back()->withInput()->with('errormessage','Terjadi kesalahan dalam penambahan file.');
     }
 
     public function edit($id)
@@ -84,8 +87,13 @@ class AdminDownloadController extends \BaseController {
         $destinationPath = public_path() . "/files/";
         $filename = $destinationPath . $download->filename;
 
-        if(File::delete($filename)){
-            if(Download::destroy($id))
+        if(!empty($filename) && is_file($filename)) {
+            if (File::delete($filename)) {
+                if (Download::destroy($id))
+                    return Redirect::route('admins.download.index')->with('message', 'File telah berhasil di hapus.');
+            }
+        }else{
+            if (Download::destroy($id))
                 return Redirect::route('admins.download.index')->with('message', 'File telah berhasil di hapus.');
         }
 

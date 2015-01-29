@@ -12,30 +12,20 @@
         </div>
     </div>
 <!-- /Page Title -->
-<img class="img-responsive" src="{{ asset('images/top.png') }}" width="100%"  style="vertical-align: top;margin-top: -10px;margin-bottom: -3%;"/>
 <div class="section">
     <div class="container">
-        @foreach($jejarings as $jejaring)
-        <div class="col-sm-2">
-            <ul class="sitemap" style="font-size: medium">
-                <li><a class="smoothscroll" href="#wilayah{{$jejaring->id}}">{{ $jejaring->name }}</a>
-                    <ul>
-                        @foreach($jejaring->cuprimer as $cuprimer)
-                            <li><a class="smoothscroll" href="#cu{{$cuprimer->id}}">{{ $cuprimer->name }}
-                            <?php
-                                $date = new Date($cuprimer->ultah);
-                                $date2 =  Date::now()->format('d-m');
-                            ?>
-                            @if($date->format('d-m') == $date2)
-                            <sup style="color: red"><b>Anniversary</b></sup>
-                            @endif
-                            </a> </li>
-                        @endforeach
-                    </ul>
-                </li>
-            </ul>
+        <div class="row">
+            @foreach($jejarings as $jejaring)
+            <div class="col-sm-3">
+                <ul class="list-unstyled">
+                    <li>
+                        <a class="smoothscroll btn btn-default btn-block btn-lg" href="#wilayah{{$jejaring->id}}"
+                           style="font-size: medium"><b>{{ $jejaring->name }} <span class="badge">{{ $jejaring->cuprimer->count() }}</span></b></a>
+                    </li>
+                </ul>
+            </div>
+            @endforeach
         </div>
-        @endforeach
     </div>
 </div>
 
@@ -46,39 +36,27 @@
         <h2 id="wilayah{{$jejaring->id}}">{{$jejaring->name}}</h2>
         <?php $i = 0; ?>
         @foreach($jejaring->cuprimer as $cuprimer)
-            @if($i % 4 == 0 || $i == 0)
-                <div class="row">
-            @endif
-            <?php
-                $date = new Date($cuprimer->ultah);
-                $date2 =  Date::now()->format('d-m');
-            ?>
-            <div class="col-sm-6 col-md-3" id="cu{{$cuprimer->id}}">
-                <div class="blog-post shadow">
-                <a href="{{ route('cudetail',array($cuprimer->id)) }}">
-                    <div class="post-title">
-                        <h3 style="font-size: large">{{$cuprimer->name}}</h3>
-                    </div>
+        <div class="col-sm-3">
+            <ul class="list-unstyled">
+                <li>
+                    <?php
+                    $date = new Date($cuprimer->ultah);
+                    $date2 = Date::now()->format('d-m');
+                    ?>
                     @if($date->format('d-m') == $date2)
-                        <div class="ribbon-wrapper">
-                            <div class="price-ribbon ribbon-green">Anniversary</div>
+                        <div class="well shadow" style="background: wheat;">
+                            <a class="smoothscroll" href="{{ route('cudetail',array($cuprimer->id)) }}"
+                               style="font-size: large"><b><small><i class="fa fa-star-o"></i> Anniversary <i class="fa fa-star-o"></i></small><br/>{{ $cuprimer->name }} <i class="fa fa-arrow-circle-right"></i></b></a>
+                        </div>
+                    @else
+                        <div class="well shadow" >
+                            <a class="smoothscroll" href="{{ route('cudetail',array($cuprimer->id)) }}"
+                               style="font-size: large"><b>{{ $cuprimer->name }} <i class="fa fa-arrow-circle-right"></i></b></a>
                         </div>
                     @endif
-                    <hr style="border:1px solid #D2D2D2;" />
-                    <div class="post-summary">
-                        <div class="actions">
-                            <p><b>Berdiri :</b> {{$date->format('j F Y')}}</p>
-                            {{ $cuprimer->content }}
-                        </div>
-                    </div>
-                </a>
-                </div>
-            </div>
-            <?php $result = $jejaring->cuprimer->count(); ?>
-            <?php $i++; ?>
-            @if($i % 4 == 0 || $i == $result)
-                </div>
-            @endif
+                </li>
+            </ul>
+        </div>
         @endforeach
     </div><br/>
     @endforeach

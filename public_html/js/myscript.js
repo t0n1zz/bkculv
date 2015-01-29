@@ -25,16 +25,21 @@ setInterval(function(){ tick () }, 4000);
 
 //Click event to scroll to top
 $('.scrollToTop').click(function(){
-  $('html, body').animate({scrollTop : 0},800);
-  return false;
+      $('html, body').animate({scrollTop : 0},800);
+      return false;
+    });
 });
 
-});
 
 $('.smoothscroll').click(function(){
     $('html, body').animate({
         scrollTop: $( $.attr(this, 'href') ).offset().top
     }, 800);
+    return false;
+});
+
+$('.scrollToTop2').click(function(){
+    $('html, body').animate({scrollTop : 0},800);
     return false;
 });
 
@@ -127,6 +132,19 @@ $('.modal4').on('click',function(){
 	$('#modal4id').attr('value',myvalue);
 });
 
+//modal flickr
+$('.modalflickr img').on('click',function(){
+    $('#modalflickrshow').modal({
+        show: true,
+    })
+
+    var myscr = this.alt;
+    $('#modalflickr').attr('src',myscr);
+    $('#modalflickr').on('click',function(){
+        $('#modalflickrshow').modal('hide')
+    })
+})
+
 //modal photo
 $('.modalphotos img').on('click',function(){
 	$('#modalphotoshow').modal({
@@ -173,6 +191,16 @@ function readURL(input) {
        }
 }
 
+function readURL2(input) {
+    if (input.files && input.files[0]) {
+        var reader = new FileReader();
+        reader.onload = function (e) {
+            $('#tampilgambar2').attr('src', e.target.result);
+        }
+        reader.readAsDataURL(input.files[0]);
+    }
+}
+
 //munculkan dan hilangkan objek
 function changeFunc($i) {
     if($i == "tambah"){
@@ -180,6 +208,14 @@ function changeFunc($i) {
 	}else{
 		document.getElementById('pilihan').style.display='none';
 	}
+}
+
+function changeFunc2($i) {
+    if($i == "1" || $i == "2"){
+        document.getElementById('pilihan').style.display='inline';
+    }else{
+        document.getElementById('pilihan').style.display='none';
+    }
 }
 
 $("#tampilinputgambar").change(function() {

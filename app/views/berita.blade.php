@@ -11,7 +11,6 @@
         </div>
     </div>
 </div>
-<img class="img-responsive" src="{{ asset('images/top.png') }}" width="100%"  style="vertical-align: top;margin-top: -10px;margin-bottom: -3%;"/>
 <!-- /Page Title -->
 <div class="section">
     <div class="container">

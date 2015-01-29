@@ -39,8 +39,8 @@
 		    <form class="form-inline" role="form" action="tampil_artikel.php">
 		        <div class="form-group">
 		            <a type="button" data-toggle="tooltip" data-placement="top"
-		                title="Tekan untuk menambah wilayah CU baru"
-		                class="btn btn-default modal1" href="#"><i class="fa fa-plus"></i> Tambah Wilayah CU</a>
+		                title="Tekan untuk menambah wilayah CU baru" accesskey="t"
+		                class="btn btn-default modal1" href="#"><i class="fa fa-plus"></i> <u>T</u>ambah Wilayah CU</a>
 		        </div>
 		    </form>
 		    </div>
@@ -127,7 +127,8 @@
           <br />
           <br />
                 <input type="text" name="id" value="" id="modal1id" hidden>
-                {{ Form::text('name',null,array('class' => 'form-control', 'placeholder' => 'Silahkan masukkan nama wilayah CU'))}}
+                {{ Form::text('name',null,array('class' => 'form-control', 'placeholder' => 'Silahkan masukkan nama wilayah CU',
+                    'autocomplete'=>'off'))}}
            <br />
            <br />
         </div>
@@ -182,7 +183,8 @@
           <br />
           <br />
                 <input type="text" name="id" value="" id="modal3id" hidden>
-                {{ Form::text('name',null,array('class' => 'form-control', 'placeholder' => 'Silahkan masukkan nama wilayah CU'))}}
+                {{ Form::text('name',null,array('class' => 'form-control', 'placeholder' => 'Silahkan masukkan nama wilayah CU',
+                    'autocomplete'=>'off'))}}
            <br />
            <br />
         </div>

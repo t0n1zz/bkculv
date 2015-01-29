@@ -4,7 +4,7 @@ class AdminWilayahCuprimerController extends \BaseController{
 
     public function index()
     {
-        $wilayahcuprimers = WilayahCuprimer::all();
+        $wilayahcuprimers = WilayahCuprimer::orderBy('name','asc')->get();;
         return View::make('admins.wilayahcuprimer.index', compact('wilayahcuprimers'));
     }
 

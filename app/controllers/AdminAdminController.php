@@ -16,52 +16,48 @@ class AdminAdminController extends \BaseController{
 
     public function store()
     {
-        if(Input::get('simpan') || Input::get('simpan2')){
-            $validator = Validator::make($data = Input::all(), Admin::$rules);
+        $validator = Validator::make($data = Input::all(), Admin::$rules);
 
-            if ($validator->fails())
-            {
-                return Redirect::back()->withErrors($validator)->withInput();
-            }
-            $name = Input::get('name');
-            $username = Input::get('username');
-
-            $admin = new Admin();
-
-            $admin->name = $name;
-            $admin->username = $username;
-            $password1 = Input::get('password');
-            $password2 = Input::get('password2');
-
-            $checkusername = Admin::where('username','=',$username)->first();
-
-            if(!empty($checkusername))
-                return Redirect::back()->withInput()->with('errormessage','<b>Username</b> tidak tersedia, silahkan coba <b>Username</b> lain.');
-
-            if($password1 != $password2)
-                return Redirect::back()->withInput()->with('errormessage','<b>Password</b> dengan <b>Konfirmasi Password</b> tidak sama.');
-
-            $admin->password = Hash::make($password1);
-
-            if($admin->save()){
-                $role = new Role();
-                $role->name = $username;
-                $role->save();
-
-                $admin2 = Admin::where('username','=',$username)->first();
-                $admin2->attachRole( $role );
-                $admin2->roles()->attach( $role->id );
-
-                $adminrole = Role::where('name','=',$username)->first();
-                $this->hak_akses($adminrole,$admin2);
-
-                return Redirect::route('admins.admin.index')->with('message', 'Admin <b><i>' .$name. '</i></b> telah berhasil ditambah.');
-            }
-
-            return Redirect::back()->withInput()->with('errormessage','Terjadi kesalahan dalam menambah admin.');
-        }elseif(Input::get('batal')){
-            return Redirect::route('admins.admin.index');
+        if ($validator->fails())
+        {
+            return Redirect::back()->withErrors($validator)->withInput();
         }
+        $name = Input::get('name');
+        $username = Input::get('username');
+
+        $admin = new Admin();
+
+        $admin->name = $name;
+        $admin->username = $username;
+        $password1 = Input::get('password');
+        $password2 = Input::get('password2');
+
+        $checkusername = Admin::where('username','=',$username)->first();
+
+        if(!empty($checkusername))
+            return Redirect::back()->withInput()->with('errormessage','<b>Username</b> tidak tersedia, silahkan coba <b>Username</b> lain.');
+
+        if($password1 != $password2)
+            return Redirect::back()->withInput()->with('errormessage','<b>Password</b> dengan <b>Konfirmasi Password</b> tidak sama.');
+
+        $admin->password = Hash::make($password1);
+
+        if($admin->save()){
+            $role = new Role();
+            $role->name = $username;
+            $role->save();
+
+            $admin2 = Admin::where('username','=',$username)->first();
+            $admin2->attachRole( $role );
+            $admin2->roles()->attach( $role->id );
+
+            $adminrole = Role::where('name','=',$username)->first();
+            $this->hak_akses($adminrole,$admin2);
+
+            return Redirect::route('admins.admin.index')->with('message', 'Admin <b><i>' .$name. '</i></b> telah berhasil ditambah.');
+        }
+
+        return Redirect::back()->withInput()->with('errormessage','Terjadi kesalahan dalam menambah admin.');
     }
 
     public function edit($id)
@@ -74,40 +70,34 @@ class AdminAdminController extends \BaseController{
     public function update($id)
     {
         $admin = Admin::findOrFail($id);
+        //dd(Input::all());
 
-        if(Input::get('simpan') || Input::get('simpan2')){
-            //dd(Input::all());
-
-            //validasi
-            $validator = Validator::make($data = Input::all(), Admin::$rules);
-            if ($validator->fails())
-            {
-                return Redirect::back()->withErrors($validator)->withInput();
-            }
-
-            $name = Input::get('name');
-
-            $admin->name = $name;
-            $admin->username = Input::get('username');
-
-            $oldpassword = $admin->password;
-            $oldpassword2 = Input::get('oldpassword');
-            if (Hash::check($oldpassword2, $oldpassword)) {
-                $admin->password = Hash::make(Input::get('password'));
-            } else {
-                return Redirect::back()->withInput()->with('errormessage', 'Password lama anda tidak sesuai.');
-            }
-
-            //simpan
-            if($admin->update())
-                return Redirect::route('admins.admin.index')->with('message', 'Admin <b><i>' . $name . '</i></b> telah berhasil diubah.');
-
-
-            return Redirect::back()->withInput()->with('errormessage','Terjadi kesalahan dalam mengubah admin.');
-
-        }elseif(Input::get('batal')){
-            return Redirect::route('admins.admin.index');
+        //validasi
+        $validator = Validator::make($data = Input::all(), Admin::$rules);
+        if ($validator->fails())
+        {
+            return Redirect::back()->withErrors($validator)->withInput();
         }
+
+        $name = Input::get('name');
+
+        $admin->name = $name;
+        $admin->username = Input::get('username');
+
+        $oldpassword = $admin->password;
+        $oldpassword2 = Input::get('oldpassword');
+        if (Hash::check($oldpassword2, $oldpassword)) {
+            $admin->password = Hash::make(Input::get('password'));
+        } else {
+            return Redirect::back()->withInput()->with('errormessage', 'Password lama anda tidak sesuai.');
+        }
+
+        //simpan
+        if($admin->update())
+            return Redirect::route('admins.admin.index')->with('message', 'Admin <b><i>' . $name . '</i></b> telah berhasil diubah.');
+
+
+        return Redirect::back()->withInput()->with('errormessage','Terjadi kesalahan dalam mengubah admin.');
     }
 
     public function destroy()

@@ -1,4 +1,4 @@
-<?php $title="Ubah Staff"; ?>
+<?php $title="Ubah Staf"; ?>
 @extends('admins._layouts.layout')
 
 @section('content')
@@ -10,7 +10,8 @@
 <div class="row">
     <div class=" col-lg-12">
 
-	{{ Form::model($staff,array('route' => array('admins.staff.update',$staff->id),'method' => 'put', 'files' => true)) }}
+	{{ Form::model($staff,array('route' => array('admins.staff.update',$staff->id),'method' => 'put', 'files' => true,
+	    'data-toggle' => 'validator','role' => 'form')) }}
 		@include('admins.staff.form')
 	{{ Form::close() }}
 

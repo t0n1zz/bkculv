@@ -12,7 +12,6 @@
     </div>
 </div>
 <!-- /Page Title -->
-<img class="img-responsive" src="{{ asset('images/top.png') }}" width="100%"  style="vertical-align: top;margin-top: -10px;margin-bottom: -3%;"/>
 <!--pengurus-->
 <div class="section">
     <div class="container">
@@ -32,8 +31,13 @@
                                 {{ HTML::image('images_staff/'.$pengurus->gambar, $pengurus->name, array(
                                     'class' => 'img-responsive img-rounded','width' => '100%')) }}
                             @else
-                                {{ HTML::image('images/no_image.jpg', $pengurus->name, array(
-                                   'class' => 'img-responsive img-rounded','width' => '100%')) }}
+                                @if($staff->kelamin == "Wanita")
+                                    {{ HTML::image('images/no_image_woman.jpg', $pengurus->name, array(
+                                       'class' => 'img-responsive img-rounded','width' => '100%')) }}
+                                @else
+                                    {{ HTML::image('images/no_image_man.jpg', $pengurus->name, array(
+                                       'class' => 'img-responsive img-rounded','width' => '100%')) }}
+                                @endif
                             @endif
                         </div>
                         <div class="team-member-info">

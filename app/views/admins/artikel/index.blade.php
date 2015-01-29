@@ -28,12 +28,12 @@
 		<div class="panel panel-default">
 		    <div class="panel-heading tooltip-demo">
                 <a type="button" data-toggle="tooltip" data-placement="top"
-                    title="Tekan untuk menambah artikel baru"
-                    class="btn btn-default" href="{{ route('admins.artikel.create') }}"><i class="fa fa-plus"></i> Tambah Artikel</a>
+                    title="Tekan untuk menambah artikel baru" accesskey="t"
+                    class="btn btn-default" href="{{ route('admins.artikel.create') }}"><i class="fa fa-plus"></i> <u>T</u>ambah Artikel</a>
                 @if($is_kategori)
                     <a type="button" data-toggle="tooltip" data-placement="top"
-                       title="Tekan untuk menampilkan semua artikel"
-                       class="btn btn-default" href="{{ route('admins.artikel.index') }}"><i class="fa fa-refresh"></i> Semua Artikel</a>
+                       title="Tekan untuk menampilkan semua artikel" accesskey="e"
+                       class="btn btn-default" href="{{ route('admins.artikel.index') }}"><i class="fa fa-refresh"></i> S<u>e</u>mua Artikel</a>
                 @endif
 		    </div>
 		    <!-- /.panel-heading -->
@@ -61,7 +61,7 @@
                     <td><a data-toggle="tooltip" data-placement="top"
                             title="Tekan untuk mengubah informasi artikel ini"
                             href="{{route('admins.artikel.edit', array($artikel->id))}}"
-                            >{{ $i; }}</a></td>
+                            >{{ $i }}</a></td>
 
 				    @if(!empty($artikel->judul))
 						<td><a data-toggle="tooltip" data-placement="top"
@@ -95,7 +95,7 @@
 
                     @if(!empty($artikel->created_at ))
                         <?php $date = new Date($artikel->created_at); ?>
-                        <td>{{  $date->format('d/n/Y') }}</td>
+                        <td><i hidden="true">{{$artikel->created_at}}</i> {{  $date->format('d/n/Y') }}</td>
                     @else
                         <td>-</td>
                     @endif
@@ -183,7 +183,7 @@
               <br />
                     <input type="text" name="id" value="" id="modal1id" hidden>
                     <select class="form-control" name="status">
-                        <option >Pilih Status Publikasi Artikel</option>
+                        <option disabled selected>Silakan pilih Status Publikasi Artikel</option>
                         <option >Tidak diterbitkan</option>
                         <option value="1" >Terbitkan</option>
                     </select>
@@ -242,7 +242,7 @@
               <br />
                     <input type="text" name="id" value="" id="modal3id" hidden>
                     <select class="form-control" name="kategori">
-                        <option >Pilih Kategori Artikel</option>
+                        <option disabled selected>Silahkan pilih Kategori Artikel</option>
                         @foreach($kategoriartikels as $kategoriartikel)
                             <option value="{{ $kategoriartikel->id }}">{{ $kategoriartikel->name }}</option>
                         @endforeach
@@ -274,7 +274,7 @@
               <br />
                     <input type="text" name="id" value="" id="modal4id" hidden>
                     <select class="form-control" name="pilihan">
-                        <option >Artikel pilihan?</option>
+                        <option disabled selected>Artikel pilihan?</option>
                         <option >Tidak</option>
                         <option value="1" >Iya</option>
                     </select>

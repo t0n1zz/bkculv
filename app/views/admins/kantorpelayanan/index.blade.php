@@ -27,8 +27,9 @@
 		<div class="panel panel-default">
 		    <div class="panel-heading tooltip-demo">
                 <a type="button" data-toggle="tooltip" data-placement="top"
-                    title="Tekan untuk menambah pelayanan baru"
-                    class="btn btn-default" href="{{ route('admins.kantorpelayanan.create') }}"><i class="fa fa-plus"></i> Tambah Kantor Pelayanan</a>
+                    title="Tekan untuk menambah pelayanan baru" accesskey="t"
+                    class="btn btn-default" href="{{ route('admins.kantorpelayanan.create') }}"><i
+                            class="fa fa-plus"></i> <u>T</u>ambah Kantor Pelayanan</a>
 		    </div>
 		    <!-- /.panel-heading -->
 		    <div class="panel-body tooltip-demo">
@@ -56,7 +57,9 @@
                             href="{{route('admins.kantorpelayanan.edit', array($kantor_pelayanan->id))}}"
                             >{{ $i; }}</a></td>
 
-				    @if(!empty($kantor_pelayanan->name))
+
+
+                @if(!empty($kantor_pelayanan->name))
 						<td><a data-toggle="tooltip" data-placement="top"
                                 title="Tekan untuk mengubah informasi kantor pelayanan ini"
 				                href="{{route('admins.kantorpelayanan.edit', array($kantor_pelayanan->id))}}"

@@ -14,7 +14,7 @@
 Route::get('/',array( 'as' => 'home','uses' => 'PublicController@index'));
 Route::get('solusi/{id}',array( 'as' => 'solusi','uses' => 'PublicController@solusi'));
 Route::get('solusi',array( 'as' => 'pelayanan','uses' => 'PublicController@pelayanan'));
-Route::get('agenda',array( 'as' => 'agenda','uses' => 'PublicController@agenda'));
+Route::get('kegiatan',array( 'as' => 'kegiatan','uses' => 'PublicController@agenda'));
 Route::get('profil',array( 'as' => 'profil','uses' => 'PublicController@profil'));
 Route::get('tim',array( 'as' => 'tim','uses' => 'PublicController@tim'));
 Route::get('berita',array( 'as' => 'berita','uses' => 'PublicController@berita'));
@@ -88,6 +88,10 @@ Route::group(array('prefix' => 'admins','before' => 'auth'), function(){
         'as' => 'admins.cuprimer.update_berdiri',
         'uses' => 'AdminCuprimerController@update_berdiri'
     ));
+    Route::post('cuprimer/update_bergabung',array(
+        'as' => 'admins.cuprimer.update_bergabung',
+        'uses' => 'AdminCuprimerController@update_bergabung'
+    ));
 
     Route::resource('staff','AdminStaffController',array('except' => array('show')));
     Route::post('staff/update_jabatan',array(
@@ -97,6 +101,10 @@ Route::group(array('prefix' => 'admins','before' => 'auth'), function(){
     Route::post('staff/update_tingkat',array(
         'as' => 'admins.staff.update_tingkat',
         'uses' => 'AdminStaffController@update_tingkat'
+    ));
+    Route::post('staff/update_cu',array(
+        'as' => 'admins.staff.update_cu',
+        'uses' => 'AdminStaffController@update_cu'
     ));
 
     Route::resource('pengumuman','AdminPengumumanController',array('except' => array('show','create','edit')));
@@ -119,6 +127,16 @@ Route::group(array('prefix' => 'admins','before' => 'auth'), function(){
         'uses' => 'AdminAdminController@update_status'
     ));
 
+    Route::resource('kegiatan','AdminKegiatanController',array('except' => array('show')));
+    Route::post('kegiatan/update_mulai',array(
+        'as' => 'admins.kegiatan.update_mulai',
+        'uses' => 'AdminKegiatanController@update_mulai'
+    ));
+    Route::post('kegiatan/update_selesai',array(
+        'as' => 'admins.kegiatan.update_selesai',
+        'uses' => 'AdminKegiatanController@update_selesai'
+    ));
+
     Route::get('statistik',array('as' => 'statistik', function()
     {
         $statistiks = DB::table('stat_pengunjung')
@@ -128,12 +146,9 @@ Route::group(array('prefix' => 'admins','before' => 'auth'), function(){
         return View::make('admins.statistik',compact('statistiks'));
     }));
 
-
-
     Route::resource('pelayanan','AdminPelayananController',array('except' => array('show')));
-    Route::resource('kegiatan','AdminKegiatanController',array('except' => array('show')));
+
     Route::resource('download','AdminDownloadController',array('except' => array('show')));
-    Route::resource('gambarkegiatan','AdminGambarKegiatanController',array('except' => array('show')));
     Route::resource('kantorpelayanan','AdminKantorPelayananController',array('except' => array('show')));
     Route::resource('kategoriartikel','AdminKategoriArtikelController',array('except' => array('show','create','edit')));
     Route::resource('wilayahcuprimer','AdminWilayahCuprimerController',array('except' => array('show','create','edit')));

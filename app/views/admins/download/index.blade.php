@@ -28,8 +28,8 @@
 		<div class="panel panel-default">
 		    <div class="panel-heading tooltip-demo">
                 <a type="button" data-toggle="tooltip" data-placement="top"
-                    title="Tekan untuk menambah file baru"
-                    class="btn btn-default" href="{{ route('admins.download.create') }}"><i class="fa fa-plus"></i> Tambah File</a>
+                    title="Tekan untuk menambah file baru" accesskey="t"
+                    class="btn btn-default" href="{{ route('admins.download.create') }}"><i class="fa fa-plus"></i> <u>T</u>ambah File</a>
 		    </div>
 		    <!-- /.panel-heading -->
 		    <div class="panel-body tooltip-demo">
@@ -67,7 +67,7 @@
 
                     @if(!empty($download->created_at))
                         <?php $date = new Date($download->created_at); ?>
-                        <td>{{  $date->format('d/n/Y') }}</td>
+                        <td><i hidden="true">{{$download->created_at}}</i> {{  $date->format('d/n/Y') }}</td>
                     @else
                         <td>-</td>
                     @endif

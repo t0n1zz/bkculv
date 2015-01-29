@@ -11,7 +11,8 @@
 		"barryvdh/laravel-ide-helper": "~1.11",
         "zizaco/entrust": "1.2.*@dev",
 		"barryvdh/laravel-debugbar": "~1.8",
-		"jenssegers/date": "~2.0"
+		"jenssegers/date": "~2.0",
+        "anahkiasen/flickering": "*"
 	},
 	"autoload": {
 		"classmap": [

@@ -6,8 +6,7 @@ class Artikel extends \Eloquent {
     
     public static $rules = [
         'judul' => 'required|min:5',
-        'content' => 'required|min:10',
-        'gambar' => 'image|mimes:jpeg,jpg,png,bmp'
+        'content' => 'required|min:10'
     ];
     
     protected $fillable = ['judul','content','kategori','penulis','status','gambar','pilihan'];

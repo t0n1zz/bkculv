@@ -11,6 +11,7 @@ class PublicController extends \BaseController{
             ->where('status','=','1')
             ->orderBy('created_at', 'desc')
             ->take(3)->get();
+
         $beritaCUs = Artikel::with('KategoriArtikel')
             ->where('kategori','=','3')
             ->where('status','=','1')
@@ -19,9 +20,8 @@ class PublicController extends \BaseController{
 
         $pelayanans = Pelayanan::take(3)->get();
         $kegiatans = kegiatan::take(5)
-            ->orderBy('tanggal','desc')
+            ->orderBy('tanggal','asc')
             ->get();
-        $gambarkegiatans = GambarKegiatan::all();
 
         $beritas = KategoriArtikel::with('Artikel')->whereNotIn('id',array('1','2','3','4','8'))->get();
 
@@ -29,18 +29,23 @@ class PublicController extends \BaseController{
         $query = "SELECT  id,name FROM cuprimer WHERE DATE_FORMAT(ultah, '%d-%m') = '$date' ";
         $ultahcu = DB::select(DB::raw($query));
 
+        Flickering::handshake();
+        $gambar =  Flickering::callMethod('people.getPhotos', array('user_id' => '127271987@N07'));
+        $gambar->setPerPage(20);
+        $gambars = $gambar->getResults('photo');
+        //$gambars = $gambar->getReponse('photo');
+
         //Cache::forget(Artikel::getCacheKey());
 
         /*
         echo '<pre>';
-        var_dump($ultahcu->toArray()); // <---- or toJson()
+        var_dump($gambars); // <---- or toJson()
         echo '</pre>';
         */
 
-
         return View::make('index',compact(
             'artikelpilihans','beritaBKCUs','beritaCUs',
-            'pelayanans','kegiatans','gambarkegiatans','beritas','ultahcu'
+            'pelayanans','kegiatans','beritas','ultahcu','gambars'
         ));
     }
 
@@ -91,7 +96,7 @@ class PublicController extends \BaseController{
     }
 
     public function agenda(){
-        $kegiatans = kegiatan::orderBy('tanggal','desc')->get();
+        $kegiatans = kegiatan::orderBy('tanggal','asc')->get();
 
         return View::make('agenda',compact('kegiatans'));
     }
@@ -104,13 +109,17 @@ class PublicController extends \BaseController{
     }
 
     public function tim(){
-        $penguruses = Staff::where('tingkat','=','1')->get();
-        $pengawases = Staff::where('tingkat','=','2')->get();
-        $manajemens = Staff::where('tingkat','=','3')->get();
+        $penguruses = Staff::where('tingkat','=','1')
+            ->where('cu','=','0')
+            ->get();
+        $pengawases = Staff::where('tingkat','=','2')
+            ->where('cu','=','0')
+            ->get();
+        $manajemens = Staff::where('tingkat','=','3')
+            ->where('cu','=','0')
+            ->get();
 
-        $staffs = Staff::orderBy('tingkat','asc')->get();
-
-        return View::make('tim',compact('manajemens','penguruses','pengawases','staffs'));
+        return View::make('tim',compact('manajemens','penguruses','pengawases'));
     }
 
     public function sejarah(){
@@ -132,7 +141,9 @@ class PublicController extends \BaseController{
                             ->where('id','=',$id)
                             ->first();
 
-        return View::make('cudetail',compact('cudetail'));
+        $staffs = Staff::where('cu','=',$id)->get();
+
+        return View::make('cudetail',compact('cudetail','staffs'));
     }
 
     public function hymnecu(){

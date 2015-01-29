@@ -2,13 +2,14 @@
 	General Style
 --------------------------------------------------------------------------*/
 body {
-    /*background: url(../images/page-background.png);*/
+    background: url(../images/halftone.png);
 
+    /*
     background-color: #9bcfff;
     background-image: url('../images/snow1.png'), url('../images/snow3.png');
-
-
+    */
 }
+/*
 @media (min-width: 768px) {
     body{
         -webkit-animation: snow 20s linear infinite;
@@ -17,8 +18,10 @@ body {
         animation: snow 20s linear infinite;
     }
 }
+*/
 
 /*Keyframes*/
+/*
 @keyframes snow {
     0% {background-position: 0px 0px, 0px 0px, 0px 0px;}
     100% {background-position: 500px 1000px, 400px 400px, 300px 300px;}
@@ -39,7 +42,7 @@ body {
     0% {background-position: 0px 0px, 0px 0px, 0px 0px;}
     100% {background-position: 500px 1000px, 400px 400px, 300px 300px;}
 }
-
+*/
 
 .section {
   padding: 30px 0;
@@ -678,11 +681,7 @@ a:hover {
   padding-bottom: 20px;
   border-bottom: 2px dotted #CCC;
 }
-.single-post-content p {
-  color: #828282;
-  font-size: 0.9em;
-  text-align: justify;
-}
+
 .post-comments {
   list-style-type: none;
   margin-left: 0;

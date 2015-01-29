@@ -83,8 +83,9 @@
     </script> 
 
     {{ HTML::script('BootstrapFormHelper/js/bootstrap-formhelpers.min.js') }}
-
+    {{ HTML::script('js/validator.min.js') }}
     {{ HTML::script('js/myscript.js') }}
+
 </body>
 </html>
 

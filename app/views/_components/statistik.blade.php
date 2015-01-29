@@ -29,20 +29,19 @@ if($s == 0){
                         ->count();
 
 	$totalpengunjung = DB::table($tabel)
-                           ->count();
+                           ->count('hits');
 
 	$bataswaktu       = time() - 300;
 
 	$pengunjungonline = DB::table($tabel)
-                                ->where('online','>',$bataswaktu)
-                                ->count();
+                            ->where('online','>',$bataswaktu)
+                            ->count();
 
 ?>
 
 <p class="contact-us-details">
     <b>Dari :</b> 5 September 2014 <br/>
-    <b>Tanggal Hari Ini :</b> {{ Date::now()->format('j F Y ')}}<br/>
-    <b>Pengunjung Hari Ini :</b> <?php echo $pengunjung; ?> orang <br/>
-    <b>Total Pengunjung :</b> <?php echo $totalpengunjung; ?> orang<br/>
-    <b>Pengunjung Online :</b> <?php echo $pengunjungonline; ?> orang</br/>
+    <b>Pengunjung Hari Ini :</b> {{ $pengunjung }} orang <br/>
+    <b>Pengunjung Online :</b> {{ $pengunjungonline }} orang</br/>
+    <b>Total Pengunjung :</b> {{ $totalpengunjung }} orang<br/>
 </p>

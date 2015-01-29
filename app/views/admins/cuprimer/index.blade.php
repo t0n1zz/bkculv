@@ -27,13 +27,13 @@
 	    @endif
 		<div class="panel panel-default">
 		    <div class="panel-heading tooltip-demo">
-                <a type="button" data-toggle="tooltip" data-placement="top"
+                <a type="button" accesskey="t" data-toggle="tooltip" data-placement="top"
                     title="Tekan untuk menambah CU baru"
-                    class="btn btn-default" href="{{ route('admins.cuprimer.create') }}"><i class="fa fa-plus"></i> Tambah CU</a>
+                    class="btn btn-default" href="{{ route('admins.cuprimer.create') }}"><i class="fa fa-plus"></i> <u>T</u>ambah CU</a>
                 @if($is_wilayah)
                     <a type="button" data-toggle="tooltip" data-placement="top"
-                       title="Tekan untuk menampilkan semua CU"
-                       class="btn btn-default" href="{{ route('admins.cuprimer.index') }}"><i class="fa fa-refresh"></i> Semua CU</a>
+                       title="Tekan untuk menampilkan semua CU" accesskey="e"
+                       class="btn btn-default" href="{{ route('admins.cuprimer.index') }}"><i class="fa fa-refresh"></i> S<u>e</u>mua CU</a>
                 @endif
 		    </div>
 		    <!-- /.panel-heading -->
@@ -42,23 +42,33 @@
 		    <table class="table table-striped table-bordered table-hover" id="dataTables-example">
 		        <thead>
 		            <tr>
-		                <th>No.</th>
+                        <th>No. BA</th>
 		                <th>Nama </th>
 		                <th>Wilayah</th>
-		                <th>Info CU</th>
+                        <th>Email</th>
+                        <th>Website</th>
+                        <th>TP</th>
+                        <th>Staf</th>
+                        <th>Aplikasi</th>
 		                <th>Tanggal Berdiri</th>
+                        <th>Tanggal Bergabung</th>
 		                <th>Hapus</th>
 		            </tr>
 		        </thead>
 		        <tbody>
-		        <?php $i=0; ?>
 		        @foreach($cuprimers as $cuprimer)
-		        <?php $i++; ?>
 		        <tr>
-                    <td><a data-toggle="tooltip" data-placement="top"
-                            title="Tekan untuk mengubah informasi cu ini"
-                            href="{{route('admins.cuprimer.edit', array($cuprimer->id))}}"
-                            >{{ $i; }}</a></td>
+                    @if(!empty($cuprimer->no_ba))
+                        <td><a data-toggle="tooltip" data-placement="top"
+                               title="Tekan untuk mengubah informasi cu ini"
+                               href="{{route('admins.cuprimer.edit', array($cuprimer->id))}}"
+                                    >{{ $cuprimer->no_ba }}</a></td>
+                    @else
+                        <td><a data-toggle="tooltip" data-placement="top"
+                               title="Tekan untuk mengubah informasi cu ini"
+                               href="{{route('admins.cuprimer.edit', array($cuprimer->id))}}"
+                                    >0</a></td>
+                    @endif
 
 				    @if(!empty($cuprimer->name))
 						<td><a data-toggle="tooltip" data-placement="top"
@@ -84,16 +94,65 @@
 			                >-</a></td>
 			        @endif
 
-			        @if(!empty($cuprimer->content))
+
+                    @if(!empty($cuprimer->email))
                         <td><a data-toggle="tooltip" data-placement="top"
-                                title="Tekan untuk mengubah informasi cu ini"
-                                href="{{route('admins.cuprimer.edit', array($cuprimer->id))}}"
-                                >{{ str_limit(preg_replace('/(<.*?>)|(&.*?;)/', '', $cuprimer->content),100) }}</a></td>
+                               title="{{ $cuprimer->email }}"
+                               href="{{route('admins.cuprimer.edit', array($cuprimer->id))}}"
+                                    >{{ str_limit($cuprimer->email,20) }}</a></td>
                     @else
                         <td><a data-toggle="tooltip" data-placement="top"
-                                title="Tekan untuk mengubah informasi cu ini"
-                                href="{{route('admins.cuprimer.edit', array($cuprimer->id))}}"
-                                >-</a></td>
+                               title="Tekan untuk mengubah informasi cu ini"
+                               href="{{route('admins.cuprimer.edit', array($cuprimer->id))}}"
+                                    >-</a></td>
+                    @endif
+
+                    @if(!empty($cuprimer->website))
+                        <td><a data-toggle="tooltip" data-placement="top"
+                               title="{{ $cuprimer->website }}"
+                               href="{{route('admins.cuprimer.edit', array($cuprimer->id))}}"
+                                    >{{ str_limit($cuprimer->website,15) }}</a></td>
+                    @else
+                        <td><a data-toggle="tooltip" data-placement="top"
+                               title="Tekan untuk mengubah informasi cu ini"
+                               href="{{route('admins.cuprimer.edit', array($cuprimer->id))}}"
+                                    >-</a></td>
+                    @endif
+
+                    @if(!empty($cuprimer->tp))
+                        <td><a data-toggle="tooltip" data-placement="top"
+                               title="Tekan untuk mengubah informasi cu ini"
+                               href="{{route('admins.cuprimer.edit', array($cuprimer->id))}}"
+                                    >{{ $cuprimer->tp }}</a></td>
+                    @else
+                        <td><a data-toggle="tooltip" data-placement="top"
+                               title="Tekan untuk mengubah informasi cu ini"
+                               href="{{route('admins.cuprimer.edit', array($cuprimer->id))}}"
+                                    >0</a></td>
+                    @endif
+
+                    @if(!empty($cuprimer->staf))
+                        <td><a data-toggle="tooltip" data-placement="top"
+                               title="Tekan untuk mengubah informasi cu ini"
+                               href="{{route('admins.cuprimer.edit', array($cuprimer->id))}}"
+                                    >{{ $cuprimer->staf }}</a></td>
+                    @else
+                        <td><a data-toggle="tooltip" data-placement="top"
+                               title="Tekan untuk mengubah informasi cu ini"
+                               href="{{route('admins.cuprimer.edit', array($cuprimer->id))}}"
+                                    >0</a></td>
+                    @endif
+
+                    @if(!empty($cuprimer->app))
+                        <td><a data-toggle="tooltip" data-placement="top"
+                               title="Tekan untuk mengubah informasi cu ini"
+                               href="{{route('admins.cuprimer.edit', array($cuprimer->id))}}"
+                                    >{{ $cuprimer->app }}</a></td>
+                    @else
+                        <td><a data-toggle="tooltip" data-placement="top"
+                               title="Tekan untuk mengubah informasi cu ini"
+                               href="{{route('admins.cuprimer.edit', array($cuprimer->id))}}"
+                                    >-</a></td>
                     @endif
 
                     @if(!empty($cuprimer->ultah))
@@ -101,12 +160,25 @@
                         <td><a data-toggle="tooltip" data-placement="top"
                             title="Tekan untuk mengubah tanggal berdiri cu ini"
                             href="#" class="modal3" name={{ $cuprimer->id }}
-                            >{{  $date->format('d/n/Y') }}</a></td>
+                            ><i hidden="true">{{$cuprimer->ultah}}</i> {{  $date->format('d/n/Y') }}</a></td>
                     @else
                         <td><a data-toggle="tooltip" data-placement="top"
                             title="Tekan untuk mengubah tanggal berdiri cu ini"
                             href="#" class="modal3" name={{ $cuprimer->id }}
                             >-</a></td>
+                    @endif
+
+                    @if(!empty($cuprimer->bergabung))
+                        <?php $date2 = new Date($cuprimer->bergabung); ?>
+                        <td><a data-toggle="tooltip" data-placement="top"
+                               title="Tekan untuk mengubah tanggal bergabung cu ini"
+                               href="#" class="modal4" name={{ $cuprimer->id }}
+                                    ><i hidden="true">{{$cuprimer->bergabung}}</i> {{  $date2->format('d/n/Y') }}</a></td>
+                    @else
+                        <td><a data-toggle="tooltip" data-placement="top"
+                               title="Tekan untuk mengubah tanggal bergabung cu ini"
+                               href="#" class="modal4" name={{ $cuprimer->id }}
+                                    >-</a></td>
                     @endif
 
 			        @if(!empty($cuprimer->id))
@@ -150,7 +222,7 @@
               <br />
                     <input type="text" name="id" value="" id="modal1id" hidden>
                     <select class="form-control" name="wilayah">
-                        <option >Pilih Wilayah Cu</option>
+                        <option disabled selected>Silahkan pilih Wilayah Cu</option>
                         @foreach($wilayahcuprimers as $wilayahcuprimer)
                             <option value="{{ $wilayahcuprimer->id }}">{{ $wilayahcuprimer->name }}</option>
                         @endforeach
@@ -218,6 +290,35 @@
        {{ Form::close() }}
     </div>
     <!-- /ultah -->
+    <!-- bergabung -->
+    <div class="modal fade" id="modal4show" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+        {{ Form::open(array('route' => array('admins.cuprimer.update_bergabung'))) }}
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                    <h4 class="modal-title ">Tanggal Berdiri CU</h4>
+                </div>
+                <div class="modal-body">
+                    <strong>Mengubah tanggal bergabung CU</strong>
+                    <br />
+                    <br />
+                    <input type="text" name="id" value="" id="modal4id" hidden>
+                    <div class="bfh-datepicker" data-name="bergabung" data-date="" >
+                        <input id="datepickers" type="text" class="datepicker" >
+                    </div>
+                    <br />
+                    <br />
+                </div>
+                <div class="modal-footer">
+                    <button type="submit" class="btn btn-primary" id="modalbutton"><i class="fa fa-check"></i> Ok</button>
+                    <button type="button" class="btn btn-danger" data-dismiss="modal"><i class="fa fa-times"></i> Batal</button>
+                </div>
+            </div><!-- /.modal-content -->
+        </div><!-- /.modal-dialog -->
+        {{ Form::close() }}
+    </div>
+    <!-- /bergabung -->
     <!-- /.modal -->
 
 @stop

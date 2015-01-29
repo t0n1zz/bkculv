@@ -5,7 +5,7 @@ class KantorPelayanan extends \Eloquent {
     protected $table = 'kantor_pelayanan';
     
     public static $rules = [
-        'name' => 'required|min:3',
+        'name' => 'required|min:5',
         'alamat' => 'required|min:10',
         'pos' => 'integer',
         'email' =>  'email'

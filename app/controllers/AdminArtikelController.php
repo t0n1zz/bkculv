@@ -9,8 +9,9 @@ class AdminArtikelController extends \BaseController{
      */
     public function index()
     {
-        $artikels = Artikel::with('kategoriartikel')->get();
-        $kategoriartikels = KategoriArtikel::all();
+        $artikels = Artikel::with('kategoriartikel')
+            ->get();
+        $kategoriartikels = KategoriArtikel::orderBy('name','asc')->get();
         $is_kategori = false;
 
         return View::make('admins.artikel.index', compact('artikels','kategoriartikels','is_kategori'));
@@ -19,7 +20,7 @@ class AdminArtikelController extends \BaseController{
     public function index_kategori($id){
 
         $artikels = Artikel::with('kategoriartikel')->where('kategori','=', $id)->get();
-        $kategoriartikels = KategoriArtikel::all();
+        $kategoriartikels = KategoriArtikel::orderBy('name','asc')->get();
         $is_kategori = true;
         //dd($artikels);
         return View::make('admins.artikel.index', compact('artikels','kategoriartikels','is_kategori'));
@@ -32,7 +33,7 @@ class AdminArtikelController extends \BaseController{
      */
     public function create()
     {
-        $kategori_artikel = KategoriArtikel::all();
+        $kategori_artikel = KategoriArtikel::orderBy('name','asc')->get();
 
         return View::make('admins.artikel.create', compact('kategori_artikel'));
     }
@@ -44,29 +45,26 @@ class AdminArtikelController extends \BaseController{
      */
     public function store()
     {
-        if(Input::get('simpan') || Input::get('simpan2')){
-            $validator = Validator::make($data = Input::all(), Artikel::$rules);
+        $validator = Validator::make($data = Input::all(), Artikel::$rules);
 
-            if ($validator->fails())
-            {
-                return Redirect::back()->withErrors($validator)->withInput();
-            }
-            $judul = Input::get('judul');
-
-            $artikel = new Artikel;
-            $this->input_data($artikel,$judul);
-
-            if($artikel->save()){
-                if(Input::Get('simpan2'))
-                    return Redirect::route('admins.artikel.create')->with('message', 'Artikel <b><i>' .$judul. '</i></b> Telah berhasil ditambah.');
-                else
-                    return Redirect::route('admins.artikel.index')->with('message', 'Artikel <b><i>' .$judul. '</i></b> Telah berhasil ditambah.');
-            }
-
-            return Redirect::back()->withInput()->with('errormessage','Terjadi kesalahan dalam penambahan artikel.');
-        }elseif(Input::get('batal')){
-            return Redirect::route('admins.artikel.index');
+        if ($validator->fails())
+        {
+            return Redirect::back()->withErrors($validator)->withInput();
         }
+        $judul = Input::get('judul');
+
+        $artikel = new Artikel;
+        $data2 = $this->input_data($artikel,$data);
+
+
+        if(Artikel::create($data2)){
+            if(Input::Get('simpan2'))
+                return Redirect::route('admins.artikel.create')->with('message', 'Artikel <b><i>' .$judul. '</i></b> Telah berhasil ditambah.');
+            else
+                return Redirect::route('admins.artikel.index')->with('message', 'Artikel <b><i>' .$judul. '</i></b> Telah berhasil ditambah.');
+        }
+
+        return Redirect::back()->withInput()->with('errormessage','Terjadi kesalahan dalam penambahan artikel.');
     }
 
     /**
@@ -78,7 +76,7 @@ class AdminArtikelController extends \BaseController{
     public function edit($id)
     {
         $artikel = Artikel::find($id);
-        $kategori_artikel = KategoriArtikel::all();
+        $kategori_artikel = KategoriArtikel::orderBy('name','asc')->get();
 
         return View::make('admins.artikel.edit', compact('artikel','kategori_artikel'));
     }
@@ -93,6 +91,31 @@ class AdminArtikelController extends \BaseController{
     {
         $artikel = Artikel::findOrFail($id);
 
+        //dd(Input::all());
+
+        //validasi
+        $validator = Validator::make($data = Input::all(), Artikel::$rules);
+        if ($validator->fails())
+        {
+            return Redirect::back()->withErrors($validator)->withInput();
+        }
+
+        $judul = Input::get('judul');
+        $data2 = $this->input_data($artikel,$data);
+
+        //simpan
+        if($artikel->update($data2)) {
+            if (Input::Get('simpan2'))
+                return Redirect::route('admins.artikel.create')->with('message', 'Artikel <b><i>' . $judul . '</i></b> Telah berhasil diubah.');
+            else
+                return Redirect::route('admins.artikel.index')->with('message', 'Artikel <b><i>' . $judul . '</i></b> Telah berhasil diubah.');
+        }
+
+        return Redirect::back()->withInput()->with('errormessage','Terjadi kesalahan dalam pengubahan artikel.');
+    }
+
+    public function input_data($artikel,$data){
+
         //get php max file upload size
         $file_max = ini_get('upload_max_filesize');
         $file_max_str_leng = strlen($file_max);
@@ -100,43 +123,6 @@ class AdminArtikelController extends \BaseController{
         $file_max_meassure_unit = $file_max_meassure_unit == 'K' ? 'kb' : ($file_max_meassure_unit == 'M' ? 'mb' : ($file_max_meassure_unit == 'G' ? 'gb' : 'unidades'));
         $file_max = substr($file_max,0,$file_max_str_leng - 1);
         $file_max = intval($file_max);
-
-        if(Input::get('simpan') || Input::get('simpan2')){
-            //dd(Input::all());
-
-            //validasi
-            $validator = Validator::make($data = Input::all(), Artikel::$rules);
-            if ($validator->fails())
-            {
-                return Redirect::back()->withErrors($validator)->withInput();
-            }
-
-            $judul = Input::get('judul');
-
-            $this->input_data($artikel,$judul);
-
-            //simpan
-            if($artikel->update()) {
-                if (Input::Get('simpan2'))
-                    return Redirect::route('admins.artikel.create')->with('message', 'Artikel <b><i>' . $judul . '</i></b> Telah berhasil diubah.');
-                else
-                    return Redirect::route('admins.artikel.index')->with('message', 'Artikel <b><i>' . $judul . '</i></b> Telah berhasil diubah.');
-            }
-
-            return Redirect::back()->withInput()->with('errormessage','Terjadi kesalahan dalam pengubahan artikel.');
-
-        }elseif(Input::get('batal')){
-            return Redirect::route('admins.artikel.index');
-        }
-    }
-
-    public function input_data($artikel,$judul){
-
-        $artikel->judul = $judul;
-        $artikel->content = Input::get('content');
-        $artikel->status = Input::get('status');
-        $artikel->pilihan = Input::get('pilihan');
-        $artikel->penulis = Input::get('penulis');
 
         //kategori
         $kategori = Input::get('kategori');
@@ -152,7 +138,8 @@ class AdminArtikelController extends \BaseController{
                     $oldkategoriartikel->update();
                 }
 
-                $artikel->kategori = $last_id;
+                //$artikel->kategori = $last_id;
+                array_set($data,'kategori',$last_id);
 
                 $newkategori = $last_id;
                 if($newkategori == 0){ $newkategori = 1; }
@@ -176,23 +163,25 @@ class AdminArtikelController extends \BaseController{
                 $newkategoriartikel->update();
             }
 
-            $artikel->kategori = $newkategori;
+            //$artikel->kategori = $newkategori;
+            array_set($data,'kategori',$newkategori);
         }
-
-
 
         //gambar
         $gambarutama = Input::get('gambarutama');
         if($gambarutama == 1) {
             try {
                 $img = Input::file('gambar');
-                if (!empty($img)) {
+                if (!is_null($img)) {
                     $filename = str_random(10) . "-" . date('Y-m-d') . ".jpg";
 
                     if ($this->save_image($img, $artikel, $filename))
-                        $artikel->gambar = $filename;
+                        array_set($data,'gambar',$filename);
                     else
                         return Redirect::back()->withInput()->with('errormessage', 'Terjadi kesalahan dalam penyimpanan gambar.');
+                }else{
+                    $filename = $artikel->gambar;
+                    array_set($data,'gambar',$filename);
                 }
             } catch (Exception $e) {
                 return Redirect::back()->withInput()->with('errormessage', 'Ukuran gambar harus lebih kecil dari ' . $file_max . " " . $file_max_meassure_unit);
@@ -201,9 +190,12 @@ class AdminArtikelController extends \BaseController{
             if(!empty($artikel->gambar)){
                 $path = public_path('images_artikel/');
                 File::delete($path . $artikel->gambar);
-                $artikel->gambar = null;
+                array_set($data,'gambar',"");
             }
+            array_set($data,'gambar',"");
         }
+
+        return $data;
     }
 
     public function update_kategori(){

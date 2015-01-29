@@ -10,7 +10,8 @@
 <div class="row">
     <div class=" col-lg-12">
 
-	{{ Form::open(array('route' => array('admins.kantorpelayanan.store'), 'files' => true)) }}
+	{{ Form::open(array('route' => array('admins.kantorpelayanan.store'), 'files' => true,
+	    'data-toggle' => 'validator','role' => 'form')) }}
 		@include('admins.kantorpelayanan.form')
 	{{ Form::close() }}
 

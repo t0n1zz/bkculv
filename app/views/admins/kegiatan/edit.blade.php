@@ -10,7 +10,8 @@
 <div class="row">
     <div class=" col-lg-12">
 
-	{{ Form::model($kegiatan,array('route' => array('admins.kegiatan.update',$kegiatan->id),'method' => 'put','files' => true)) }}
+	{{ Form::model($kegiatan,array('route' => array('admins.kegiatan.update',$kegiatan->id),'method' => 'put','files' => true,
+	    'data-toggle' => 'validator','role' => 'form')) }}
 		@include('admins.kegiatan.form')
 	{{ Form::close() }}
 

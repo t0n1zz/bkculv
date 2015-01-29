@@ -20,7 +20,6 @@
         </style>
     </head>
     <body>
-        <img class="img-responsive" src="{{ asset('images/top.png') }}" width="100%"  style="vertical-align: top;margin-bottom: -3%;"/>
         <div class="container">
             <div class="row">
                 <div class="col-md-12">
@@ -39,7 +38,5 @@
                 </div>
             </div>
         </div>
-
-        <img class="img-responsive" src="{{ asset('images/footer.png') }}" width="100%"  style="position:absolute;bottom:0;"/>
     </body>
 </html>

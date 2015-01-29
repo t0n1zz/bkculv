@@ -37,8 +37,8 @@
 		<div class="panel panel-default">
 		    <div class="panel-heading tooltip-demo">
                 <a type="button" data-toggle="tooltip" data-placement="top"
-                    title="Tekan untuk menambah kategori artikel baru"
-                    class="btn btn-default modal1" href="#"><i class="fa fa-plus"></i> Tambah Kategori Artikel</a>
+                    title="Tekan untuk menambah kategori artikel baru" accesskey="t"
+                    class="btn btn-default modal1" href="#"><i class="fa fa-plus"></i> <u>T</u>ambah Kategori Artikel</a>
 		    </div>
 		    <!-- /.panel-heading -->
 		    <div class="panel-body tooltip-demo">
@@ -123,7 +123,8 @@
           <br />
           <br />
                 <input type="text" name="id" value="" id="modal1id" hidden>
-                {{ Form::text('name',null,array('class' => 'form-control', 'placeholder' => 'Silahkan masukkan nama kategori artikel'))}}
+                {{ Form::text('name',null,array('class' => 'form-control',
+                    'placeholder' => 'Silahkan masukkan nama kategori artikel','autocomplete'=>'off'))}}
            <br />
            <br />
         </div>
@@ -178,7 +179,8 @@
           <br />
           <br />
                 <input type="text" name="id" value="" id="modal3id" hidden>
-                {{ Form::text('name',null,array('class' => 'form-control', 'placeholder' => 'Silahkan masukkan nama kategori artikel baru'))}}
+                {{ Form::text('name',null,array('class' => 'form-control',
+                    'placeholder' => 'Silahkan masukkan nama kategori artikel baru','autocomplete'=>'off'))}}
            <br />
            <br />
         </div>

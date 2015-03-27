@@ -17,6 +17,7 @@
             <div class="collapse navbar-collapse navbar-right">
                 <ul class="nav navbar-nav">
                     <li><a href="{{ route('home') }}">Home</a></li>
+                    <li><a href="{{ route('kegiatan') }}">Kegiatan</a></li>
                     <li class="dropdown">
                         <a href="#" class="dropdown-toggle" data-toggle="dropdown">Berita <i class="fa fa-angle-down"></i></a>
                         <ul class="dropdown-menu">
@@ -25,15 +26,14 @@
                             @endforeach
                         </ul>
                     </li>
-                    <li><a href="{{ route('artikel',array(4)) }}">Filosofi</a></li>
-                    <li><a href="{{ route('pelayanan') }}">Solusi</a></li>
-                    <li><a href="{{ route('kegiatan') }}">Kegiatan</a></li>
                     <li class="dropdown">
                         <a href="#" class="dropdown-toggle" data-toggle="dropdown">Tentang Kami <i class="fa fa-angle-down"></i></a>
                         <ul class="dropdown-menu">
                             <li><a href="{{ route('profil') }}">Profil</a></li>
+                            <li><a href="{{ route('pelayanan') }}">Pelayanan</a></li>
                             <li><a href="{{ route('tim') }}">Tim</a></li>
                             <li><a href="{{ route('jejaring') }}">Jejaring</a></li>
+                            <li><a href="{{ route('artikel',array(4)) }}">Filosofi</a></li>
                             <li><a href="{{ route('artikel',array(8)) }}">Sejarah</a></li>
                         </ul>
                     </li>

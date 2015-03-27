@@ -1,4 +1,6 @@
-<?php $title="Ubah Hak Akses Admin"; ?>
+<?php
+    $title="Ubah Hak Akses Admin";
+?>
 @extends('admins._layouts.layout')
 
 @section('content')

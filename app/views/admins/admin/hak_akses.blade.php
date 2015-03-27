@@ -30,16 +30,6 @@
                 /></td>
     </tr>
     <tr>
-        <td>Akses Halaman Gambar Kegiatan</td>
-          <td><input name="gambarkegiatan" value="1" type="checkbox"
-                @if(!empty($admin))
-                   @if($admin->can('gambarkegiatan'))
-                      {{ 'checked' }}
-                   @endif
-                @endif
-                /></td>
-    </tr>
-    <tr>
         <td>Akses Halaman Info Gerakan</td>
           <td><input name="infogerakan" value="1" type="checkbox"
                 @if(!empty($admin))
@@ -111,12 +101,22 @@
     </tr>
     <tr>
         <td>Akses Halaman Wilayah Cu Primer</td>
-          <td><input name="wilayahcuprimer" value="1" type="checkbox"
-                @if(!empty($admin))
-                   @if($admin->can('wilayahcuprimer'))
-                      {{ 'checked' }}
-                   @endif
-                @endif
-                /></td>
+        <td><input name="wilayahcuprimer" value="1" type="checkbox"
+            @if(!empty($admin))
+                @if($admin->can('wilayahcuprimer'))
+                    {{ 'checked' }}
+                        @endif
+                    @endif
+                    /></td>
+    </tr>
+    <tr>
+        <td>Akses Halaman Download</td>
+        <td><input name="download" value="1" type="checkbox"
+            @if(!empty($admin))
+                @if($admin->can('download'))
+                    {{ 'checked' }}
+                        @endif
+                    @endif
+                    /></td>
     </tr>
 </table>

@@ -2,6 +2,11 @@
     $navberita = KategoriArtikel::whereNotIn('id',array(1,4,8))->get();
     $infogerakan = InfoGerakan::find(1);
     $pengumumans = Pengumuman::orderBy('urutan','asc')->get();
+/*
+    if (Auth::check()) {
+        Auth::logout();
+    }
+*/
 ?>
 <!DOCTYPE html>
 <!--[if lt IE 7]>      <html class="no-js lt-ie9 lt-ie8 lt-ie7"> <![endif]-->
@@ -35,7 +40,7 @@
 
         {{ HTML::style('css/bootstrap.css') }}
         {{ HTML::style('css/icomoon-social.css') }}
-        {{ HTML::style('font-awesome-4.2.0/css/font-awesome.min.css') }}
+        {{ HTML::style('font-awesome/css/font-awesome.min.css') }}
         {{ HTML::style('css/main.css') }}
         {{ HTML::style('css/mystyle.css') }}
 
@@ -61,7 +66,7 @@
 
       @yield('content')
 
-      <!--<img class="img-responsive" src="{{ asset('images/footer.png') }}"
+      <!--<img class="img-responsive" src="{{ asset('images/footerimlek.png') }}"
                width="100%"  style="vertical-align: bottom;margin-bottom: -20px;margin-top: -3%;"/>-->
       @include('_layouts.footer')
 

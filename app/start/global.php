@@ -51,7 +51,13 @@ App::error(function(Exception $exception, $code)
 	Log::error($exception);
 
     if (!Config::get('app.debug')) {
-        return Response::view('error');
+		$err = 'error';
+		if (Auth::check()) {
+			// The user is logged in...
+			$err = 'admins.error';
+		}
+
+        return Response::view($err);
     };
 });
 
@@ -83,3 +89,12 @@ App::down(function()
 */
 
 require app_path().'/filters.php';
+
+
+Event::listen('cron.collectJobs', function() {
+	Cron::add('update_status_kegiatan', '0 0 * * *', function() {
+		User::where('votes', '>', 100)->update(['status' => 2]);
+		$now = Date::now()->format('YYYY-MM-DD HH:MM:SS');;
+		kegiatan::where('tanggal2', '>', $now)->update('status','=','1');
+	});
+});

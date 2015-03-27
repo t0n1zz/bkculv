@@ -12,7 +12,8 @@
         "zizaco/entrust": "1.2.*@dev",
 		"barryvdh/laravel-debugbar": "~1.8",
 		"jenssegers/date": "~2.0",
-        "anahkiasen/flickering": "*"
+        "anahkiasen/flickering": "*",
+        "indatus/dispatcher": "1.4.*@dev"
 	},
 	"autoload": {
 		"classmap": [

@@ -6,6 +6,13 @@
 <div class="homepage-slider" >
 	<div id="sequence" style="border-bottom: 4px solid #4f8db3;">
 		<ul class="sequence-canvas">
+            <!--<li style=" background-image: url('{{asset('images/slider-imlek.jpg')}}');">
+                <h3 class="title" style="color: orangered">Selamat Tahun Baru Imlek</h3>
+                <h4 class="subtitle"><p align="justify" style="color: orangered">
+                        Pengurus, Pengawas, Dan Manajemen Puskopdit BKCU Mengucapkan Selamat Tahun Baru Imlek <br/> Gong Xi Fa Chai 2566</p></h4>
+                <?php //HTML::image('images/imlek.jpg', 'imlek', array(
+                      // 'class' => 'slide-img img-rounded img-responsive', 'width' => '300')) ?>
+            </li>-->
 		    @if(!empty($ultahcu))
 		        <li style=" background-image: url('{{asset('images/slider-birthday.jpg')}}');">
                     <h3 class="title"><a href="{{ route('jejaring') }}" style="color: white"
@@ -72,6 +79,8 @@
 		<div class="sequence-pagination-wrapper hidden-xs">
 		    <ul class="sequence-pagination">
 		        <?php $i2 = 0; ?>
+                    <?php $i2++; ?>
+                    <!--<li>{{$i2}}</li>-->
 		        @if(!empty($ultahcu))
 		            <?php $i2++; ?>
                     <li>{{$i2}}</li>
@@ -85,7 +94,7 @@
 	</div>
 </div>
 <!-- /slider -->
-     <!-- <img class="img-responsive" src="{{ asset('images/top.png') }}" width="100%"
+<!--<img class="img-responsive" src="{{ asset('images/topimlek.png') }}" width="100%"
                style="vertical-align: top;margin-top: -30px;margin-bottom: -3%;"/>-->
 <!-- berita -->
 <div class="section">
@@ -125,38 +134,32 @@
                     </div>
                 @endif
 
-                @if($beritaBKCUs->count() > 2)
-                    <div class="col-sm-12">
-                        <hr style="border-top:1px solid #D2D2D2;"/>
-                        <a href="{{ route('artikel',array(2)) }}" class="btn pull-right"><b>Selengkapnya</b></a>
-                    </div>
-                @endif
             </div>
             <!-- /BKCU -->
             <!-- CU -->
             <div class="col-sm-6 featured-news">
-                <h2><a href="{{ route('artikel',array(3)) }}" style="color: #53555c">Berita CU</a></h2>
-                @if(!$beritaCUs->isEmpty())
-                    @foreach($beritaCUs as $cu)
+                <h2><a href="{{ route('artikel',array(4)) }}" style="color: #53555c">Filosofi</a></h2>
+                @if(!$filosofis->isEmpty())
+                    @foreach($filosofis as $filosofi)
                     <div class="row">
-                        @if(!empty($cu->gambar) && is_file("images_artikel/{$cu->gambar}"))
-                        <div class="col-xs-4"><a href="{{ route('detail_artikel',array($cu->id)) }}"
-                            >{{ HTML::image('images_artikel/'.$cu->gambar, 'a picture', array('class' => 'img-rounded shadow',
+                        @if(!empty($filosofi->gambar) && is_file("images_artikel/{$filosofi->gambar}"))
+                        <div class="col-xs-4"><a href="{{ route('detail_artikel',array($filosofi->id)) }}"
+                            >{{ HTML::image('images_artikel/'.$filosofi->gambar, 'a picture', array('class' => 'img-rounded shadow',
                                       'alt' => '{$cu->judul}', 'width' => '100%')) }}</a></div>
                         <div class="col-xs-8">
-                            <div class="caption">{{ link_to_route('detail_artikel', $cu->judul, array($cu->id)) }}</div>
-                            <?php $date = new Date($cu->created_at); ?>
+                            <div class="caption">{{ link_to_route('detail_artikel', $filosofi->judul, array($cu->id)) }}</div>
+                            <?php $date = new Date($filosofi->created_at); ?>
                             <div class="date" style="font-size: 14px;color: #017ebc;padding-bottom: 5px"><i class="fa fa-fw fa-clock-o"></i> {{ $date->format('l, j F Y, H:i:s') }}</div>
-                            <div class="intro"><p align="justify">{{{ str_limit(preg_replace('/(<.*?>)|(&.*?;)/', '', $cu->content),150) }}} <b>
-                            <br/> {{ link_to_route('detail_artikel', 'Selengkapnya', array($cu->id)) }}</b></p></div>
+                            <div class="intro"><p align="justify">{{{ str_limit(preg_replace('/(<.*?>)|(&.*?;)/', '', $filosofi->content),150) }}} <b>
+                            <br/> {{ link_to_route('detail_artikel', 'Selengkapnya', array($filosofi->id)) }}</b></p></div>
                         </div>
                         @else
                         <div class="col-xs-12">
-                            <div class="caption">{{ link_to_route('detail_artikel', $cu->judul, array($cu->id)) }}</div>
-                            <?php $date = new Date($cu->created_at); ?>
+                            <div class="caption">{{ link_to_route('detail_artikel', $filosofi->judul, array($filosofi->id)) }}</div>
+                            <?php $date = new Date($filosofi->created_at); ?>
                             <div class="date" style="font-size: 14px;color: #017ebc;padding-bottom: 5px"><i class="fa fa-fw fa-clock-o"></i> {{ $date->format('l, j F Y, H:i:s') }}</div>
-                            <div class="intro"><p align="justify">{{{ str_limit(preg_replace('/(<.*?>)|(&.*?;)/', '', $cu->content),200) }}} <b>
-                             {{ link_to_route('detail_artikel', 'Selengkapnya', array($cu->id)) }}</b></p></div>
+                            <div class="intro"><p align="justify">{{{ str_limit(preg_replace('/(<.*?>)|(&.*?;)/', '', $filosofi->content),200) }}} <b>
+                             {{ link_to_route('detail_artikel', 'Selengkapnya', array($filosofi->id)) }}</b></p></div>
                         </div>
                         @endif
                     </div>
@@ -167,12 +170,6 @@
                     </div>
                 @endif
 
-                @if($beritaCUs->count() > 2)
-                    <div class="col-sm-12">
-                        <hr style="border-top:1px solid #D2D2D2;"/>
-                        <a href="{{ route('artikel',array(3)) }}" class="btn pull-right"><b>Selengkapnya</b></a>
-                    </div>
-                @endif
             </div>
             <!-- /cu -->
         </div>
@@ -214,12 +211,12 @@
 <!-- Solusi-->
 <div class="section">
     <div class="container">
-        <h2>Solusi</h2>
+        <h2>Pelayanan</h2>
         <div class="row">
         @foreach($pelayanans as $pelayanan)
         <?php $pelayanancount = $pelayanan->count(); ?>
                 <div class="col-md-4 col-sm-6">
-                <a href="{{ route('solusi',array($pelayanan->id)) }}">
+                <a href="{{ route('pelayanans',array($pelayanan->id)) }}">
                     <div class="portfolio-item" style="color: #53555c">
                         <div class="portfolio-image">
                             @if(!empty($pelayanan->gambar) && is_file("images_artikel/{$pelayanan->gambar}"))

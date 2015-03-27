@@ -44,6 +44,7 @@
 		                <th>Tanggal Dimulai</th>
 		                <th>Tanggal Selesai</th>
 		                <th>Penulis</th>
+                        <th>Status</th>
 		                <th>Hapus</th>
 		            </tr>
 		        </thead>
@@ -137,6 +138,12 @@
                         <td>-</td>
                     @endif
 
+                    @if($kegiatan->status == "0")
+                        <td>Belum Selesai</td>
+                    @else
+                        <td>Selesai</td>
+                    @endif
+
 
 			        @if(!empty($kegiatan->id))
 			            <td><button class="btn btn-default modal2"
@@ -162,7 +169,6 @@
 		</div>
 	</div>
 </div>
-
 <!-- Hapus -->
 <div class="modal fade" id="modal2show" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
    {{ Form::open(array('route' => array('admins.kegiatan.destroy'), 'method' => 'delete')) }}
@@ -228,7 +234,7 @@
                 <br />
                 <br />
                 <input type="text" name="id" value="" id="modal4id" hidden>
-                <div class="bfh-datepicker" data-name="tanggal2" data-date="" >
+                <div class="bfh-datepicker" data-name="tanggal" data-date="" >
                     <input id="datepickers" type="text" class="datepicker" >
                 </div>
                 <br />

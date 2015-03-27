@@ -4,7 +4,10 @@ class AdminKegiatanController extends \BaseController{
 
     public function index()
     {
-        $kegiatans = kegiatan::with('Admin')->orderBy('name','asc')->get();;
+        $kegiatans = kegiatan::with('Admin')
+                    ->orderBy('status', 'asc')
+                    ->orderBy('name','asc')
+                    ->get();;
         return View::make('admins.kegiatan.index', compact('kegiatans'));
     }
 
@@ -37,7 +40,7 @@ class AdminKegiatanController extends \BaseController{
 
     public function edit($id)
     {
-        $kegiatan = Kegiatan::find($id);
+        $kegiatan = kegiatan::find($id);
 
         return View::make('admins.kegiatan.edit', compact('kegiatan'));
     }

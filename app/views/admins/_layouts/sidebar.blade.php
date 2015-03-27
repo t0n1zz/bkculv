@@ -15,25 +15,33 @@
             <!-- /search -->
             <!-- dashboard -->
             <li>
-                <a href="{{ URL::to('admins')  }}"><i class="fa fa-dashboard fa-fw"></i> Dashboard</a>
+                <a @if($title == "Dashboard")
+                     {{ "class='active'" }}
+                   @endif
+                   href="{{ URL::to('admins')  }}"><i class="fa fa-dashboard fa-fw"></i> Dashboard</a>
             </li>
             <!-- /dashboard -->
             <!-- pengumuman -->
+            @if(Entrust::can('pengumuman'))
             <li><a  @if($title == "Kelola Pengumuman")
                         {{ "class='active'" }}
                     @endif
                     href="{{ route('admins.pengumuman.index') }}"><i class="fa fa-comments-o fa-fw"></i> Pengumuman</a>
             </li>
+            @endif
             <!-- /pengumuman -->
             <!-- info gerakan -->
+            @if(Entrust::can('infogerakan'))
             <li>
                 <a  @if($title == "Informasi Gerakan")
                         {{ "class='active'" }}
                     @endif
                     href="{{ route('admins.infogerakan.edit',array(1)) }}"><i class="fa fa-exclamation-circle fa-fw"></i> Informasi Gerakan</a>
             </li>
+            @endif
             <!-- /info gerakan -->
             <!-- artikel -->
+            @if(Entrust::can('artikel'))
             <li @if($title == "Kelola Artikel" || $title == "Tambah Artikel" || $title == "Ubah Artikel" ||
                     $title == "Kelola Kategori Artikel")
                    {{ "class='active'" }}
@@ -60,13 +68,15 @@
                     </li>
                 </ul>
             </li>
+            @endif
             <!-- /artikel -->
             <!-- pelayanan -->
+            @if(Entrust::can('pelayanan'))
             <li @if($title == "Kelola Pelayanan" || $title == "Tambah Pelayanan" || $title == "Ubah Pelayanan" ||
                     $title == "Tambah Kantor Pelayanan" || $title == "Kelola Kantor Pelayanan" || $title == "Ubah Informasi Kantor Pelayanan")
                     {{ "class='active'" }}
                 @endif
-            ><a href="#"><i class="fa fa-male"></i><i class="fa fa-female fa-fw"></i>Pelayanan<span class="fa arrow"></span></a>
+            ><a href="#"><i class="fa fa-gift fa-fw"></i> Pelayanan<span class="fa arrow"></span></a>
                 <ul class="nav nav-second-level">
                 	<li>
                         <a  @if($title == "Tambah Pelayanan")
@@ -94,8 +104,10 @@
                     </li>
                 </ul>
             </li>
+            @endif
             <!-- /pelayanan -->
             <!-- diklat -->
+            @if(Entrust::can('kegiatan'))
             <li @if($title == "Kelola Kegiatan" || $title == "Tambah Kegiatan" || $title == "Ubah Kegiatan" )
                     {{ "class='active'" }}
                 @endif
@@ -115,8 +127,10 @@
                         </li>
                     </ul>
             </li>
+            @endif
             <!-- /diklat -->
             <!-- cuprimer -->
+            @if(Entrust::can('cuprimer'))
             <li @if($title == "Kelola CU" || $title == "Tambah CU" || $title == "Ubah CU" || $title == "Kelola Wilayah CU" ||
                     $title == "Kelola Staff CU" || $title == "Tambah Staff CU" || $title == "Ubah Staff CU")
                     {{ "class='active'" }}
@@ -144,8 +158,10 @@
                         </li>
                     </ul>
             </li>
+            @endif
             <!-- /cuprimer -->
             <!-- staff -->
+            @if(Entrust::can('staff'))
             <li @if($title == "Kelola Staf" || $title == "Tambah Staf" || $title == "Ubah Staf" )
                     {{ "class='active'" }}
                 @endif
@@ -166,8 +182,10 @@
                     </li>
                 </ul>
             </li>
+            @endif
             <!-- /staff -->
             <!-- download -->
+            @if(Entrust::can('download'))
             <li @if($title == "Kelola File" || $title == "Tambah File" || $title == "Ubah File" )
                     {{ "class='active'" }}
                 @endif
@@ -188,8 +206,10 @@
                     </li>
                 </ul>
             </li>
+            @endif
             <!-- /download -->
             <!-- admin -->
+            @if(Entrust::can('admin'))
             <li @if($title == "Kelola Admin" || $title == "Tambah Admin" || $title == "Ubah Admin" )
                     {{ "class='active'" }}
                 @endif
@@ -210,6 +230,7 @@
                     </li>
                 </ul>
             </li>
+            @endif
         </ul>
     </div>
 </div>

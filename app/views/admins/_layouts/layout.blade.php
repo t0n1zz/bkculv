@@ -24,7 +24,7 @@
     {{ HTML::style('admin/css/sb-admin-2.css') }}
 
     <!-- Custom Fonts -->
-    {{ HTML::style('admin/font-awesome-4.1.0/css/font-awesome.min.css') }}
+    {{ HTML::style('font-awesome/css/font-awesome.min.css') }}
 
     <!-- Bootstrap extended form CSS -->
     {{ HTML::style('BootstrapFormHelper/css/bootstrap-formhelpers.min.css') }}

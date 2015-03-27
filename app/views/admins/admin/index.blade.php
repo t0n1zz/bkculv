@@ -79,7 +79,7 @@
                                 >-</a></td>
                     @endif
 
-                    @if($admin->id != 0)
+                    @if($admin->id > 1)
                         @if($admin->status == 0)
                            <td><a href="#" class="modal1"
                                 data-toggle="tooltip" data-placement="top"
@@ -109,7 +109,7 @@
                                 class="glyphicon glyphicon-eye-open"></span></a></td>
                         @else
                             <td><a class="btn btn-default"
-a                               name="{{ $admin->id }}"
+                                name="{{ $admin->id }}"
                                 data-toggle="tooltip" data-placement="top"
                                 href="{{route('admins.admin.edit_hak_akses', array($admin->id))}}"
                                 title="Tekan untuk mengubah hak askses admin ini" ><span

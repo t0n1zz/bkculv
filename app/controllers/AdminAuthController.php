@@ -24,7 +24,8 @@ class AdminAuthController extends \BaseController{
                 Auth::logout();
                 return Redirect::route('admins.login')->with('errormessage','Maaf akun anda tidak aktif.');
             }
-
+            $tanggal = $admin->login;
+            $admin->logout = $tanggal;
             $admin->login = Date::now();
             if($admin->update())
                 return Redirect::intended('admins');
@@ -36,17 +37,8 @@ class AdminAuthController extends \BaseController{
     }
 
     public function getLogout(){
-        if(Auth::check()) { $id = Auth::user()->getId();}
-
-        $admin = Admin::find($id);
-        $admin->logout = Date::now();
-
-        if($admin->update()){
             Auth::logout();
             return Redirect::route('admins.login')->with('message','Anda telah berhasil logout.');
-        }
-
-        return Redirect::back()->withInput()->with('errormessage','Terjadi kesalahan dalam mengubah admin.');
     }
 
     public function getBack(){

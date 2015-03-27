@@ -12,8 +12,8 @@
 */
 
 Route::get('/',array( 'as' => 'home','uses' => 'PublicController@index'));
-Route::get('solusi/{id}',array( 'as' => 'solusi','uses' => 'PublicController@solusi'));
-Route::get('solusi',array( 'as' => 'pelayanan','uses' => 'PublicController@pelayanan'));
+Route::get('pelayanan/{id}',array( 'as' => 'pelayanans','uses' => 'PublicController@solusi'));
+Route::get('pelayanan',array( 'as' => 'pelayanan','uses' => 'PublicController@pelayanan'));
 Route::get('kegiatan',array( 'as' => 'kegiatan','uses' => 'PublicController@agenda'));
 Route::get('profil',array( 'as' => 'profil','uses' => 'PublicController@profil'));
 Route::get('tim',array( 'as' => 'tim','uses' => 'PublicController@tim'));
@@ -166,6 +166,26 @@ Route::group(array('before' => 'auth'), function()
 
 
 /*
+Route::get('/start', function()
+{
+    $aksesartikel = new Permission;
+    $aksesartikel->name = 'download';
+    $aksesartikel->display_name = 'Akses Download';
+    $aksesartikel->save();
+
+    return 'Woohoo!';
+});
+
+Route::get('/test', function()
+{
+    $now = Date::now()->format('Y-m-d');
+    DB::table('kegiatan')
+        ->where('tanggal2','<',$now)
+        ->update(array('status' => 1));
+
+    return 'lalalalaa';
+});
+
 Event::listen('illuminate.query', function($query)
 {
     var_dump($query);

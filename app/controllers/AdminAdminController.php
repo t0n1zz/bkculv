@@ -301,6 +301,18 @@ class AdminAdminController extends \BaseController{
                 $adminrole->detachPermission($akses);
             }
         }
+
+        if(Input::get('download') == 1){
+            if (!$admin2->can('download')){
+                $akses = Permission::where('name', '=', 'download')->first();
+                $adminrole->attachPermission($akses);
+            }
+        }else{
+            if($admin2->can('download')){
+                $akses = Permission::where('name','=','download')->first();
+                $adminrole->detachPermission($akses);
+            }
+        }
     }
 
 }

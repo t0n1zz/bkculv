@@ -52,20 +52,20 @@
     			<div class="row">
     			    <div class="col-md-7">
                         <ul class="no-list-style footer-navigate-section">
-                            <li><a href="{{ route('home') }}">Beranda</a></li>
+                            <li><a href="{{ route('home') }}">Home</a></li>
+                            <li><a href="{{ route('kegiatan') }}">Kegiatan</a></li>
                             @foreach($navberita as $berita)
                                 <li><a href="{{ route('artikel',array($berita->id)) }}">{{$berita->name}}</a></li>
                             @endforeach
-                            <li><a href="{{ route('artikel',array(4)) }}">Filosofi</a></li>
-                            <li><a href="{{ route('pelayanan') }}">Solusi</a></li>
+                            <li><a href="{{ route('profil') }}">Profil</a></li>
+                            <li><a href="{{ route('pelayanan') }}">Pelayanan</a></li>
                         </ul>
     			    </div>
     			    <div class="col-md-5">
     			        <ul class="no-list-style footer-navigate-section">
-                            <li><a href="{{ route('kegiatan') }}">Kegiatan</a></li>
-                            <li><a href="{{ route('profil') }}">Profil</a></li>
                             <li><a href="{{ route('tim') }}">Tim</a></li>
                             <li><a href="{{ route('jejaring') }}">Jejaring</a></li>
+                            <li><a href="{{ route('artikel',array(4)) }}">Filosofi</a></li>
                             <li><a href="{{ route('artikel',array(8)) }}">Sejarah</a></li>
                             <li><a href="{{ route('download') }}">Download</a></li>
                             <li><a href="https://www.flickr.com/photos/127271987@N07/" target="_BLANK">Foto Kegiatan</a></li>

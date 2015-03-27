@@ -19,6 +19,7 @@
                     <li><a href="https://github.com/dragdropsite/mPurpose" target="_blank">mPurpose</a> - for CSS Template</li>
                     <li><a href="http://www.freepik.com/free-photos-vectors/birthday" target="_blank">Birthday vector designed by Freepik</a> - for images</li>
                     <li><a href="http://www.freepik.com/free-photos-vectors/christmas" target="_blank">Christmas vector designed by Freepik</a> - for images</li>
+                    <li><a href="http://www.freepik.com/free-photos-vectors/new-year" target="_blank">New year vector designed by Freepik</a> - for images</i>
                     <li><a href="https://www.vectoropenstock.com/vectors/preview/72006/real-estate-selling-process-infographics" target="_blank">Real estate selling process infographics vector</a> - for images</li>
                     <li><a href="https://github.com/kni-labs/rrssb" target="_blank">Ridiculously Responsive Social Sharing Buttons</a> - for custom social sharing buttons</li>
                 </ul>

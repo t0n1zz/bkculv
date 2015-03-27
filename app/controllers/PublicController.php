@@ -12,14 +12,15 @@ class PublicController extends \BaseController{
             ->orderBy('created_at', 'desc')
             ->take(3)->get();
 
-        $beritaCUs = Artikel::with('KategoriArtikel')
-            ->where('kategori','=','3')
+        $filosofis = Artikel::with('KategoriArtikel')
+            ->where('kategori','=','4')
             ->where('status','=','1')
             ->orderBy('created_at', 'desc')
             ->take(3)->get();
 
         $pelayanans = Pelayanan::take(3)->get();
         $kegiatans = kegiatan::take(5)
+            ->where('status','=','0')
             ->orderBy('tanggal','asc')
             ->get();
 
@@ -44,7 +45,7 @@ class PublicController extends \BaseController{
         */
 
         return View::make('index',compact(
-            'artikelpilihans','beritaBKCUs','beritaCUs',
+            'artikelpilihans','beritaBKCUs','filosofis',
             'pelayanans','kegiatans','beritas','ultahcu','gambars'
         ));
     }
@@ -96,7 +97,7 @@ class PublicController extends \BaseController{
     }
 
     public function agenda(){
-        $kegiatans = kegiatan::orderBy('tanggal','asc')->get();
+        $kegiatans = kegiatan::where('status','=','0')->orderBy('tanggal','asc')->get();
 
         return View::make('agenda',compact('kegiatans'));
     }

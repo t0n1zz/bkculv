@@ -127,7 +127,8 @@ return array(
         'Zizaco\Entrust\EntrustServiceProvider',
         'Barryvdh\Debugbar\ServiceProvider',
         'Jenssegers\Date\DateServiceProvider',
-        'Flickering\FlickeringServiceProvider'
+        'Flickering\FlickeringServiceProvider',
+        'Indatus\Dispatcher\ServiceProvider',
 	),
 
 	/*

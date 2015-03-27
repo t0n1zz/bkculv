@@ -23,6 +23,7 @@
         <div class="container">
             <div class="row">
                 <div class="col-md-12">
+
                     <div class="error-template">
                         <h1><i class="fa fa-3x fa-frown-o"></i></h1>
                         <h1>Oops!</h1>

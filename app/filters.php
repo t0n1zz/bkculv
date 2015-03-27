@@ -111,13 +111,6 @@ Route::filter('cuprimer', function()
         return Redirect::to('/admins')->with('message', 'Maaf, anda tidak punya akses ke halaman <b>CU Primer</b>.');;
     }
 });
-Route::filter('gambarkegiatan', function()
-{
-    if (! Entrust::can('gambarkegiatan') )
-    {
-        return Redirect::to('/admins')->with('message', 'Maaf, anda tidak punya akses ke halaman <b>Gambar Kegiatan</b>.');;
-    }
-});
 Route::filter('infogerakan', function()
 {
     if (! Entrust::can('infogerakan') )
@@ -174,4 +167,12 @@ Route::filter('wilayahcuprimer', function()
         return Redirect::to('/admins')->with('message', 'Maaf, anda tidak punya akses ke halaman <b>Wilayah CU Primer</b>.');;
     }
 });
+Route::filter('download', function()
+{
+    if (! Entrust::can('download') )
+    {
+        return Redirect::to('/admins')->with('message', 'Maaf, anda tidak punya akses ke halaman <b>Download</b>.');;
+    }
+});
+
 

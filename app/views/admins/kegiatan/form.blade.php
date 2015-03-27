@@ -107,7 +107,7 @@
                             @endif
                         @endif
                         >Timur</option>
-                <option value="Timur"
+                <option value="Bersama"
                 @if(!empty($kegiatan))
                     @if($kegiatan->wilayah == "Bersama")
                         {{ "selected" }}

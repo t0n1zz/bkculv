@@ -28,6 +28,10 @@ Route::get('cari',array('as' => 'cari','uses' => 'PublicController@getcari'));
 Route::get('download',array('as' => 'download','uses' => 'PublicController@download'));
 Route::get('download/{filename}',array('as' => 'file','uses' => 'PublicController@download_file'));
 Route::get('attribution',array('as' => 'attribution','uses' => 'PublicController@attribution'));
+Route::get('pemilihan',array('as' => 'pemilihan','uses' => 'PublicController@pemilihan'));
+
+Route::get('update_kegiatan',array( 'as' => 'update_kegiatan','uses' => 'PublicController@update_kegiatan'));
+
 
 //admin
 Route::group(array('prefix' => 'admins'), function(){
@@ -163,6 +167,9 @@ Route::group(array('before' => 'auth'), function()
     \Route::any('elfinder/connector', 'Barryvdh\Elfinder\ElfinderController@showConnector');
 });
 \Route::get('elfinder/tinymce', 'Barryvdh\Elfinder\ElfinderController@showTinyMCE4');
+
+
+
 
 
 /*

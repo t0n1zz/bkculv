@@ -55,6 +55,9 @@ body {
 .section-white {
   background: #FFF;
 }
+.section-black {
+    background: #000000;
+}
 .section-gray {
   background: #C0C0C0;
 }

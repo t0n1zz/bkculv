@@ -107,10 +107,3 @@
         </div>
     @endif
 </div>
-
-@if($kegiatans->count() > 4)
-    <div class="col-sm-12">
-        <hr style="border-top:1px solid #D2D2D2;"/>
-        <a href="{{ route('kegiatan') }}" class="btn pull-right"><b>Selengkapnya</b></a>
-    </div>
-@endif

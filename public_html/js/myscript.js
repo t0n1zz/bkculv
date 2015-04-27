@@ -158,6 +158,38 @@ $('.modalphotos img').on('click',function(){
 	})
 })
 
+//modal pemilihan
+$(document).ready(function(){
+    $("#modalpemilihan").on('show.bs.modal', function(event){
+
+        // Get button that triggered the modal
+        var button = $(event.relatedTarget);
+
+        // Extract value from data-* attributes
+        var tipe = button.data('tipe');
+        var image = button.data('image');
+        var nama = button.data('nama');
+        var lahir = button.data('lahir');
+        var status = button.data('status');
+        var agama = button.data('agama');
+        var pekerjaan = button.data('pekerjaan');
+        var asal = button.data('asal');
+        var pengusung = button.data('pengusung');
+        var jabatan = button.data('jabatan');
+
+        $(this).find('.modal-tipe').text(tipe);
+        $(this).find('.modal-image').attr('src',image);;
+        $(this).find('.modal-nama').text(nama);
+        $(this).find('.modal-lahir').text(lahir);
+        $(this).find('.modal-status').text(status);
+        $(this).find('.modal-agama').text(agama);
+        $(this).find('.modal-pekerjaan').text(pekerjaan);
+        $(this).find('.modal-asal').text(asal);
+        $(this).find('.modal-pengusung').text(pengusung);
+        $(this).find('.modal-jabatan').text(jabatan);
+    });
+});
+
 //centering modal
 function centerModal() {
     $(this).css('display', 'block');

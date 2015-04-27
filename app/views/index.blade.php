@@ -6,12 +6,13 @@
 <div class="homepage-slider" >
 	<div id="sequence" style="border-bottom: 4px solid #4f8db3;">
 		<ul class="sequence-canvas">
-            <!--<li style=" background-image: url('{{asset('images/slider-imlek.jpg')}}');">
-                <h3 class="title" style="color: orangered">Selamat Tahun Baru Imlek</h3>
-                <h4 class="subtitle"><p align="justify" style="color: orangered">
-                        Pengurus, Pengawas, Dan Manajemen Puskopdit BKCU Mengucapkan Selamat Tahun Baru Imlek <br/> Gong Xi Fa Chai 2566</p></h4>
-                <?php //HTML::image('images/imlek.jpg', 'imlek', array(
-                      // 'class' => 'slide-img img-rounded img-responsive', 'width' => '300')) ?>
+            <!--<li style=" background-image: url('{{asset('images/slider-easter.jpg')}}');">
+                <h3 class="title" style="color: #ffffff">Selamat Hari Raya Paskah</h3>
+                <h4 class="subtitle"><p align="justify" style="color: #ffffff">
+                        Pengurus, Pengawas, Dan Manajemen Puskopdit BKCU Mengucapkan Selamat Hari Raya Paskah <br/>
+                        Semoga Semangat Kebangkitan Hadir Untuk Mewujudkan Pelayanan Nyata Bagi Sesama</p></h4>
+                <?php //HTML::image('images/easter.jpg', 'easter', array(
+                        //'class' => 'slide-img img-rounded img-responsive', 'width' => '300'))}} ?>
             </li>-->
 		    @if(!empty($ultahcu))
 		        <li style=" background-image: url('{{asset('images/slider-birthday.jpg')}}');">
@@ -64,7 +65,7 @@
                     <h3 class="title"><a
                         href="{{ route('detail_artikel',array($artikelpilihan->id)) }}"
                         style="color: white"
-                        >{{ $artikelpilihan->judul }}</a></h3>
+                        >{{ str_limit($artikelpilihan->judul,70) }}</a></h3>
                     <h4 class="subtitle"><p align="justify"><a
                         href="{{ route('detail_artikel',array($artikelpilihan->id)) }}"
                         style="color: white"
@@ -96,37 +97,59 @@
 <!-- /slider -->
 <!--<img class="img-responsive" src="{{ asset('images/topimlek.png') }}" width="100%"
                style="vertical-align: top;margin-top: -30px;margin-bottom: -3%;"/>-->
+<!-- pemilihan-->
+@include('_components.pemilihan')
+<!-- pemilihan-->
 <!-- berita -->
 <div class="section">
     <div class="container">
         <div class="row">
             <!-- BKCU -->
-            <div class="col-sm-6 featured-news">
-                <h2><a href="{{ route('artikel',array(2)) }}" style="color: #53555c">Berita BKCU</a></h2>
+            <div class="col-sm-12 featured-news">
+                <div class="visible-md visible-lg">
+                    <h2>{{ $judulBeritas[1]->name }}
+                        <a href="{{ route('artikel',array(2)) }}" class="btn btn-sm pull-right">
+                            Selengkapnya <i class="fa fa-arrow-circle-right"></i></a> </h2>
+                </div>
+                <div class="visible-sm visible-xs">
+                    <a href="{{ route('artikel',array(2)) }}" class="btn btn-block">
+                        {{ $judulBeritas[1]->name }}</a>
+                </div>
+
                  @if(!$beritaBKCUs->isEmpty())
+                    <?php $i=0; ?>
                     @foreach($beritaBKCUs as $bkcu)
-                    <div class="row">
-                        @if(!empty($bkcu->gambar) && is_file("images_artikel/{$bkcu->gambar}"))
-                        <div class="col-xs-4"><a href="{{ route('detail_artikel',array($bkcu->id)) }}"
-                                >{{ HTML::image('images_artikel/'.$bkcu->gambar, 'a picture', array('class' => 'img-rounded shadow',
-                                    'alt' => '{$bkcu->judul}', 'width' => '100%')) }}</a></div>
-                        <div class="col-xs-8">
-                            <div class="caption">{{ link_to_route('detail_artikel', $bkcu->judul, array($bkcu->id)) }}</div>
-                            <?php $date = new Date($bkcu->created_at); ?>
-                            <div class="date" style="font-size: 14px;color: #017ebc;padding-bottom: 5px"><i class="fa fa-fw fa-clock-o"></i> {{ $date->format('l, j F Y, H:i:s') }}</div>
-                            <div class="intro"><p align="justify">{{{ str_limit(preg_replace('/(<.*?>)|(&.*?;)/', '', $bkcu->content),150) }}}<b>
-                            <br/> {{ link_to_route('detail_artikel', 'Selengkapnya', array($bkcu->id)) }}</b></p> </div>
-                        </div>
-                        @else
-                        <div class="col-xs-12">
-                            <div class="caption">{{ link_to_route('detail_artikel', $bkcu->judul, array($bkcu->id)) }}</div>
-                            <?php $date = new Date($bkcu->created_at); ?>
-                            <div class="date" style="font-size: 14px;color: #017ebc;padding-bottom: 5px;"><i class="fa fa-fw fa-clock-o"></i> {{ $date->format('l, j F Y, H:i:s') }}</div>
-                            <div class="intro"><p align="justify">{{{ str_limit(preg_replace('/(<.*?>)|(&.*?;)/', '', $bkcu->content),200) }}} <b>
-                             {{ link_to_route('detail_artikel','Selengkapnya', array($bkcu->id)) }}</b></p></div>
-                        </div>
+                        @if($i % 2 == 0 || $i == 0)
+                            <div class="col-sm-6">
                         @endif
-                    </div>
+                        <div class="row mainArticle">
+                            <a href="{{ route('detail_artikel',array($bkcu->id)) }}">
+                                @if(!empty($bkcu->gambar) && is_file("images_artikel/{$bkcu->gambar}"))
+                                <div class="col-xs-4">{{ HTML::image('images_artikel/'.$bkcu->gambar, 'a picture', array('class' => 'img-rounded',
+                                            'alt' => '{$bkcu->judul}', 'width' => '100%')) }}</div>
+                                <div class="col-xs-8">
+                                    <div class="caption "><b>{{ $bkcu->judul}}</b></div>
+                                    <?php $date = new Date($bkcu->created_at); ?>
+                                    <div class="date" style="font-size: 14px;padding-bottom: 5px"><i class="fa fa-fw fa-clock-o"></i> {{ $date->format('l, j F Y, H:i:s') }}</div>
+                                    <div class="intro">
+                                        <p align="justify">{{{ str_limit(preg_replace('/(<.*?>)|(&.*?;)/', '', $bkcu->content),150) }}}</p>
+                                    </div>
+                                </div>
+                                @else
+                                <div class="col-xs-12">
+                                    <div class="caption"><b>{{ $bkcu->judul }}</b></div>
+                                    <?php $date = new Date($bkcu->created_at); ?>
+                                    <div class="date" style="font-size: 14px;padding-bottom: 5px;"><i class="fa fa-fw fa-clock-o"></i> {{ $date->format('l, j F Y, H:i:s') }}</div>
+                                    <div class="intro"><p align="justify">{{{ str_limit(preg_replace('/(<.*?>)|(&.*?;)/', '', $bkcu->content),200) }}}</p></div>
+                                </div>
+                                @endif
+                            </a>
+                        </div>
+                        <?php $result = $bkcu->count(); ?>
+                        <?php $i++; ?>
+                        @if($i % 2 == 0 || $i == $result)
+                            </div>
+                        @endif
                     @endforeach
                 @else
                     <div class="col-xs-12">
@@ -136,33 +159,93 @@
 
             </div>
             <!-- /BKCU -->
-            <!-- CU -->
+        </div>
+        <br>
+
+        <div class="row">
+            <!-- Filosofi -->
             <div class="col-sm-6 featured-news">
-                <h2><a href="{{ route('artikel',array(4)) }}" style="color: #53555c">Filosofi</a></h2>
+                <div class="visible-md visible-lg">
+                    <h2>{{ $judulBeritas[2]->name }}
+                        <a href="{{ route('artikel',array(4)) }}" class="btn  btn-sm pull-right">
+                           Selengkapnya <i class="fa fa-arrow-circle-right"></i></a></h2>
+                </div>
+                <div class="visible-sm visible-xs">
+                    <a href="{{ route('artikel',array(4)) }}" class="btn  btn-block">
+                        {{ $judulBeritas[2]->name }} </a>
+                </div>
                 @if(!$filosofis->isEmpty())
                     @foreach($filosofis as $filosofi)
-                    <div class="row">
-                        @if(!empty($filosofi->gambar) && is_file("images_artikel/{$filosofi->gambar}"))
-                        <div class="col-xs-4"><a href="{{ route('detail_artikel',array($filosofi->id)) }}"
-                            >{{ HTML::image('images_artikel/'.$filosofi->gambar, 'a picture', array('class' => 'img-rounded shadow',
-                                      'alt' => '{$cu->judul}', 'width' => '100%')) }}</a></div>
-                        <div class="col-xs-8">
-                            <div class="caption">{{ link_to_route('detail_artikel', $filosofi->judul, array($cu->id)) }}</div>
-                            <?php $date = new Date($filosofi->created_at); ?>
-                            <div class="date" style="font-size: 14px;color: #017ebc;padding-bottom: 5px"><i class="fa fa-fw fa-clock-o"></i> {{ $date->format('l, j F Y, H:i:s') }}</div>
-                            <div class="intro"><p align="justify">{{{ str_limit(preg_replace('/(<.*?>)|(&.*?;)/', '', $filosofi->content),150) }}} <b>
-                            <br/> {{ link_to_route('detail_artikel', 'Selengkapnya', array($filosofi->id)) }}</b></p></div>
+                        <div class="col-sm-12">
+                            <div class="row mainArticle">
+                                <a href="{{ route('detail_artikel',array($filosofi->id)) }}">
+                                    @if(!empty($filosofi->gambar) && is_file("images_artikel/{$filosofi->gambar}"))
+                                        <div class="col-xs-4">{{ HTML::image('images_artikel/'.$filosofi->gambar, 'a picture', array('class' => 'img-rounded',
+                                          'alt' => '{$cu->judul}', 'width' => '100%')) }}</div>
+                                        <div class="col-xs-8">
+                                            <div class="caption"><b>{{ $filosofi->judul }}</b></div>
+                                            <?php $date = new Date($filosofi->created_at); ?>
+                                            <div class="date" style="font-size: 14px;padding-bottom: 5px"><i class="fa fa-fw fa-clock-o"></i> {{ $date->format('l, j F Y, H:i:s') }}</div>
+                                            <div class="intro"><p align="justify">{{{ str_limit(preg_replace('/(<.*?>)|(&.*?;)/', '', $filosofi->content),150) }}}</p></div>
+                                        </div>
+                                    @else
+                                        <div class="col-xs-12">
+                                            <div class="caption"><b>{{ $filosofi->judul }}</b></div>
+                                            <?php $date = new Date($filosofi->created_at); ?>
+                                            <div class="date" style="font-size: 14px;padding-bottom: 5px"><i class="fa fa-fw fa-clock-o"></i> {{ $date->format('l, j F Y, H:i:s') }}</div>
+                                            <div class="intro"><p align="justify">{{{ str_limit(preg_replace('/(<.*?>)|(&.*?;)/', '', $filosofi->content),200) }}}</p></div>
+                                        </div>
+                                    @endif
+                                </a>
+                            </div>
                         </div>
-                        @else
-                        <div class="col-xs-12">
-                            <div class="caption">{{ link_to_route('detail_artikel', $filosofi->judul, array($filosofi->id)) }}</div>
-                            <?php $date = new Date($filosofi->created_at); ?>
-                            <div class="date" style="font-size: 14px;color: #017ebc;padding-bottom: 5px"><i class="fa fa-fw fa-clock-o"></i> {{ $date->format('l, j F Y, H:i:s') }}</div>
-                            <div class="intro"><p align="justify">{{{ str_limit(preg_replace('/(<.*?>)|(&.*?;)/', '', $filosofi->content),200) }}} <b>
-                             {{ link_to_route('detail_artikel', 'Selengkapnya', array($filosofi->id)) }}</b></p></div>
-                        </div>
-                        @endif
+
+                    @endforeach
+                @else
+                    <div class="col-xs-12">
+                        <div class="caption"><b>Belum terdapat artikel</b></div>
                     </div>
+                @endif
+
+            </div>
+            <!-- /filosofi -->
+            <!-- cu -->
+            <div class="col-sm-6 featured-news">
+                <div class="visible-md visible-lg">
+                    <h2>{{ $judulBeritas[7]->name }}
+                        <a href="{{ route('artikel',array(9)) }}" class="btn btn-sm pull-right">
+                           Selengkapnya <i class="fa fa-arrow-circle-right"></i></a></h2>
+                </div>
+                <div class="visible-sm visible-xs">
+                    <a href="{{ route('artikel',array(9)) }}" class="btn btn-block ">
+                        {{ $judulBeritas[7]->name }}</a>
+                </div>
+                @if(!$beritaCUs->isEmpty())
+                    @foreach($beritaCUs as $beritaCU)
+                        <div class="col-sm-12">
+                            <div class="row mainArticle">
+                                <a href="{{ route('detail_artikel',array($beritaCU->id)) }}">
+                                    @if(!empty($beritaCU->gambar) && is_file("images_artikel/{$beritaCU->gambar}"))
+                                        <div class="col-xs-4">{{ HTML::image('images_artikel/'.$beritaCU->gambar, 'a picture', array('class' => 'img-rounded',
+                                          'alt' => '{$cu->judul}', 'width' => '100%')) }}</div>
+                                        <div class="col-xs-8">
+                                            <div class="caption"><b>{{ $beritaCU->judul }}</b></div>
+                                            <?php $date = new Date($beritaCU->created_at); ?>
+                                            <div class="date" style="font-size: 14px;padding-bottom: 5px"><i class="fa fa-fw fa-clock-o"></i> {{ $date->format('l, j F Y, H:i:s') }}</div>
+                                            <div class="intro"><p align="justify">{{{ str_limit(preg_replace('/(<.*?>)|(&.*?;)/', '', $beritaCU->content),150) }}}</p></div>
+                                        </div>
+                                    @else
+                                        <div class="col-xs-12">
+                                            <div class="caption"><b>{{ $beritaCU->judul }}</b></div>
+                                            <?php $date = new Date($beritaCU->created_at); ?>
+                                            <div class="date" style="font-size: 14px;padding-bottom: 5px"><i class="fa fa-fw fa-clock-o"></i> {{ $date->format('l, j F Y, H:i:s') }}</div>
+                                            <div class="intro"><p align="justify">{{{ str_limit(preg_replace('/(<.*?>)|(&.*?;)/', '', $beritaCU->content),200) }}}</p></div>
+                                        </div>
+                                    @endif
+                                </a>
+                            </div>
+                        </div>
+
                     @endforeach
                 @else
                     <div class="col-xs-12">
@@ -182,17 +265,25 @@
             @endif
 
             <div class="col-sm-4 ">
-                <h3 class="underline"><a href="{{ route('artikel',array($berita->id)) }}" style="color: #53555c">{{$berita->name}}</a></h3>
-                <ul class="list-group ">
+                <div class="visible-md visible-lg">
+                <h3 class="underline">{{$berita->name}}<a href="{{ route('artikel',array($berita->id)) }}" class="btn btn-sm pull-right">
+                             <i class="fa fa-arrow-circle-right"></i></a></h3>
+                </div>
+                <div class="visible-sm visible-xs">
+                    <a href="{{ route('artikel',array($berita->id)) }}" class="btn btn-block">
+                        {{$berita->name}}</a>
+                </div>
+                <br/>
+                <ul class="list-group mainArticle">
                     @if(!$berita->artikel->isEmpty())
                         @foreach($berita->artikel as $artikel)
-                            <li class="list-group-item shadow " style="margin-bottom: 5px;">{{ link_to_route('detail_artikel', $artikel->judul, array($artikel->id),array('style'=>'color:#53555c')) }}</li>
+                            <li class="list-group-item " style="margin-bottom: 5px;">{{ link_to_route('detail_artikel', $artikel->judul, array($artikel->id)) }}</li>
                         @endforeach
                         @if($berita->artikel->count() > 2)
-                            <li class="list-group-item shadow" style="margin-bottom: 5px"><b><a href="{{ route('artikel',array($berita->id)) }}">Selengkapnya</a></b></li>
+                            <li class="list-group-item" style="margin-bottom: 5px"><b><a href="{{ route('artikel',array($berita->id)) }}">Selengkapnya</a></b></li>
                         @endif
                     @else
-                        <li class="list-group-item shadow" style="margin-bottom: 5px">Belum terdapat artikel</li>
+                        <li class="list-group-item" style="margin-bottom: 5px">Belum terdapat artikel</li>
                     @endif
                 </ul>
             </div>
@@ -211,7 +302,15 @@
 <!-- Solusi-->
 <div class="section">
     <div class="container">
-        <h2>Pelayanan</h2>
+        <div class="visible-md visible-lg">
+            <h2>Pelayanan <a href="{{ route('pelayanan') }}" class="btn btn-sm pull-right">
+                    Selengkapnya <i class="fa fa-arrow-circle-right"></i></a></h2>
+        </div>
+        <div class="visible-sm visible-xs">
+            <a href="{{ route('pelayanan') }}" class="btn btn-block">
+                Pelayanan</a>
+        </div>
+        <br/>
         <div class="row">
         @foreach($pelayanans as $pelayanan)
         <?php $pelayanancount = $pelayanan->count(); ?>
@@ -242,7 +341,14 @@
 <!-- agenda-->
 <div class="section">
     <div class="container">
-        <h2>Kegiatan</h2>
+        <div class="visible-md visible-lg">
+            <h2>Kegiatan <a href="{{ route('kegiatan') }}" class="btn btn-sm pull-right">
+                    Selengkapnya <i class="fa fa-arrow-circle-right"></i></a></h2>
+        </div>
+        <div class="visible-sm visible-xs">
+            <a href="{{ route('kegiatan') }}" class="btn btn-block ">Kegiatan</a>
+        </div>
+        <br/>
         <div class="row">
             @include('_components.agenda')
         </div>
@@ -252,7 +358,17 @@
 <!-- gambar kegiatan-->
 <div class="section">
     <div class="container">
-        <h2>Foto Kegiatan Terbaru</h2>
+        <div class="visible-md visible-lg">
+            <h2>Foto Kegiatan Terbaru <a href="https://www.flickr.com/photos/127271987@N07/"
+                                         target="_BLANK"
+                                         class="btn btn-sm pull-right">Selengkapnya <i class="fa fa-arrow-circle-right"></i></a></h2>
+        </div>
+        <div class="visible-sm visible-xs">
+            <a href="https://www.flickr.com/photos/127271987@N07/"
+               target="_BLANK"
+               class="btn btn-block">Foto Kegiatan Terbaru</a>
+        </div>
+        <br/>
         <div class="row">
             <div class="col-md-12">
                 <div class="products-slider">
@@ -269,16 +385,6 @@
                             </div>
                         </div>
                     @endforeach
-                </div>
-            </div>
-        </div>
-        <div class="row">
-            <div class="col-md-12">
-                <div class="col-sm-12">
-                    <hr style="border-top:1px solid #D2D2D2;"/>
-                    <a href="https://www.flickr.com/photos/127271987@N07/"
-                       target="_BLANK"
-                       class="btn pull-right"><b>Selengkapnya</b></a>
                 </div>
             </div>
         </div>

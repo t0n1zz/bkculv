@@ -10,13 +10,21 @@ class PublicController extends \BaseController{
             ->where('kategori','=','2')
             ->where('status','=','1')
             ->orderBy('created_at', 'desc')
-            ->take(3)->get();
+            ->take(4)->get();
+
+        $beritaCUs = Artikel::with('KategoriArtikel')
+            ->where('kategori','=','9')
+            ->where('status','=','1')
+            ->orderBy('created_at', 'desc')
+            ->take(2)->get();
 
         $filosofis = Artikel::with('KategoriArtikel')
             ->where('kategori','=','4')
             ->where('status','=','1')
             ->orderBy('created_at', 'desc')
-            ->take(3)->get();
+            ->take(2)->get();
+
+        $judulBeritas = KategoriArtikel::select('id','name')->get();
 
         $pelayanans = Pelayanan::take(3)->get();
         $kegiatans = kegiatan::take(5)
@@ -24,7 +32,7 @@ class PublicController extends \BaseController{
             ->orderBy('tanggal','asc')
             ->get();
 
-        $beritas = KategoriArtikel::with('Artikel')->whereNotIn('id',array('1','2','3','4','8'))->get();
+        $beritas = KategoriArtikel::with('Artikel')->whereNotIn('id',array('1','2','4','8','9'))->get();
 
         $date = Date::now()->format('d-m');
         $query = "SELECT  id,name FROM cuprimer WHERE DATE_FORMAT(ultah, '%d-%m') = '$date' ";
@@ -45,8 +53,8 @@ class PublicController extends \BaseController{
         */
 
         return View::make('index',compact(
-            'artikelpilihans','beritaBKCUs','filosofis',
-            'pelayanans','kegiatans','beritas','ultahcu','gambars'
+            'artikelpilihans','beritaBKCUs','filosofis','beritaCUs',
+            'pelayanans','kegiatans','beritas','ultahcu','gambars','judulBeritas'
         ));
     }
 
@@ -173,5 +181,20 @@ class PublicController extends \BaseController{
         $artikels = Artikel::where('judul','LIKE','%' .$key. '%')->where('status','=',1)->paginate(12);
 
         return View::make('cari', compact('artikels','key'));
+    }
+
+    public function update_kegiatan(){
+        $now = new Date('now');
+        $now->format('Y-m-d H:i:s');
+        $kegiatans = Kegiatan::where('tanggal2','<',$now)->get();
+
+        foreach($kegiatans as $kegiatan){
+            $kegiatan->status = "1";
+            $kegiatan->update();
+        }
+    }
+
+    public function pemilihan(){
+        return View::make('pemilihan');
     }
 }

@@ -139,3 +139,15 @@ img {
     cursor: pointer;
     cursor: hand;
 }
+
+.mainArticle a {
+    color: #535b60;
+}
+.mainArticle a:hover {
+    color: #4f8db3;
+}
+
+.underline {
+    border-bottom: 2px solid #53555c;
+    line-height: 1.5em;
+}

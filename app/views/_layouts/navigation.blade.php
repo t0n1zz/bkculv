@@ -30,9 +30,11 @@
                         <a href="#" class="dropdown-toggle" data-toggle="dropdown">Tentang Kami <i class="fa fa-angle-down"></i></a>
                         <ul class="dropdown-menu">
                             <li><a href="{{ route('profil') }}">Profil</a></li>
+                            <li><a href="{{ route('pengurus') }}">Pengurus</a></li>
+                            <li><a href="{{ route('pengawas') }}">Pengawas</a></li>
+                            <li><a href="{{ route('manajemen') }}">Manajemen</a></li>
                             <li><a href="{{ route('pelayanan') }}">Pelayanan</a></li>
-                            <li><a href="{{ route('tim') }}">Tim</a></li>
-                            <li><a href="{{ route('jejaring') }}">Jejaring</a></li>
+                            <li><a href="{{ route('anggota') }}">Anggota</a></li>
                             <li><a href="{{ route('artikel',array(4)) }}">Filosofi</a></li>
                             <li><a href="{{ route('artikel',array(8)) }}">Sejarah</a></li>
                         </ul>
@@ -50,3 +52,6 @@
         </div><!--/.container-->
     </nav><!--/nav-->
 </div>
+
+
+

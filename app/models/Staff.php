@@ -14,7 +14,7 @@ class Staff extends \Eloquent {
     
     protected $fillable = [
         'name','jabatan','tingkat','cu','periode1','periode2','tempat_lahir','tanggal_lahir','kelamin',
-        'agama','pendidikan','status','alamat','kota',
+        'agama','pendidikan','status','alamat','kota','gambar',
         'telp','hp','email'
     ];
 

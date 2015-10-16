@@ -313,6 +313,18 @@ class AdminAdminController extends \BaseController{
                 $adminrole->detachPermission($akses);
             }
         }
+
+        if(Input::get('saran') == 1){
+            if (!$admin2->can('saran')){
+                $akses = Permission::where('name', '=', 'saran')->first();
+                $adminrole->attachPermission($akses);
+            }
+        }else{
+            if($admin2->can('saran')){
+                $akses = Permission::where('name','=','saran')->first();
+                $adminrole->detachPermission($akses);
+            }
+        }
     }
 
 }

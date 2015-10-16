@@ -400,6 +400,142 @@
                 </div>
             </div>
             <!-- /pengawas -->
+            <!-- panitia -->
+            <div class="col-sm-12 featured-news">
+                <h2>Panitia Pemilihan Fit dan Porpertest Bakal Calon Pengrus dan Pengawas Periode 2015 - 2017 </h2>
+                <div class="row">
+                    <div class="col-sm-6">
+                        <div class="row mainArticle">
+                            <div class="col-xs-4">
+                                {{ HTML::image('images/pemilihan/delfinus.jpg','', array('class' => 'img-thumbnail', 'width' => '100%')) }}
+                            </div>
+                            <div class="col-xs-8">
+                                <div class="caption "><b>Drs. Delfinus, MM</b></div>
+                                <div class="intro">
+                                    <ul class="list-unstyled">
+                                        <li><b>Status : </b> Menikah</li>
+                                        <li><b>Agama : </b> Kristen Protestan</li>
+                                        <li><b>Pekerjaan : </b> Dosen</li>
+                                        <li><b>CU Asal : </b> Betang Asi</li>
+                                        <li><b>CU Pengusung : </b> Daya Lestari</li>
+                                        <li><b>Jabatan di CU : </b> Sekretaris Pengawas</li>
+                                    </ul>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-sm-6">
+                        <div class="row mainArticle">
+                            <div class="col-xs-4">
+                                {{ HTML::image('images/pemilihan/dominikus.jpg','', array('class' => 'img-thumbnail', 'width' => '100%')) }}
+                            </div>
+                            <div class="col-xs-8">
+                                <div class="caption "><b>2. Dominikus Renaldi Tanes</b></div>
+                                <div class="date" style="font-size: 14px;padding-bottom: 5px">Lahir di Ujung Pandang, 23 September 1966</div>
+                                <div class="intro">
+                                    <ul class="list-unstyled">
+                                        <li><b>Status : </b> Menikah</li>
+                                        <li><b>Agama : </b> Katholik</li>
+                                        <li><b>Pekerjaan : </b> Swasta</li>
+                                        <li><b>CU Asal : </b> Mekar Kasih</li>
+                                        <li><b>CU Pengusung : </b> Mekar Kasih</li>
+                                        <li><b>Jabatan di CU : </b> Sekretaris Pengurus</li>
+                                    </ul>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-sm-6">
+                        <div class="row mainArticle">
+                            <div class="col-xs-4">
+                                {{ HTML::image('images/pemilihan/edi.jpg','', array('class' => 'img-thumbnail', 'width' => '100%')) }}
+                            </div>
+                            <div class="col-xs-8">
+                                <div class="caption "><b>3. Edi Vinsensius Petebang, S.Sos.</b></div>
+                                <div class="date" style="font-size: 14px;padding-bottom: 5px">Lahir di Ketapang, 28 Juni 1970</div>
+                                <div class="intro">
+                                    <ul class="list-unstyled">
+                                        <li><b>Status : </b> Menikah</li>
+                                        <li><b>Agama : </b> Katholik</li>
+                                        <li><b>Pekerjaan : </b> Swasta</li>
+                                        <li><b>CU Asal : </b> Stella Maris</li>
+                                        <li><b>CU Pengusung : </b> Pancur Dangeri & Khatulistiwa Bakti</li>
+                                        <li><b>Jabatan di CU : </b> Sekretaris Pengurus</li>
+                                    </ul>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-sm-6">
+                        <div class="row mainArticle">
+                            <div class="col-xs-4">
+                                {{ HTML::image('images/pemilihan/gregorius.jpg','', array('class' => 'img-thumbnail', 'width' => '100%')) }}
+                            </div>
+                            <div class="col-xs-8">
+                                <div class="caption "><b>4. Gregorius Doni Senun, S.Pd.</b></div>
+                                <div class="date" style="font-size: 14px;padding-bottom: 5px">Lahir di Manga Aleng, 8 Juni 1963</div>
+                                <div class="intro">
+                                    <ul class="list-unstyled">
+                                        <li><b>Status : </b> Menikah</li>
+                                        <li><b>Agama : </b> Katholik</li>
+                                        <li><b>Pekerjaan : </b> PNS</li>
+                                        <li><b>CU Asal : </b> Betang Asi</li>
+                                        <li><b>CU Pengusung : </b> Eka Pembelum Itah & Remaung Kecubung</li>
+                                        <li><b>Jabatan di CU : </b> Sekretaris Pengurus</li>
+                                    </ul>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-sm-6">
+                        <div class="row mainArticle">
+                            <div class="col-xs-4">
+                                {{ HTML::image('images/pemilihan/yetrodianu.jpg','', array('class' => 'img-thumbnail', 'width' => '100%')) }}
+                            </div>
+                            <div class="col-xs-8">
+                                <div class="caption "><b>5. Yetrodianu, S.Pd.</b></div>
+                                <div class="date" style="font-size: 14px;padding-bottom: 5px">Lahir di Barito Selatan, 3 Februari 1966</div>
+                                <div class="intro">
+                                    <ul class="list-unstyled">
+                                        <li><b>Status : </b> Menikah</li>
+                                        <li><b>Agama : </b> Katholik</li>
+                                        <li><b>Pekerjaan : </b> PNS - Guru</li>
+                                        <li><b>CU Asal : </b> Sumber Rejeki</li>
+                                        <li><b>CU Pengusung : </b> Sumber Rejeki</li>
+                                        <li><b>Jabatan di CU : </b> Ketua Pengawas</li>
+                                    </ul>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-sm-6">
+                        <div class="row mainArticle">
+                            <div class="col-xs-4">
+                                {{ HTML::image('images/pemilihan/adrianus.jpg','', array('class' => 'img-thumbnail', 'width' => '100%')) }}
+                            </div>
+                            <div class="col-xs-8">
+                                <div class="caption "><b>6. Adrianus Kun Anggoro, S.Si.</b></div>
+                                <div class="date" style="font-size: 14px;padding-bottom: 5px">Lahir di Palembang, 26 Juni 1975</div>
+                                <div class="intro">
+                                    <ul class="list-unstyled">
+                                        <li><b>Status : </b> Menikah</li>
+                                        <li><b>Agama : </b> Katholik</li>
+                                        <li><b>Pekerjaan : </b> Swasta</li>
+                                        <li><b>CU Asal : </b> Jembatan Kasih</li>
+                                        <li><b>CU Pengusung : </b> Jembatan Kasih</li>
+                                        <li><b>Jabatan di CU : </b> Sekretaris Pengawas</li>
+                                    </ul>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <!-- /panitia -->
         </div>
         <br>
     </div>

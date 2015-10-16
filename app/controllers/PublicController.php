@@ -7,32 +7,15 @@ class PublicController extends \BaseController{
         $artikelpilihans = Artikel::where('pilihan', '=', '1')->get();
 
         $beritaBKCUs = Artikel::with('KategoriArtikel')
-            ->where('kategori','=','2')
             ->where('status','=','1')
             ->orderBy('created_at', 'desc')
-            ->take(4)->get();
-
-        $beritaCUs = Artikel::with('KategoriArtikel')
-            ->where('kategori','=','9')
-            ->where('status','=','1')
-            ->orderBy('created_at', 'desc')
-            ->take(2)->get();
-
-        $filosofis = Artikel::with('KategoriArtikel')
-            ->where('kategori','=','4')
-            ->where('status','=','1')
-            ->orderBy('created_at', 'desc')
-            ->take(2)->get();
-
-        $judulBeritas = KategoriArtikel::select('id','name')->get();
+            ->take(6)->get();
 
         $pelayanans = Pelayanan::take(3)->get();
         $kegiatans = kegiatan::take(5)
             ->where('status','=','0')
             ->orderBy('tanggal','asc')
             ->get();
-
-        $beritas = KategoriArtikel::with('Artikel')->whereNotIn('id',array('1','2','4','8','9'))->get();
 
         $date = Date::now()->format('d-m');
         $query = "SELECT  id,name FROM cuprimer WHERE DATE_FORMAT(ultah, '%d-%m') = '$date' ";
@@ -53,9 +36,21 @@ class PublicController extends \BaseController{
         */
 
         return View::make('index',compact(
-            'artikelpilihans','beritaBKCUs','filosofis','beritaCUs',
-            'pelayanans','kegiatans','beritas','ultahcu','gambars','judulBeritas'
+            'artikelpilihans','beritaBKCUs',
+            'pelayanans','kegiatans','ultahcu','gambars'
         ));
+    }
+
+    public function saran(){
+        $validator = Validator::make($data = Input::all(), Saran::$rules);
+
+        if ($validator->fails())
+        {
+            return Redirect::back()->withErrors($validator)->withInput();
+        }
+
+        if(Saran::create($data))
+            return Redirect::back()->with('message', 'Terima kasih atas saran dan kritiknya.');
     }
 
     public function artikel($id){
@@ -117,18 +112,42 @@ class PublicController extends \BaseController{
         return View::make('profil',compact('kantor_pelayanans','visi'));
     }
 
-    public function tim(){
-        $penguruses = Staff::where('tingkat','=','1')
+    public function pengurus(){
+        $penguruses1 = Staff::where('tingkat','=','1')
             ->where('cu','=','0')
+            ->where('periode1','=','2012')
+            ->where('periode2','=','2014')
             ->get();
-        $pengawases = Staff::where('tingkat','=','2')
+        $penguruses2 = Staff::where('tingkat','=','1')
             ->where('cu','=','0')
+            ->where('periode1','=','2015')
+            ->where('periode2','=','2017')
             ->get();
+
+        return View::make('pengurus',compact('penguruses1','penguruses2'));
+    }
+
+    public function pengawas(){
+        $pengawases1 = Staff::where('tingkat','=','2')
+            ->where('cu','=','0')
+            ->where('periode1','=','2012')
+            ->where('periode2','=','2014')
+            ->get();
+        $pengawases2 = Staff::where('tingkat','=','2')
+            ->where('cu','=','0')
+            ->where('periode1','=','2015')
+            ->where('periode2','=','2017')
+            ->get();
+
+        return View::make('pengawas',compact('pengawases1','pengawases2'));
+    }
+
+    public function manajemen(){
         $manajemens = Staff::where('tingkat','=','3')
             ->where('cu','=','0')
             ->get();
 
-        return View::make('tim',compact('manajemens','penguruses','pengawases'));
+        return View::make('manajemen',compact('manajemens'));
     }
 
     public function sejarah(){
@@ -137,12 +156,12 @@ class PublicController extends \BaseController{
         return View::make('sejarah',compact('sejarahs'));
     }
 
-    public function jejaring(){
+    public function anggota(){
         $jejarings = WilayahCuprimer::with('Cuprimer')
                     ->orderBy('name','asc')
                     ->get();
 
-        return View::make('jejaring',compact('jejarings'));
+        return View::make('anggota',compact('jejarings'));
     }
 
     public function cudetail($id){
@@ -186,7 +205,7 @@ class PublicController extends \BaseController{
     public function update_kegiatan(){
         $now = new Date('now');
         $now->format('Y-m-d H:i:s');
-        $kegiatans = Kegiatan::where('tanggal2','<',$now)->get();
+        $kegiatans = kegiatan::where('tanggal2','<',$now)->get();
 
         foreach($kegiatans as $kegiatan){
             $kegiatan->status = "1";

@@ -14,7 +14,7 @@
                         <br/>
                     @endif
                     @if(!empty($infogerakan->jumlah_cu))
-                        <b>Jumlah CU Primer :</b> <a href="{{ route('jejaring') }}">{{ number_format($infogerakan->jumlah_cu,0,",",".")}}</a>
+                        <b>Jumlah CU Primer :</b> <a href="{{ route('anggota') }}">{{ number_format($infogerakan->jumlah_cu,0,",",".")}}</a>
                         <br/>
                     @endif
                     @if(!empty($infogerakan->jumlah_staff_cu))
@@ -63,8 +63,10 @@
     			    </div>
     			    <div class="col-md-5">
     			        <ul class="no-list-style footer-navigate-section">
-                            <li><a href="{{ route('tim') }}">Tim</a></li>
-                            <li><a href="{{ route('jejaring') }}">Jejaring</a></li>
+                            <li><a href="{{ route('pengurus') }}">Pengurus</a></li>
+                            <li><a href="{{ route('pengawas') }}">Pengawas</a></li>
+                            <li><a href="{{ route('manajemen') }}">Manajemen</a></li>
+                            <li><a href="{{ route('anggota') }}">Anggota</a></li>
                             <li><a href="{{ route('artikel',array(4)) }}">Filosofi</a></li>
                             <li><a href="{{ route('artikel',array(8)) }}">Sejarah</a></li>
                             <li><a href="{{ route('download') }}">Download</a></li>
@@ -88,14 +90,86 @@
     		</div>
     	</div>
     	<div class="row">
-    		<div class="col-md-12">
-    			<div class="footer-copyright">&copy; <?php echo date("Y") ?> Puskopdit BKCU Kalimantan • Badan Hukum Nomor : 927/BH/M.KUKM.2/X/2010  • <a href="{{ route('attribution') }}">Attribution</a>
-    		</div>
-    		<br/>
-    		<div align="center">
+            <div class="col-md-12">
+                <br/>
+                @if(Session::has('message'))
+                    <div align="col-md-12">
+                        <div class="btn btn-default  btn-block" style="cursor: default">Terima Kasih Atas Saran atau Kritik Anda</div>
+                    </div>
+                @else
+                    <div align="col-md-12">
+                        <button class="btn btn-default modal1 btn-block"><i class="fa fa-fw fa-paper-plane-o"></i> Saran atau Kritik</button>
+                    </div>
+                @endif
+                <br />
+                <div class="footer-copyright">
+                    &copy; <?php echo date("Y") ?> Puskopdit BKCU Kalimantan • Badan Hukum Nomor : 927/BH/M.KUKM.2/X/2010  - <a href="{{ route('attribution') }}">Attribution</a>
+                </div>
+            </div>
+            <br/>
+            <div class="visible-sm visible-xs" align="center">
                 <a href="#" class="scrollToTop2" style="color: #808080;">
-                    <b>-</b> <i class="fa fa-fw fa-2x fa-chevron-up" ></i> <b>-</b>
+                    <b>-</b> <i class="fa fa-fw fa-2x fa-arrow-up" ></i> <b>-</b>
                 </a>
-    	</div>
+            </div>
+        </div>
     </div>
 </div>
+
+<!-- scroll to top -->
+<div class="visible-lg">
+    <a href="#" class="scrollToTop">
+        <i class="fa fa-arrow-up" style="font-size: 1.5em;"></i>
+    </a>
+</div>
+<!-- scroll to top -->
+
+
+
+<div class="modal fade" id="modal1show" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+    {{ Form::open(array('route' => array('saran'))) }}
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                <h4 class="modal-title "><i class="fa fa-fw fa-paper-plane-o"></i> Saran atau Kritik</h4>
+            </div>
+            <div class="modal-body">
+                <input type="text" class="form-control" name="name" placeholder="Silahkan masukkan nama / identitas anda" />
+                <br />
+                    <textarea class="form-control" name="content"
+                              placeholder="Silahkan masukkan saran atau kritik anda" style="height: 150px"></textarea>
+            </div>
+            <div class="modal-footer">
+                <button type="submit" class="btn btn-primary" id="modalbutton"><i class="fa fa-check"></i> Ok</button>
+                <button type="button" class="btn btn-red" data-dismiss="modal"><i class="fa fa-times"></i> Batal</button>
+            </div>
+        </div><!-- /.modal-content -->
+    </div><!-- /.modal-dialog -->
+    {{ Form::close() }}
+</div>
+
+<!-- feedback -->
+<div class="modal fade" id="modal1show" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+    {{ Form::open(array('route' => array('saran'))) }}
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                    <h4 class="modal-title "><i class="fa fa-fw fa-envelope"></i> Saran dan Kritik</h4>
+                </div>
+                <div class="modal-body">
+                    <input type="text" class="form-control" name="nama" placeholder="Silahkan masukkan nama / identitas anda" />
+                    <br />
+                    <textarea class="form-control" name="content"
+                              placeholder="Silahkan masukkan saran dan kritik anda" style="height: 150px"></textarea>
+                </div>
+                <div class="modal-footer">
+                    <button type="submit" class="btn btn-primary" id="modalbutton"><i class="fa fa-check"></i> Ok</button>
+                    <button type="button" class="btn btn-red" data-dismiss="modal"><i class="fa fa-times"></i> Batal</button>
+                </div>
+            </div><!-- /.modal-content -->
+        </div><!-- /.modal-dialog -->
+    {{ Form::close() }}
+</div>
+<!-- /feedback -->

@@ -304,8 +304,9 @@
               <dt><b style="font-size: 13px" >Reset : </b></dt>
               <dd><b style="font-size: 13px" > 5 September 2014 </b></dd>
             </dl>
-            <hr />
-            	<a href="{{ route('statistik') }}" class="btn btn-default btn-block">
+            </div>
+            <div class="panel-footer">
+                <a href="{{ route('statistik') }}" class="btn btn-default btn-block">
                     <div>
                         <span class="pull-left"><b>Detail</b></span>
                         <span class="pull-right"><i class="fa fa-arrow-circle-right"></i></span>
@@ -363,20 +364,23 @@
                     <b>SHU  :</b> Rp. {{ number_format($infogerakan->shu,0,",",".") }}
                     <br/>
                 @endif
-                 @if(Entrust::can('infogerakan'))
-                 <hr />
-                 <a href="{{ route('admins.infogerakan.edit',array(1)) }}" class="btn btn-default btn-block">
-                     <div>
-                         <span class="pull-left"><b>Detail</b></span>
-                         <span class="pull-right"><i class="fa fa-arrow-circle-right"></i></span>
-                         <div class="clearfix"></div>
-                     </div>
-                 </a>
-                 @endif
+
             </div>
+            @if(Entrust::can('infogerakan'))
+            <div class="panel-footer">
+                <a href="{{ route('admins.infogerakan.edit',array(1)) }}" class="btn btn-default btn-block">
+                    <div>
+                        <span class="pull-left"><b>Detail</b></span>
+                        <span class="pull-right"><i class="fa fa-arrow-circle-right"></i></span>
+                        <div class="clearfix"></div>
+                    </div>
+                </a>
+            </div>
+            @endif
         </div>
         <!--/info gerakan-->
     </div>
+
     <div class="col-lg-7">
          <div class="panel panel-default">
             <div class="panel-heading">
@@ -427,7 +431,59 @@
                 </div>
                 </div>
             </div>
+        @if(Entrust::can('saran'))
+        <div class="chat-panel panel panel-default">
+            <div class="panel-heading">
+                <h4><b><i class="fa fa-paper-plane-o fa-fw"></i> Saran Atau Kritik</b></h4>
+            </div>
+            <!-- /.panel-heading -->
+            <div class="panel-body">
+                <ul class="chat">
+                    <?php
+                    $sarans = Saran::orderBy('created_at','desc')->take(10)->get();
+                    ?>
+                    @foreach($sarans as $saran)
+                    <li class=" clearfix">
+                        <div class="chat-body clearfix">
+                            <div class="header">
+                                @if(!empty($saran->name))
+                                    <strong class="primary-font">{{ $saran->name }}</strong>
+                                @else
+                                    <strong class="primary-font">-</strong>
+                                @endif
+                                <small class="pull-right text-muted">
+                                    @if(!empty($saran->created_at ))
+                                        <?php $date = new Date($saran->created_at); ?>
+                                        <i class="fa fa-clock-o fa-fw"></i> {{  $date->format('d/n/Y') }}
+                                    @else
+                                        <i class="fa fa-clock-o fa-fw"></i> -
+                                    @endif
+                                </small>
+                            </div>
+                            @if(!empty($saran->content))
+                                <p>{{ $saran->content }}</p>
+                            @else
+                                <p>-</p>
+                            @endif
+                        </div>
+                    </li>
+                    @endforeach
+                </ul>
+            </div>
+            <!-- /.panel-body -->
+            <div class="panel-footer">
+                <a href="{{ route('admins.saran.index') }}" class="btn btn-default btn-block">
+                    <div>
+                        <span class="pull-left"><b>Detail</b></span>
+                        <span class="pull-right"><i class="fa fa-arrow-circle-right"></i></span>
+                        <div class="clearfix"></div>
+                    </div>
+                </a>
+            </div>
+            <!-- /.panel-footer -->
         </div>
+        @endif
+    </div>
     </div>
 </div>
 <!-- /3rd row -->

@@ -30,6 +30,15 @@
             </li>
             @endif
             <!-- /pengumuman -->
+            <!-- saran -->
+            @if(Entrust::can('saran'))
+                <li><a  @if($title == "Kelola Saran atau Kritik")
+                        {{ "class='active'" }}
+                                @endif
+                                href="{{ route('admins.saran.index') }}"><i class="fa fa-paper-plane-o fa-fw"></i> Saran atau Kritik</a>
+                </li>
+                @endif
+            <!-- /saran -->
             <!-- info gerakan -->
             @if(Entrust::can('infogerakan'))
             <li>

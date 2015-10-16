@@ -119,4 +119,14 @@
                     @endif
                     /></td>
     </tr>
+    <tr>
+        <td>Akses Halaman Saran atau Kritik</td>
+        <td><input name="saran" value="1" type="checkbox"
+            @if(!empty($admin))
+                @if($admin->can('saran'))
+                    {{ 'checked' }}
+                        @endif
+                    @endif
+            /></td>
+    </tr>
 </table>

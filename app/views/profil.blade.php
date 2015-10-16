@@ -194,12 +194,12 @@
         <div class="col-md-4 col-sm-6">
             <div class="portfolio-item">
                 <div class="portfolio-image">
-                    <a href="{{ route('jejaring') }}"><img src="{{ asset('images/jejaring.jpg') }}" alt="jejaring"></a>
+                    <a href="{{ route('anggota') }}"><img src="{{ asset('images/jejaring.jpg') }}" alt="anggota"></a>
                 </div>
                 <div class="portfolio-info-fade">
                     <ul>
-                        <li class="portfolio-project-name">Jejaring</li>
-                        <li class="read-more"><a href="{{ route('jejaring') }}" class="btn">Selengkapnya</a></li>
+                        <li class="portfolio-project-name">Anggota</li>
+                        <li class="read-more"><a href="{{ route('anggota') }}" class="btn">Selengkapnya</a></li>
                     </ul>
                 </div>
             </div>
@@ -207,12 +207,16 @@
         <div class="col-md-4 col-sm-6">
             <div class="portfolio-item">
                 <div class="portfolio-image">
-                    <a href="{{ route('tim') }}"><img src="{{ asset('images/tim.jpg') }}" alt="Tim"></a>
+                    <img src="{{ asset('images/tim.jpg') }}" alt="Tim">
                 </div>
                 <div class="portfolio-info-fade">
                     <ul>
                         <li class="portfolio-project-name">Tim Kami</li>
-                        <li class="read-more"><a href="{{ route('tim') }}" class="btn">Selengkapnya</a></li>
+                        <li class="read-more">
+                            <a href="{{ route('pengurus') }}" class="btn">Pengurus</a>
+                            <a href="{{ route('pengawas') }}" class="btn">Pengawas</a>
+                            <a href="{{ route('manajemen') }}" class="btn">Manajemen</a>
+                        </li>
                     </ul>
                 </div>
             </div>

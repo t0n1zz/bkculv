@@ -43,8 +43,7 @@
         {{ HTML::style('font-awesome/css/font-awesome.min.css') }}
         {{ HTML::style('css/main.css') }}
         {{ HTML::style('css/mystyle.css') }}
-
-
+        {{ HTML::script('js/google_analytics.js') }}
     </head>
     <body>
     <!--[if lt IE 7]>

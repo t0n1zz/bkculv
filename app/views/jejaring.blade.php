@@ -12,6 +12,7 @@
         </div>
     </div>
 <!-- /Page Title -->
+<img class="img-responsive" src="{{ asset('images/top.png') }}" width="100%"  style="vertical-align: top;margin-top: -10px;margin-bottom: -3%;"/>
 <div class="section">
     <div class="container">
         <div class="row">
@@ -39,21 +40,10 @@
         <div class="col-sm-3">
             <ul class="list-unstyled">
                 <li>
-                    <?php
-                    $date = new Date($cuprimer->ultah);
-                    $date2 = Date::now()->format('d-m');
-                    ?>
-                    @if($date->format('d-m') == $date2)
-                        <div class="well shadow" style="background: wheat;">
-                            <a class="smoothscroll" href="{{ route('cudetail',array($cuprimer->id)) }}"
-                               style="font-size: large"><b><small><i class="fa fa-star-o"></i> Anniversary <i class="fa fa-star-o"></i></small><br/>{{ $cuprimer->name }} <i class="fa fa-arrow-circle-right"></i></b></a>
-                        </div>
-                    @else
-                        <div class="well shadow" >
-                            <a class="smoothscroll" href="{{ route('cudetail',array($cuprimer->id)) }}"
-                               style="font-size: large"><b>{{ $cuprimer->name }} <i class="fa fa-arrow-circle-right"></i></b></a>
-                        </div>
-                    @endif
+                    <div class="well shadow">
+                        <a class="smoothscroll" href="{{ route('cudetail',array($cuprimer->id)) }}"
+                           style="font-size: large"><b>{{ $cuprimer->name }} <i class="fa fa-arrow-circle-right"></i></b></a>
+                    </div>
                 </li>
             </ul>
         </div>

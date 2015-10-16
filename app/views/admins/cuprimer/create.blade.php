@@ -10,7 +10,7 @@
 <div class="row">
     <div class=" col-lg-12">
 
-	{{ Form::open(array('route' => array('admins.cuprimer.store'),'data-toggle' => 'validator','role' => 'form')) }}
+	{{ Form::open(array('route' => array('admins.cuprimer.store'),'files' => true,'data-toggle' => 'validator','role' => 'form')) }}
 		@include('admins.cuprimer.form')
 	{{ Form::close() }}
 

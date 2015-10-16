@@ -16,10 +16,12 @@ Route::get('pelayanan/{id}',array( 'as' => 'pelayanans','uses' => 'PublicControl
 Route::get('pelayanan',array( 'as' => 'pelayanan','uses' => 'PublicController@pelayanan'));
 Route::get('kegiatan',array( 'as' => 'kegiatan','uses' => 'PublicController@agenda'));
 Route::get('profil',array( 'as' => 'profil','uses' => 'PublicController@profil'));
-Route::get('tim',array( 'as' => 'tim','uses' => 'PublicController@tim'));
+Route::get('pengurus',array( 'as' => 'pengurus','uses' => 'PublicController@pengurus'));
+Route::get('pengawas',array( 'as' => 'pengawas','uses' => 'PublicController@pengawas'));
+Route::get('manajemen',array( 'as' => 'manajemen','uses' => 'PublicController@manajemen'));
 Route::get('berita',array( 'as' => 'berita','uses' => 'PublicController@berita'));
 Route::get('sejarah',array( 'as' => 'sejarah','uses' => 'PublicController@sejarah'));
-Route::get('jejaring',array('as' => 'jejaring','uses' => 'PublicController@jejaring'));
+Route::get('anggota',array('as' => 'anggota','uses' => 'PublicController@anggota'));
 Route::get('cudetail/{id}',array( 'as' => 'cudetail','uses' => 'PublicController@cudetail'));
 Route::get('hymnecu',array('as' => 'hymnecu','uses' => 'PublicController@hymnecu'));
 Route::get('artikel/{id}',array( 'as' => 'artikel','uses' => 'PublicController@artikel'));
@@ -28,8 +30,12 @@ Route::get('cari',array('as' => 'cari','uses' => 'PublicController@getcari'));
 Route::get('download',array('as' => 'download','uses' => 'PublicController@download'));
 Route::get('download/{filename}',array('as' => 'file','uses' => 'PublicController@download_file'));
 Route::get('attribution',array('as' => 'attribution','uses' => 'PublicController@attribution'));
-Route::get('pemilihan',array('as' => 'pemilihan','uses' => 'PublicController@pemilihan'));
+//Route::get('pemilihan',array('as' => 'pemilihan','uses' => 'PublicController@pemilihan'));
 
+//saran
+Route::post('saran',array('as' => 'saran', 'uses' => 'PublicController@saran'));
+
+//auto delete kegiatan
 Route::get('update_kegiatan',array( 'as' => 'update_kegiatan','uses' => 'PublicController@update_kegiatan'));
 
 
@@ -157,7 +163,7 @@ Route::group(array('prefix' => 'admins','before' => 'auth'), function(){
     Route::resource('kategoriartikel','AdminKategoriArtikelController',array('except' => array('show','create','edit')));
     Route::resource('wilayahcuprimer','AdminWilayahCuprimerController',array('except' => array('show','create','edit')));
     Route::resource('infogerakan','AdminInfoGerakanController',array('only' => array('edit','update')));
-
+    Route::resource('saran','AdminSaranController',array('except' => array('show','create','edit')));
 
 });
 
@@ -169,16 +175,21 @@ Route::group(array('before' => 'auth'), function()
 \Route::get('elfinder/tinymce', 'Barryvdh\Elfinder\ElfinderController@showTinyMCE4');
 
 
-
-
-
 /*
+Route::get('/start', function() {
+    $owner = new Role;
+    $owner->name = 'abcd ';
+    $owner->save();
+
+    return 'Woohoo!';
+});
+
 Route::get('/start', function()
 {
-    $aksesartikel = new Permission;
-    $aksesartikel->name = 'download';
-    $aksesartikel->display_name = 'Akses Download';
-    $aksesartikel->save();
+    $permision = new Permission;
+    $permision->name = 'download';
+    $permision->display_name = 'Akses Download';
+    $permision->save();
 
     return 'Woohoo!';
 });
@@ -218,6 +229,9 @@ Route::get('/start', function()
 
     $admin->perms()->sync(array($aksesartikel->id));
 
+    echo '<pre>';
+    echo var_dump($data2); // <---- or toJson()
+    echo '</pre>';
     return 'Woohoo!';
 });
 Route::get('/start', function()
@@ -252,4 +266,16 @@ Route::get('/start', function()
     return 'Woohoo!';
 
 });
-*/
+*///
+
+// Confide routes
+Route::get('users/create', 'UsersController@create');
+Route::post('users', 'UsersController@store');
+Route::get('users/login', 'UsersController@login');
+Route::post('users/login', 'UsersController@doLogin');
+Route::get('users/confirm/{code}', 'UsersController@confirm');
+Route::get('users/forgot_password', 'UsersController@forgotPassword');
+Route::post('users/forgot_password', 'UsersController@doForgotPassword');
+Route::get('users/reset_password/{token}', 'UsersController@resetPassword');
+Route::post('users/reset_password', 'UsersController@doResetPassword');
+Route::get('users/logout', 'UsersController@logout');

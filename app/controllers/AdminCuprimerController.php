@@ -66,6 +66,14 @@ class AdminCuprimerController extends \BaseController{
 
     public function update($id)
     {
+        //get php max file upload size
+        $file_max = ini_get('upload_max_filesize');
+        $file_max_str_leng = strlen($file_max);
+        $file_max_meassure_unit = substr($file_max,$file_max_str_leng - 1,1);
+        $file_max_meassure_unit = $file_max_meassure_unit == 'K' ? 'kb' : ($file_max_meassure_unit == 'M' ? 'mb' : ($file_max_meassure_unit == 'G' ? 'gb' : 'unidades'));
+        $file_max = substr($file_max,0,$file_max_str_leng - 1);
+        $file_max = intval($file_max);
+
         //validasi
         $validator = Validator::make($data = Input::all(), Cuprimer::$rules);
         if ($validator->fails())
@@ -76,6 +84,9 @@ class AdminCuprimerController extends \BaseController{
         $name = Input::get('name');
         $cuprimer = Cuprimer::findOrFail($id);
         $data2 = $this->input_data($cuprimer,$data);
+        if($data2 == false)
+            return Redirect::back()->withInput()->with('errormessage','Ukuran file gambar harus lebih kecil dari '
+                . $file_max . " " . $file_max_meassure_unit);
 
         //simpan
         if($cuprimer->update($data2)) {
@@ -150,14 +161,6 @@ class AdminCuprimerController extends \BaseController{
 
     public function input_data($cuprimer,$data){
 
-        //get php max file upload size
-        $file_max = ini_get('upload_max_filesize');
-        $file_max_str_leng = strlen($file_max);
-        $file_max_meassure_unit = substr($file_max,$file_max_str_leng - 1,1);
-        $file_max_meassure_unit = $file_max_meassure_unit == 'K' ? 'kb' : ($file_max_meassure_unit == 'M' ? 'mb' : ($file_max_meassure_unit == 'G' ? 'gb' : 'unidades'));
-        $file_max = substr($file_max,0,$file_max_str_leng - 1);
-        $file_max = intval($file_max);
-
         $timestamp = strtotime(Input::get('ultah'));
         $tanggal = date('Y-m-d',$timestamp);
         array_set($data,'ultah',$tanggal);
@@ -212,36 +215,36 @@ class AdminCuprimerController extends \BaseController{
         try {
             $img = Input::file('gambar');
             if (!is_null($img)) {
-                $filename = str_random(10) . "-" . date('Y-m-d') . ".jpg";
+                $filename = $cuprimer->name . "-" . date('Y-m-d') . ".jpg";
 
                 if ($this->save_image($img, $cuprimer, $filename))
                     array_set($data,'gambar',$filename);
                 else
-                    return Redirect::back()->withInput()->with('errormessage', 'Terjadi kesalahan dalam penyimpanan gambar.');
+                    return false;
             }else{
                 $filename = $cuprimer->gambar;
                 array_set($data,'gambar',$filename);
             }
         } catch (Exception $e) {
-            return Redirect::back()->withInput()->with('errormessage', 'Ukuran gambar harus lebih kecil dari ' . $file_max . " " . $file_max_meassure_unit);
+            return false;
         }
 
         //logo
         try {
-            $img = Input::file('logo');
-            if (!is_null($img)) {
-                $filename = str_random(10) . "-" . date('Y-m-d') . ".jpg";
+            $img2 = Input::file('logo');
+            if (!is_null($img2)) {
+                $filename = $cuprimer->name ."-logo" . "-" . date('Y-m-d') . ".jpg";
 
-                if ($this->save_image($img, $cuprimer, $filename))
+                if ($this->save_image($img2, $cuprimer, $filename))
                     array_set($data,'logo',$filename);
                 else
-                    return Redirect::back()->withInput()->with('errormessage', 'Terjadi kesalahan dalam penyimpanan logo.');
+                    return false;
             }else{
                 $filename = $cuprimer->logo;
                 array_set($data,'logo',$filename);
             }
         } catch (Exception $e) {
-            return Redirect::back()->withInput()->with('errormessage', 'Ukuran gambar harus lebih kecil dari ' . $file_max . " " . $file_max_meassure_unit);
+            return false;
         }
 
         return $data;
@@ -263,5 +266,18 @@ class AdminCuprimerController extends \BaseController{
             return Redirect::route('admins.cuprimer.index')->with('message', 'Informasi kegiatan telah berhasil di hapus.');
 
         return Redirect::back()->withInput()->with('errormessage','Terjadi kesalahan dalam penghapusan informasi kegiatan.');
+    }
+
+
+    function save_image($img,$cuprimer,$filename){
+
+        $path = public_path('images_cu/');
+        File::delete($path . $cuprimer->gambar);
+
+        if(Image::make($img->getRealPath())->resize(360, null, function ($constraint) {
+            $constraint->aspectRatio();})->save($path . $filename))
+            return true;
+        else
+            return false;
     }
 }

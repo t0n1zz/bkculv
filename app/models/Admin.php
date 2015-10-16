@@ -14,11 +14,13 @@ class Admin extends Eloquent implements UserInterface, RemindableInterface {
 	use UserTrait, RemindableTrait;
 
     public static $rules = [
-        'username' => 'required',
+        'username' => 'required|min:5',
         'password' => 'required'
     ];
 
-    protected $fillable = ['username','password','name','status','last_login','last_logout'];
+    protected $fillable = ['username','password','password_confirmation',
+        'email','confirmation_code','confirmed',
+        'name','status','login','logout'];
 
 	/**
 	 * The database table used by the model.

@@ -6,7 +6,7 @@
     <div class="container">
         <div class="row">
             <div class="col-md-12">
-                <h1><a href="{{ route('jejaring') }}"
+                <h1><a href="{{ route('anggota') }}"
                        style="color: #ffffff"><i class="fa fa-fw fa-arrow-circle-left"></i></a> Credit Union Wilayah {{$cudetail->wilayahcuprimer->name}}</h1>
             </div>
         </div>
@@ -20,7 +20,7 @@
                 <div class="portfolio-item">
                     <div class="portfolio-image">
                         @if(!empty($cudetail->gambar) && is_file("images_cu/{$cudetail->gambar}"))
-                            <img src="{{ asset('images_cu/'.$cudetail->gambar) }}" alt="{{ $cudetail->name }}">
+                            <img src="{{ asset('images_cu/'.$cudetail->gambar) }}" alt="{{ $cudetail->name }}" width="100%">
                         @else
                             <img src="{{ asset('images/cudetail.jpg') }}" alt="{{ $cudetail->name }}">
                         @endif

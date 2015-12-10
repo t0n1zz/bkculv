@@ -12,6 +12,7 @@
     </div>
 </div>
 <!-- /Page Title -->
+@include('_layouts.event')
 <!--pengawas-->
 <div class="section">
     <div class="container">

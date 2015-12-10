@@ -2,6 +2,7 @@
 
 class AdminInfoGerakanController extends \BaseController{
 
+    protected $kelaspath = 'infogerakan';
     /**
      * Show the form for editing the specified artikel.
      *
@@ -10,39 +11,45 @@ class AdminInfoGerakanController extends \BaseController{
      */
     public function edit($id)
     {
-        $infogerakan = InfoGerakan::find($id);
+        try{
+            $data = InfoGerakan::find($id);
 
-        return View::make('admins.infogerakan.edit', compact('infogerakan'));
+            return View::make('admins.'.$this->kelaspath.'.edit', compact('data'));
+        }catch (Exception $e){
+            return Redirect::back()->withInput()->with('errormessage',$e->getMessage());
+        }
     }
 
     public function update($id)
     {
-        //validasi
-        $validator = Validator::make($data = Input::all(), InfoGerakan::$rules);
-        if ($validator->fails())
-        {
-            return Redirect::back()->withErrors($validator)->withInput();
+        try{
+            $validator = Validator::make($data = Input::all(), InfoGerakan::$rules);
+            if ($validator->fails())
+            {
+                return Redirect::back()->withErrors($validator)->withInput();
+            }
+
+            $kelas = InfoGerakan::findOrFail($id);
+            $timestamp = strtotime(Input::get('tanggal'));
+            $tanggal = date('Y-m-d',$timestamp);
+
+            $kelas->tanggal = $tanggal;
+            $kelas->jumlah_anggota = Input::get('jumlah_anggota');
+            $kelas->jumlah_cu = Input::get('jumlah_cu');
+            $kelas->jumlah_staff_cu = Input::get('jumlah_staff_cu');
+            $kelas->piutang_beredar = Input::get('piutang_beredar');
+            $kelas->piutang_lalai_1 = Input::get('piutang_lalai_1');
+            $kelas->piutang_lalai_2 = Input::get('piutang_lalai_2');
+            $kelas->piutang_bersih = Input::get('piutang_bersih');
+            $kelas->asset = Input::get('asset');
+            $kelas->shu = Input::get('shu');
+
+            $kelas->update();
+
+            return Redirect::route('admins.'.$this->kelaspath.'.edit',array(1))->with('sucessmessage',
+                                    'Informasi Gerakan Telah berhasil diubah.');
+        }catch (Exception $e){
+            return Redirect::back()->withInput()->with('errormessage',$e->getMessage());
         }
-
-        $infogerakan = InfoGerakan::findOrFail($id);
-        $timestamp = strtotime(Input::get('tanggal'));
-        $tanggal = date('Y-m-d',$timestamp);
-
-        $infogerakan->tanggal = $tanggal;
-        $infogerakan->jumlah_anggota = Input::get('jumlah_anggota');
-        $infogerakan->jumlah_cu = Input::get('jumlah_cu');
-        $infogerakan->jumlah_staff_cu = Input::get('jumlah_staff_cu');
-        $infogerakan->piutang_beredar = Input::get('piutang_beredar');
-        $infogerakan->piutang_lalai_1 = Input::get('piutang_lalai_1');
-        $infogerakan->piutang_lalai_2 = Input::get('piutang_lalai_2');
-        $infogerakan->piutang_bersih = Input::get('piutang_bersih');
-        $infogerakan->asset = Input::get('asset');
-        $infogerakan->shu = Input::get('shu');
-
-        //simpan
-        if($infogerakan->update())
-            return Redirect::route('admins.infogerakan.edit',array(1))->with('message', 'Informasi Gerakan Telah berhasil diubah.');
-
-        return Redirect::back()->withInput()->with('errormessage','Terjadi kesalahan dalam pengubahan kategori artikel.');
     }
 }

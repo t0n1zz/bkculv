@@ -12,6 +12,7 @@
     </div>
 </div>
 <!-- /Page Title -->
+@include('_layouts.event')
 <div class="section">
     <div class="container">
         <?php $i=1;$pos=""; ?>

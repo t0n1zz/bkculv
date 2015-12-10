@@ -103,18 +103,18 @@ Route::group(array('prefix' => 'admins','before' => 'auth'), function(){
         'uses' => 'AdminCuprimerController@update_bergabung'
     ));
 
-    Route::resource('staff','AdminStaffController',array('except' => array('show')));
-    Route::post('staff/update_jabatan',array(
-        'as' => 'admins.staff.update_jabatan',
-        'uses' => 'AdminStaffController@update_jabatan'
+    Route::resource('staf','AdminStafController',array('except' => array('show')));
+    Route::post('staf/update_jabatan',array(
+        'as' => 'admins.staf.update_jabatan',
+        'uses' => 'AdminStafController@update_jabatan'
     ));
-    Route::post('staff/update_tingkat',array(
-        'as' => 'admins.staff.update_tingkat',
+    Route::post('staf/update_tingkat',array(
+        'as' => 'admins.staf.update_tingkat',
         'uses' => 'AdminStaffController@update_tingkat'
     ));
-    Route::post('staff/update_cu',array(
-        'as' => 'admins.staff.update_cu',
-        'uses' => 'AdminStaffController@update_cu'
+    Route::post('staf/update_cu',array(
+        'as' => 'admins.staf.update_cu',
+        'uses' => 'AdminStafController@update_cu'
     ));
 
     Route::resource('pengumuman','AdminPengumumanController',array('except' => array('show','create','edit')));
@@ -124,9 +124,9 @@ Route::group(array('prefix' => 'admins','before' => 'auth'), function(){
     ));
 
     Route::resource('admin','AdminAdminController',array('except' => array('show')));
-    Route::get('admin/edit_hak_akses/{id}',array(
-        'as' => 'admins.admin.edit_hak_akses',
-        'uses' => 'AdminAdminController@edit_hak_akses'
+    Route::get('admin/edit_password/{id}',array(
+        'as' => 'admins.admin.edit_password',
+        'uses' => 'AdminAdminController@edit_password'
     ));
     Route::post('admin/update_hak_akses',array(
         'as' => 'admins.admin.update_hak_akses',
@@ -156,10 +156,7 @@ Route::group(array('prefix' => 'admins','before' => 'auth'), function(){
         return View::make('admins.statistik',compact('statistiks'));
     }));
 
-    Route::resource('pelayanan','AdminPelayananController',array('except' => array('show')));
-
     Route::resource('download','AdminDownloadController',array('except' => array('show')));
-    Route::resource('kantorpelayanan','AdminKantorPelayananController',array('except' => array('show')));
     Route::resource('kategoriartikel','AdminKategoriArtikelController',array('except' => array('show','create','edit')));
     Route::resource('wilayahcuprimer','AdminWilayahCuprimerController',array('except' => array('show','create','edit')));
     Route::resource('infogerakan','AdminInfoGerakanController',array('only' => array('edit','update')));

@@ -140,8 +140,8 @@
 	</div>
 </div>
 <!-- /slider -->
-<!--<img class="img-responsive" src="{{ asset('images/topimlek.png') }}" width="100%"
-               style="vertical-align: top;margin-top: -30px;margin-bottom: -3%;"/>-->
+<img class="img-responsive" src="{{ asset('images/topnatal.png') }}" width="100%"
+               style="vertical-align: top;margin-top: -30px;margin-bottom: -3%;"/>
 <!-- pemilihan-->
 {{--@include('_components.pemilihan')--}}
 <!-- pemilihan-->

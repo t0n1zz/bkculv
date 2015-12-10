@@ -2,6 +2,8 @@
 
 class AdminKategoriArtikelController extends \BaseController{
 
+    protected $indexpath = 'admins.kategoriartikel.index';
+
     /**
      * Display a listing of the resource.
      * GET /kategoriartikels
@@ -10,8 +12,12 @@ class AdminKategoriArtikelController extends \BaseController{
      */
     public function index()
     {
-        $kategori_artikels = KategoriArtikel::orderBy('name','asc')->get();;
-        return View::make('admins.kategoriartikel.index', compact('kategori_artikels'));
+        try{
+            $datas = KategoriArtikel::orderBy('name','asc')->get();;
+            return View::make($this->indexpath, compact('datas'));
+        }catch (Exception $e){
+            return Redirect::back()->withInput()->with('errormessage',$e->getMessage());
+        }
     }
     /**
      * Store a newly created resource in storage.
@@ -21,18 +27,22 @@ class AdminKategoriArtikelController extends \BaseController{
      */
     public function store()
     {
-        $validator = Validator::make($data = Input::all(), KategoriArtikel::$rules);
+        try{
+            $validator = Validator::make($data = Input::all(), KategoriArtikel::$rules);
 
-        if ($validator->fails())
-        {
-            return Redirect::back()->withErrors($validator)->withInput();
+            if ($validator->fails())
+            {
+                return Redirect::back()->withErrors($validator)->withInput();
+            }
+            $name = Input::get('name');
+
+            KategoriArtikel::create($data);
+
+            return Redirect::route($this->indexpath)->with('sucessmessage', 'Kategori Artikel <b><i>' .$name.
+                                                                         '</i></b> Telah berhasil ditambah.');
+        }catch (Exception $e){
+            return Redirect::back()->withInput()->with('errormessage',$e->getMessage());
         }
-        $name = Input::get('name');
-
-        if(KategoriArtikel::create($data))
-            return Redirect::route('admins.kategoriartikel.index')->with('message', 'Kategori Artikel <b><i>' .$name. '</i></b> Telah berhasil ditambah.');
-
-        return Redirect::back()->withInput()->with('errormessage','Terjadi kesalahan dalam penambahan kategori artikel.');
     }
 
     /**
@@ -44,22 +54,24 @@ class AdminKategoriArtikelController extends \BaseController{
      */
     public function update()
     {
-        //validasi
-        $validator = Validator::make($data = Input::all(), KategoriArtikel::$rules);
-        if ($validator->fails())
-        {
-            return Redirect::back()->withErrors($validator)->withInput();
+        try{
+            $validator = Validator::make($data = Input::all(), KategoriArtikel::$rules);
+            if ($validator->fails())
+            {
+                return Redirect::back()->withErrors($validator)->withInput();
+            }
+
+            $name = Input::get('name');
+            $id = Input::get('id');
+            $kelas = KategoriArtikel::findOrFail($id);
+
+            $kelas->update($data);
+
+            return Redirect::route($this->indexpath)->with('sucessmessage', 'Kategori artikel  <b><i>' .$name.
+                                                                            '</i></b> Telah berhasil diubah.');
+        }catch (Exception $e){
+            return Redirect::back()->withInput()->with('errormessage',$e->getMessage());
         }
-
-        $name = Input::get('name');
-        $id = Input::get('id');
-        $kategori_artikel = KategoriArtikel::findOrFail($id);
-
-        //simpan
-        if($kategori_artikel->update($data))
-            return Redirect::route('admins.kategoriartikel.index')->with('message', 'Kategori artikel  <b><i>' .$name. '</i></b> Telah berhasil diubah.');
-
-        return Redirect::back()->withInput()->with('errormessage','Terjadi kesalahan dalam pengubahan kategori artikel.');
     }
 
     /**
@@ -71,16 +83,19 @@ class AdminKategoriArtikelController extends \BaseController{
      */
     public function destroy()
     {
-        $id = Input::get('id');
-        $kategori_artikel = KategoriArtikel::find($id);
+        try{
+            $id = Input::get('id');
+            $kelas = KategoriArtikel::find($id);
 
-        if($kategori_artikel->jumlah == 0) {
-            if(KategoriArtikel::destroy($id))
-                return Redirect::route('admins.kategoriartikel.index')->with('message', 'Kategori artikel telah berhasil di hapus.');
+            if($kelas->hasartikel->count() > 0)
+                return Redirect::back()->withInput()->with('errormessage','Masih terdapat artikel pada kategori ini,
+                                                            silahkan dihapus terlebih dahulu.');
 
-            return Redirect::back()->withInput()->with('errormessage','Terjadi kesalahan dalam penghapusan kategori artikel.');
+            KategoriArtikel::destroy($id);
+
+            return Redirect::route($this->indexpath)->with('sucessmessage', 'Kategori artikel telah berhasil di hapus.');
+        }catch (Exception $e){
+            return Redirect::back()->withInput()->with('errormessage',$e->getMessage());
         }
-
-        return Redirect::back()->withInput()->with('errormessage','Terdapat artikel pada kategori ini, silahkan ganti terlebih dahulu.');
     }
 }

@@ -10,6 +10,7 @@
         </div>
     </div>
 </div>
+@include('_layouts.event')
 <div class="section">
     <div class="container">
         <h2>Many Thanks To</h2>

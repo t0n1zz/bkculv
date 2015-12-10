@@ -12,6 +12,7 @@
     </div>
 </div>
 <!-- /Page Title -->
+@include('_layouts.event')
 <!--pengurus-->
 <div class="section">
     <div class="container">

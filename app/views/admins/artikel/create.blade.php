@@ -1,19 +1,30 @@
-<?php $title="Tambah Artikel"; ?>
+<?php
+$title="Tambah Artikel";
+$kelas="artikel";
+?>
 @extends('admins._layouts.layout')
 
 @section('content')
-    <div class="row">
-        <div class="col-lg-12">
-            <h1 class="page-header"><i class="fa fa-plus"></i> {{$title}}</h1>
-        </div>
-    </div>
-    <div class="row">
-        <div class=" col-lg-12">
-            {{ Form::open(array('route' => array('admins.artikel.store'), 'files' => true, 'data-toggle' => 'validator','role' => 'form')) }}
-            <?php if(Auth::check()) { $id = Auth::user()->getId();} ?>
-            <input type="text" name="penulis" value="{{ $id }}" hidden>
-            @include('admins.artikel.form')
-            {{ Form::close() }}
-        </div>
-    </div>
+        <!-- header -->
+<section class="content-header">
+    <h1>
+        <i class="fa fa-plus"></i> {{ $title }}
+        <small>Menambah Artikel Baru</small>
+    </h1>
+    <ol class="breadcrumb">
+        <li><a href="{{ URL::to('admins')  }}"><i class="fa fa-dashboard"></i> Dashboard</a></li>
+        <li><a href="{{ route('admins.'.$kelas.'.index') }}"><i class="fa fa-book"></i> Kelola Artikel</a></li>
+        <li class="active"><i class="fa fa-plus"></i> {{ $title }}</li>
+    </ol>
+</section>
+<!-- /header -->
+<!-- Main content -->
+<section class="content">
+    {{ Form::open(array('route' => array('admins.'.$kelas.'.store'), 'files' => true, 'data-toggle' => 'validator','role' => 'form')) }}
+    <?php if(Auth::check()) { $id = Auth::user()->getId();} ?>
+    <input type="text" name="penulis" value="{{ $id }}" hidden>
+    @include('admins.'.$kelas.'.form')
+    {{ Form::close() }}
+</section>
+<!-- /Main content -->
 @stop

@@ -10,7 +10,7 @@ class WilayahCuprimer extends \Eloquent {
     
     protected $fillable = ['name','jumlah'];
 
-    public function Cuprimer(){
+    public function hascuprimer(){
         return $this->hasMany('Cuprimer','wilayah','id');
     }
 }

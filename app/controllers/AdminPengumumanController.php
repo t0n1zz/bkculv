@@ -2,6 +2,8 @@
 
 class AdminPengumumanController extends \BaseController{
 
+    protected $indexpath = 'admins.pengumuman.index';
+
     /**
      * Display a listing of the resource.
      * GET /kategoriartikels
@@ -10,8 +12,12 @@ class AdminPengumumanController extends \BaseController{
      */
     public function index()
     {
-        $pengumumans = Pengumuman::orderBy('urutan','asc')->get();;
-        return View::make('admins.pengumuman.index', compact('pengumumans'));
+        try{
+            $datas = Pengumuman::orderBy('urutan','asc')->get();;
+            return View::make($this->indexpath, compact('datas'));
+        }catch (Exception $e){
+            return Redirect::back()->withInput()->with('errormessage',$e->getMessage());
+        }
     }
 
     /**
@@ -22,18 +28,20 @@ class AdminPengumumanController extends \BaseController{
      */
     public function store()
     {
-        $validator = Validator::make($data = Input::all(), Pengumuman::$rules);
+        try{
+            $validator = Validator::make($data = Input::all(), Pengumuman::$rules);
 
-        if ($validator->fails())
-        {
-            return Redirect::back()->withErrors($validator)->withInput();
+            if ($validator->fails())
+            {
+                return Redirect::back()->withErrors($validator)->withInput();
+            }
+            $name = Input::get('name');
+
+            Pengumuman::create($data);
+            return Redirect::route($this->indexpath)->with('sucessmessage', 'Pengumuman <b><i>' .$name. '</i></b> Telah berhasil ditambah.');
+        }catch (Exception $e){
+            return Redirect::back()->withInput()->with('errormessage',$e->getMessage());
         }
-        $name = Input::get('name');
-
-        if(Pengumuman::create($data))
-            return Redirect::route('admins.pengumuman.index')->with('message', 'Pengumuman <b><i>' .$name. '</i></b> Telah berhasil ditambah.');
-
-        return Redirect::back()->withInput()->with('errormessage','Terjadi kesalahan dalam penambahan pengumuman.');
     }
     /**
      * Update the specified resource in storage.
@@ -44,22 +52,23 @@ class AdminPengumumanController extends \BaseController{
      */
     public function update()
     {
-        //validasi
-        $validator = Validator::make($data = Input::all(), Pengumuman::$rules);
-        if ($validator->fails())
-        {
-            return Redirect::back()->withErrors($validator)->withInput();
+        try{
+            $validator = Validator::make($data = Input::all(), Pengumuman::$rules);
+            if ($validator->fails())
+            {
+                return Redirect::back()->withErrors($validator)->withInput();
+            }
+
+            $name = Input::get('name');
+            $id = Input::get('id');
+            $kelas = Pengumuman::findOrFail($id);
+
+            //simpan
+            $kelas->update($data);
+            return Redirect::route($this->indexpath)->with('sucessmessage', 'Pengumuman  <b><i>' .$name. '</i></b> Telah berhasil diubah.');
+        }catch (Exception $e){
+            return Redirect::back()->withInput()->with('errormessage',$e->getMessage());
         }
-
-        $name = Input::get('name');
-        $id = Input::get('id');
-        $Pengumuman = Pengumuman::findOrFail($id);
-
-        //simpan
-        if($Pengumuman->update($data))
-            return Redirect::route('admins.pengumuman.index')->with('message', 'Pengumuman  <b><i>' .$name. '</i></b> Telah berhasil diubah.');
-
-        return Redirect::back()->withInput()->with('errormessage','Terjadi kesalahan dalam pengubahan pengumuman.');
     }
 
 
@@ -73,63 +82,57 @@ class AdminPengumumanController extends \BaseController{
      */
     public function destroy()
     {
-        $id = Input::get('id');
+        try{
+            $id = Input::get('id');
 
-        if(Pengumuman::destroy($id)) {
-            return Redirect::route('admins.pengumuman.index')->with('message', 'Pengumuman telah berhasil di hapus.');
+            Pengumuman::destroy($id);
+            return Redirect::route($this->indexpath)->with('sucessmessage', 'Pengumuman telah berhasil di hapus.');
+        }catch (Exception $e){
+            return Redirect::back()->withInput()->with('errormessage',$e->getMessage());
         }
-
-        return Redirect::back()->withInput()->with('errormessage','Terjadi kesalahan dalam penghapusan pengumuman.');
     }
 
     public function update_urutan()
     {
-        $id = Input::get('id');
-        $urutan = Input::get('urutan');
-        $Pengumuman = Pengumuman::findOrFail($id);
-        $cariurutan = Pengumuman::where('urutan','=',$urutan)->get()->first();
+        try{
+            $id = Input::get('id');
+            $urutan = Input::get('urutan');
+            $Pengumuman = Pengumuman::findOrFail($id);
+            $cariurutan = Pengumuman::where('urutan','=',$urutan)->get()->first();
 
-        if(!empty($cariurutan) && $Pengumuman->urutan != $urutan) {
-            $Pengumuman->urutan = $urutan;
-            $Pengumuman->update();
+            if(!empty($cariurutan) && $Pengumuman->urutan != $urutan) {
+                $Pengumuman->urutan = $urutan;
+                $Pengumuman->update();
 
-            $totals = Pengumuman::select(array('urutan'))->orderBy('urutan', 'asc')->get();
-            $jumlah = $totals->count();
-            $i = 0;
-            $array = array();
-            $array2 = array();
-            foreach ($totals as $total) {
-                $i++;
-                $array[] = $i;
-                $array2[] = $total->urutan;
+                $totals = Pengumuman::select(array('urutan'))->orderBy('urutan', 'asc')->get();
+                $jumlah = $totals->count();
+                $i = 0;
+                $array = array();
+                $array2 = array();
+                foreach ($totals as $total) {
+                    $i++;
+                    $array[] = $i;
+                    $array2[] = $total->urutan;
+                }
+
+                $result = array_diff($array, $array2);
+
+                $value = array_first($result, function($value)
+                { return $value; },$jumlah + 1);
+
+                $ubahurutan = Pengumuman::find($cariurutan->id);
+                $ubahurutan->urutan = $value;
+                $ubahurutan->update();
+
+                return Redirect::route($this->indexpath)->with('sucessmessage', 'Urutan pengumuman telah berhasil diubah.');
+            }else{
+                $Pengumuman->urutan = $urutan;
+
+                $Pengumuman->update();
+                return Redirect::route($this->indexpath)->with('sucessmessage', 'Urutan pengumuman telah berhasil diubah.');
             }
-
-            $result = array_diff($array, $array2);
-
-            $value = array_first($result, function($value)
-            {
-                return $value;
-            },$jumlah + 1);
-        /*
-            echo '<pre>';
-            echo var_dump($value); // <---- or toJson()
-            echo '</pre>';
+        }catch (Exception $e){
+            return Redirect::back()->withInput()->with('errormessage',$e->getMessage());
         }
-        */
-
-            $ubahurutan = Pengumuman::find($cariurutan->id);
-            $ubahurutan->urutan = $value;
-            $ubahurutan->update();
-
-            return Redirect::route('admins.pengumuman.index')->with('message', 'Urutan pengumuman telah berhasil diubah.');
-        }else{
-            $Pengumuman->urutan = $urutan;
-            //simpan
-            if($Pengumuman->update())
-                return Redirect::route('admins.pengumuman.index')->with('message', 'Urutan pengumuman telah berhasil diubah.');
-        }
-
-        return Redirect::back()->withInput()->with('errormessage','Terjadi kesalahan dalam pengubahan pengumuman.');
-
     }
 }

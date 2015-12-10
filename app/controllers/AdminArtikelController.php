@@ -2,29 +2,37 @@
 
 class AdminArtikelController extends \BaseController{
 
+    protected $kelaspath = 'artikel';
+    protected $imagepath = 'images_artikel/';
     /**
      * Display a listing of artikels
      *
      * @return Response
      */
-    protected $status ="";
-
     public function index()
     {
-        $artikels = Artikel::with('kategoriartikel')->get();
-        $kategoriartikels = KategoriArtikel::orderBy('name','asc')->get();
-        $is_kategori = false;
+        try{
+            $datas = Artikel::with('kategoriartikel')->orderBy('judul','asc')->get();
+            $datas2 = KategoriArtikel::orderBy('name','asc')->get();
+            $is_kategori = false;
 
-        return View::make('admins.artikel.index', compact('artikels','kategoriartikels','is_kategori'));
+            return View::make('admins.'.$this->kelaspath.'.index', compact('datas','datas2','is_kategori'));
+        }catch (Exception $e){
+            return Redirect::back()->withInput()->with('errormessage',$e->getMessage());
+        }
     }
 
-    public function index_kategori($id){
+    public function index_kategori($id)
+    {
+        try{
+            $datas = Artikel::with('kategoriartikel')->where('kategori','=', $id)->get();
+            $datas2 = KategoriArtikel::orderBy('name','asc')->get();
+            $is_kategori = true;
 
-        $artikels = Artikel::with('kategoriartikel')->where('kategori','=', $id)->get();
-        $kategoriartikels = KategoriArtikel::orderBy('name','asc')->get();
-        $is_kategori = true;
-        //dd($artikels);
-        return View::make('admins.artikel.index', compact('artikels','kategoriartikels','is_kategori'));
+            return View::make('admins.'.$this->kelaspath.'.index', compact('datas','datas2','is_kategori'));
+        }catch (Exception $e){
+            return Redirect::back()->withInput()->with('errormessage',$e->getMessage());
+        }
     }
 
     /**
@@ -34,9 +42,14 @@ class AdminArtikelController extends \BaseController{
      */
     public function create()
     {
-        $kategori_artikel = KategoriArtikel::orderBy('name','asc')->get();
+        try{
+            $datas2 = KategoriArtikel::orderBy('name','asc')->get();
 
-        return View::make('admins.artikel.create', compact('kategori_artikel'));
+            return View::make('admins.'.$this->kelaspath.'.create', compact('datas2'));
+        }catch (Exception $e){
+            return Redirect::back()->withInput()->with('errormessage',$e->getMessage());
+        }
+
     }
 
     /**
@@ -46,32 +59,27 @@ class AdminArtikelController extends \BaseController{
      */
     public function store()
     {
-
-
-        $validator = Validator::make($data = Input::all(), Artikel::$rules);
-
-        if ($validator->fails())
-        {
-            return Redirect::back()->withErrors($validator)->withInput();
-        }
-        $judul = Input::get('judul');
-
-        $artikel = new Artikel;
-        $data2 = $this->input_data($artikel,$data);
-
-        if($this->status !="")
-            return Redirect::back()->withInput()->with('errormessage',$this->status);
-
         try{
+            $validator = Validator::make($data = Input::all(), Artikel::$rules);
+
+            if ($validator->fails())
+            {
+                return Redirect::back()->withErrors($validator)->withInput();
+            }
+            $judul = Input::get('judul');
+
+            $kelas = new Artikel;
+            $data2 = $this->input_data($kelas,$data);
+
             Artikel::create($data2);
+
+            if(Input::Get('simpan2'))
+                return Redirect::route('admins.'.$this->kelaspath.'.create')->with('sucessmessage', 'Artikel <b>' .$judul. '</b> Telah berhasil ditambah.');
+            else
+                return Redirect::route('admins.'.$this->kelaspath.'.index')->with('sucessmessage', 'Artikel <b>' .$judul. '</b> Telah berhasil ditambah.');
         }catch (Exception $e){
             return Redirect::back()->withInput()->with('errormessage',$e->getMessage());
         }
-
-        if(Input::Get('simpan2'))
-            return Redirect::route('admins.artikel.create')->with('message', 'Artikel <b><i>' .$judul. '</i></b> Telah berhasil ditambah.');
-        else
-            return Redirect::route('admins.artikel.index')->with('message', 'Artikel <b><i>' .$judul. '</i></b> Telah berhasil ditambah.');
     }
 
     /**
@@ -82,10 +90,14 @@ class AdminArtikelController extends \BaseController{
      */
     public function edit($id)
     {
-        $artikel = Artikel::find($id);
-        $kategori_artikel = KategoriArtikel::orderBy('name','asc')->get();
+        try{
+            $data = Artikel::find($id);
+            $datas2 = KategoriArtikel::orderBy('name','asc')->get();
 
-        return View::make('admins.artikel.edit', compact('artikel','kategori_artikel'));
+            return View::make('admins.'.$this->kelaspath.'.edit', compact('data','datas2'));
+        }catch (Exception $e){
+            return Redirect::back()->withInput()->with('errormessage',$e->getMessage());
+        }
     }
 
     /**
@@ -96,169 +108,137 @@ class AdminArtikelController extends \BaseController{
      */
     public function update($id)
     {
-
-        $artikel = Artikel::findOrFail($id);
-
-        //dd(Input::all());
-
-        //validasi
-        $validator = Validator::make($data = Input::all(), Artikel::$rules);
-        if ($validator->fails())
-        {
-            return Redirect::back()->withErrors($validator)->withInput();
-        }
-
-        $judul = Input::get('judul');
-        $data2 = $this->input_data($artikel,$data);
-
-        if($this->status != "")
-            return Redirect::back()->withInput()->with('errormessage',$this->status);
-
         try{
-            $artikel->update($data2);
+            $file_max = ini_get('upload_max_filesize');
+            $file_max_str_leng = strlen($file_max);
+            $file_max_meassure_unit = substr($file_max,$file_max_str_leng - 1,1);
+            $file_max_meassure_unit = $file_max_meassure_unit == 'K' ? 'kb' : ($file_max_meassure_unit == 'M' ? 'mb' : ($file_max_meassure_unit == 'G' ? 'gb' : 'unidades'));
+            $file_max = substr($file_max,0,$file_max_str_leng - 1);
+            $file_max = intval($file_max);
+
+            $kelas = Artikel::findOrFail($id);
+
+            $validator = Validator::make($data = Input::all(), Artikel::$rules);
+            if ($validator->fails())
+            {
+                return Redirect::back()->withErrors($validator)->withInput();
+            }
+
+            $judul = Input::get('judul');
+            $data2 = $this->input_data($kelas,$data);
+
+            $kelas->update($data2);
+
+            if (Input::Get('simpan2'))
+                return Redirect::route('admins.'.$this->kelaspath.'.create')->with('sucessmessage', 'Artikel <b>' . $judul . '</b> Telah berhasil diubah.');
+            else
+                return Redirect::route('admins.'.$this->kelaspath.'.index')->with('sucessmessage', 'Artikel <b>' . $judul . '</b> Telah berhasil diubah.');
         }catch (Exception $e){
-            return Redirect::back()->withInput()->with('errormessage',$e->getMessage());
+            if($e->getMessage() == "getimagesize(): Filename cannot be empty")
+                return Redirect::back()->withInput()->with('errormessage','Pastikan ukuran file gambar tidak lebih besar dari ' .$file_max. ' ' .$file_max_meassure_unit);
+            else
+                return Redirect::back()->withInput()->with('errormessage',$e->getMessage());
         }
-
-
-        if (Input::Get('simpan2'))
-            return Redirect::route('admins.artikel.create')->with('message', 'Artikel <b><i>' . $judul . '</i></b> Telah berhasil diubah.');
-        else
-            return Redirect::route('admins.artikel.index')->with('message', 'Artikel <b><i>' . $judul . '</i></b> Telah berhasil diubah.');
     }
 
 
-    public function input_data($artikel,$data){
-
-        //kategori
+    public function input_data($kelas,$data)
+    {
+        $nama = str_limit(preg_replace('/\s+/', '',Input::get('judul')),10);
         $kategori = Input::get('kategori');
+
         if($kategori == "tambah"){
             $KategoriArtikel = new KategoriArtikel;
             $KategoriArtikel->name = Input::get('kategori_baru');
-            if($KategoriArtikel->save()){
-                $last_id = $KategoriArtikel->id;
-
-                $oldkategori = $artikel->kategori;
-                if($oldkategoriartikel = KategoriArtikel::find($oldkategori)){
-                    $oldkategoriartikel->jumlah -= 1;
-                    $oldkategoriartikel->update();
-                }
-
-                //$artikel->kategori = $last_id;
-                array_set($data,'kategori',$last_id);
-
-                $newkategori = $last_id;
-                if($newkategori == 0){ $newkategori = 1; }
-                if($newkategoriartikel = KategoriArtikel::find($newkategori)){
-                    $newkategoriartikel->jumlah +=1;
-                    $newkategoriartikel->update();
-                }
-            }
-
+            $KategoriArtikel->save();
+            $last_id = $KategoriArtikel->id;
+            array_set($data,'kategori',$last_id);
         }else{
-            $oldkategori = $artikel->kategori;
-            if($oldkategoriartikel = KategoriArtikel::find($oldkategori)){
-                $oldkategoriartikel->jumlah -= 1;
-                $oldkategoriartikel->update();
-            }
-
-            $newkategori = $kategori;
-            if($newkategori == 0){ $newkategori = 1; }
-            if($newkategoriartikel = KategoriArtikel::find($newkategori)){
-                $newkategoriartikel->jumlah +=1;
-                $newkategoriartikel->update();
-            }
-
-            //$artikel->kategori = $newkategori;
-            array_set($data,'kategori',$newkategori);
+            array_set($data,'kategori',$kategori);
         }
 
         //gambar
         $gambarutama = Input::get('gambarutama');
-        if($gambarutama == 1) {
-            try {
-                $img = Input::file('gambar');
-                if (!is_null($img)) {
-                    $filename = str_random(10) . "-" . date('Y-m-d') . ".jpg";
+        if ($gambarutama == 1) {
+            $img = Input::file('gambar');
+            if (!is_null($img)) {
+                $formatedname1 = $nama.str_random(3).date('Y-m-d');
+                $filename = $formatedname1.".jpg";
+                $filename2 = $formatedname1."n.jpg";
 
-                    if ($this->save_image($img, $artikel, $filename))
-                        array_set($data,'gambar',$filename);
-                    else
-                        return false;
-                }else{
-                    $filename = $artikel->gambar;
-                    array_set($data,'gambar',$filename);
-                }
-            } catch (Exception $e) {
-                $this->status = $e->getMessage();
+                $this->save_image($img, $kelas, $filename,$filename2);
+                array_set($data, 'gambar', $filename);
+            } else {
+                $filename = $kelas->gambar;
+                array_set($data, 'gambar', $filename);
             }
-        }else{
-            if(!empty($artikel->gambar)){
-                $path = public_path('images_artikel/');
-                File::delete($path . $artikel->gambar);
-                array_set($data,'gambar',"");
+        } else {
+            if (!empty($kelas->gambar)) {
+                $path = public_path($this->imagepath);
+                File::delete($path . $kelas->gambar);
+                array_set($data, 'gambar', "");
             }
-            array_set($data,'gambar',"");
+            array_set($data, 'gambar', "");
         }
 
         return $data;
     }
 
-    public function update_kategori(){
-        $id = Input::get('id');
-        $artikel = Artikel::findOrFail($id);
+    public function update_kategori()
+    {
+        try{
+            $id = Input::get('id');
+            $kelas = Artikel::findOrFail($id);
+            $newkategori = Input::get('kategori');
+            $kelas->kategori = $newkategori;
+            $judul = $kelas->judul;
 
-        $oldkategori = $artikel->kategori;
-        if($oldkategoriartikel = KategoriArtikel::find($oldkategori)){
-            $oldkategoriartikel->jumlah -= 1;
-            $oldkategoriartikel->update();
+            $kelas->update();
+
+            return Redirect::route('admins.'.$this->kelaspath.'.index')->with('sucessmessage', 'Kategori artikel <b>' .$judul. '</b> Telah berhasil di ubah.');
+        }catch (Exception $e){
+            return Redirect::back()->withInput()->with('errormessage',$e->getMessage());
         }
-
-        $newkategori = Input::get('kategori');
-        if($newkategori == 0){ $newkategori = 1; }
-        if($newkategoriartikel = KategoriArtikel::find($newkategori)){
-            $newkategoriartikel->jumlah +=1;
-            $newkategoriartikel->update();
-        }
-
-
-        $artikel->kategori = $newkategori;
-        $judul = $artikel->judul;
-
-        //simpan
-        if($artikel->update())
-            return Redirect::route('admins.artikel.index')->with('message', 'Kategori artikel<b><i>' .$judul. '</i></b> Telah berhasil di ubah.');
-
-        Cache::forget('artikel');
-        Cache::forget('kategoriartikel');
-
-        return Redirect::back()->withInput()->with('errormessage','Terjadi kesalahan dalam pengubahan kategori artikel.');
     }
 
-    public function update_status(){
-        $id = Input::get('id');
-        $artikel = Artikel::findOrFail($id);
-        $artikel->status = Input::get('status');
-        $judul = $artikel->judul;
+    public function update_status()
+    {
+        try{
+            $id = Input::get('id');
+            $kelas = Artikel::findOrFail($id);
+            $judul = $kelas->judul;
 
-        //simpan
-        if($artikel->update())
-            return Redirect::route('admins.artikel.index')->with('message', 'Status artikel <b><i>' .$judul. '</i></b> Telah berhasil di ubah.');
+            if(Input::Get('btn1'))
+                $kelas->status = 1;
+            else
+                $kelas->status = 0;
 
-        return Redirect::back()->withInput()->with('errormessage','Terjadi kesalahan dalam pengubahan status artikel.');
+            $kelas->update();
+
+            return Redirect::route('admins.'.$this->kelaspath.'.index')->with('sucessmessage', 'Status publikasi artikel <b>' .$judul. '</b> Telah berhasil di ubah.');
+        }catch (Exception $e){
+            return Redirect::back()->withInput()->with('errormessage',$e->getMessage());
+        }
     }
 
-    public function update_pilihan(){
-        $id = Input::get('id');
-        $artikel = Artikel::findOrFail($id);
-        $artikel->pilihan = Input::get('pilihan');
-        $judul = $artikel->judul;
+    public function update_pilihan()
+    {
+        try{
+            $id = Input::get('id');
+            $kelas = Artikel::findOrFail($id);
+            $judul = $kelas->judul;
 
-        //simpan
-        if($artikel->update())
-            return Redirect::route('admins.artikel.index')->with('message', 'Artikel <b><i>' .$judul. '</i></b> Telah menjadi artikel pilihan.');
+            if(Input::Get('btn1'))
+                $kelas->pilihan = 1;
+            else
+                $kelas->pilihan = 0;
 
-        return Redirect::back()->withInput()->with('errormessage','Terjadi kesalahan dalam pengubahan status artikel.');
+            $kelas->update();
+
+            return Redirect::route('admins.'.$this->kelaspath.'.index')->with('sucessmessage','Status artikel pilihan <b>' .$judul. '</b> Telah berhasil di ubah.');
+        }catch (Exception $e){
+            return Redirect::back()->withInput()->with('errormessage',$e->getMessage());
+        }
     }
 
     /**
@@ -269,45 +249,44 @@ class AdminArtikelController extends \BaseController{
      */
     public function destroy()
     {
-        $id = Input::get('id');
-        $artikel = Artikel::findOrFail($id);
-        $path = public_path('images_artikel/');
-
-        $oldkategori = $artikel->kategori;
-        if($oldkategoriartikel = KategoriArtikel::find($oldkategori)){
-            $oldkategoriartikel->jumlah -= 1;
-            $oldkategoriartikel->update();
-        }
-
         try{
-            File::delete($path . $artikel->gambar);
+            $id = Input::get('id');
+            $kelas = Artikel::findOrFail($id);
+            $path = public_path($this->imagepath);
+
+            File::delete($path . $kelas->gambar);
+            File::delete($path . $kelas->gambar .".jpg");
+            File::delete($path . $kelas->gambar ."n.jpg");
+
             Artikel::destroy($id);
+
+            return Redirect::route('admins.'.$this->kelaspath.'.index')->with('sucessmessage','Artikel Telah berhasil di hapus.');
         }catch (Exception $e){
             return Redirect::back()->withInput()->with('errormessage',$e->getMessage());
         }
-
-        return Redirect::route('admins.artikel.index')->with('message', 'Artikel Telah berhasil di hapus.');;
     }
 
 
-    function save_image($img,$artikel,$filename){
-
+    function save_image($img,$kelas,$filename,$filename2)
+    {
         list($width, $height) = getimagesize($img);
 
-        $path = public_path('images_artikel/');
-        File::delete($path . $artikel->gambar);
+        $path = public_path($this->imagepath);
+
+        File::delete($path . $kelas->gambar);
+        File::delete($path . $kelas->gambar .".jpg");
+        File::delete($path . $kelas->gambar ."n.jpg");
 
         if($width > 720){
-            if(Image::make($img->getRealPath())->resize(720, null, function ($constraint) {
-                $constraint->aspectRatio();})->save($path . $filename))
-                return true;
-            else
-                return false;
+            Image::make($img->getRealPath())->resize(720, null,
+                function ($constraint) {
+                    $constraint->aspectRatio();
+                })
+                ->save($path . $filename);
         }else{
-            if(Image::make($img->getRealPath())->save($path . $filename))
-                return true;
-            else
-                return false;
+            Image::make($img->getRealPath())->save($path . $filename);
         }
+
+        Image::make($img->getRealPath())->fit(200,200)->save($path . $filename2);
     }
 }

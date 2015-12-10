@@ -12,6 +12,7 @@
     </div>
 </div>
 <!-- /Page Title -->
+@include('_layouts.event')
 <!-- artikel list -->
 <div class="section blog-posts-wrapper">
     <div class="container">

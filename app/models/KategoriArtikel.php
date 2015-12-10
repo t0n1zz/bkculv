@@ -16,4 +16,8 @@ class KategoriArtikel extends \Eloquent {
                     ->orderBy('created_at','desc')
                     ->take(3);
     }
+
+    public function hasartikel(){
+        return $this->hasMany('artikel','kategori','id');
+    }
 }

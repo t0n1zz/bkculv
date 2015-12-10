@@ -92,44 +92,74 @@ $('.unpublish').on('click',function(){
 
 //modal 1
 $('.modal1').on('click',function(){
-	$('#modal1show').modal({
-		show: true,
-	})
+    $('#modal1show').modal({
+        show: true,
+    })
 
-	var myvalue = this.name;
-	$('#modal1id').attr('value',myvalue);
+    var myvalue = this.name;
+    var myvalue2 = this.title;
+    $('#modal1id').attr('value',myvalue);
+    $('#modal1id2').attr('value',myvalue2);
 });
 
 //modal 2
 $('.modal2').on('click',function(){
-	$('#modal2show').modal({
-		show: true,
-	})
+    $('#modal2show').modal({
+        show: true,
+    })
 
-	var myvalue = this.name;
-	$('#modal2id').attr('value',myvalue);
+    var myvalue = this.name;
+    var myvalue2 = this.title;
+    $('#modal2id').attr('value',myvalue);
+    $('#modal2id2').attr('value',myvalue2);
 });
 
 //modal 3
 $('.modal3').on('click',function(){
-	$('#modal3show').modal({
-		show: true,
-	})
+    $('#modal3show').modal({
+        show: true,
+    })
 
-	var myvalue = this.name;
-	var myvalue2 = this.name;
-	$('#modal3id').attr('value',myvalue);
-	$('#modal3id2').attr('value',myvalue2);
+    var myvalue = this.name;
+    var myvalue2 = this.title;
+    $('#modal3id').attr('value',myvalue);
+    $('#modal3id2').attr('value',myvalue2);
 });
 
 //modal 4
 $('.modal4').on('click',function(){
-	$('#modal4show').modal({
-		show: true,
-	})
+    $('#modal4show').modal({
+        show: true,
+    })
 
-	var myvalue = this.name;
-	$('#modal4id').attr('value',myvalue);
+    var myvalue = this.name;
+    var myvalue2 = this.title;
+    $('#modal4id').attr('value',myvalue);
+    $('#modal4id2').attr('value',myvalue2);
+});
+
+//modal 5
+$('.modal5').on('click',function(){
+    $('#modal5show').modal({
+        show: true,
+    })
+
+    var myvalue = this.name;
+    var myvalue2 = this.title;
+    $('#modal5id').attr('value',myvalue);
+    $('#modal5id2').attr('value',myvalue2);
+});
+
+//modal 6
+$('.modal6').on('click',function(){
+    $('#modal6show').modal({
+        show: true,
+    })
+
+    var myvalue = this.name;
+    var myvalue2 = this.title;
+    $('#modal6id').attr('value',myvalue);
+    $('#modal6id2').attr('value',myvalue2);
 });
 
 //modal flickr
@@ -250,6 +280,16 @@ function changeFunc2($i) {
     }
 }
 
+function changeFuncUser($i) {
+    if($i == "2"){
+        document.getElementById('pilihan').style.display='inline';
+        document.getElementById('pilihan2').style.display='none';
+    }else{
+        document.getElementById('pilihan').style.display='none';
+        document.getElementById('pilihan2').style.display='inline';
+    }
+}
+
 $("#tampilinputgambar").change(function() {
     if(this.checked) {
         document.getElementById('inputgambar').style.display='inline';
@@ -265,6 +305,14 @@ $("#artikelpilihan").change(function() {
 		document.getElementById('artikeltext').value ='Iya, artikel akan muncul di slideshow';
     }else{
 		document.getElementById('artikeltext').value ='Tidak';
+    }
+});
+
+$("#terbitkanartikel").change(function() {
+    if(this.checked) {
+        document.getElementById('statustext').value ='Iya, artikel akan di terbitkan';
+    }else{
+        document.getElementById('statustext').value ='Tidak';
     }
 });
 

@@ -2,158 +2,201 @@
 
 class AdminAdminController extends \BaseController{
 
+    protected $kelaspath = 'admin';
+
     public function index()
     {
-        $admins = Admin::all();
+        try{
+            $datas = Admin::all();
 
-        return View::make('admins.admin.index', compact('admins'));
+            return View::make('admins.'.$this->kelaspath.'.index', compact('datas'));
+        }catch (Exception $e){
+            return Redirect::back()->withInput()->with('errormessage',$e->getMessage());
+        }
     }
 
     public function create()
     {
-        return View::make('admins.admin.create');
+        try{
+            $datas2 = Cuprimer::orderBy('name','asc')->get();
+
+            return View::make('admins.'.$this->kelaspath.'.create',compact('datas2'));
+        }catch (Exception $e){
+            return Redirect::back()->withInput()->with('errormessage',$e->getMessage());
+        }
     }
 
     public function store()
     {
-        $validator = Validator::make($data = Input::all(), Admin::$rules);
+        try{
+            $validator = Validator::make($data = Input::all(), Admin::$rules);
 
-        if ($validator->fails())
-        {
-            return Redirect::back()->withErrors($validator)->withInput();
+            if ($validator->fails())
+            {
+                return Redirect::back()->withErrors($validator)->withInput();
+            }
+            $name = Input::get('name');
+            $username = Input::get('username');
+
+            $kelas = new Admin();
+
+            $kelas->name = $name;
+            $kelas->username = $username;
+            $password = Input::get('password');
+            $password2 = Input::get('password2');
+
+            $checkusername = Admin::where('username','=',$username)->first();
+
+            if(!empty($checkusername))
+                return Redirect::back()->withInput()->with('errormessage','<b>Username</b> tidak tersedia, silahkan coba <b>Username</b> lain.');
+
+            if($password != $password2)
+                return Redirect::back()->withInput()->with('errormessage','<b>Password</b> dengan <b>Konfirmasi Password</b> tidak sama.');
+
+            $kelas->password = Hash::make($password);
+            $tipe = Input::get('tipe');
+            if($tipe == "2"){
+                $role = Role::where('id','=','9')->first();
+                $kelas->cu = Input::get('cu');
+                $kelas->save();
+
+                $kelas2 = Admin::where('username','=',$username)->first();
+                $kelas2->attachRole( $role );
+                $kelas2->roles()->attach( $role->id );
+            }else{
+                $role = new Role();
+                $role->name = $username;
+                $role->save();
+
+                $kelas->cu = "0";
+                $kelas->save();
+
+                $kelas2 = Admin::where('username','=',$username)->first();
+                $kelas2->attachRole( $role );
+                $kelas2->roles()->attach( $role->id );
+
+                $adminrole = Role::where('name','=',$username)->first();
+                $this->hak_akses($adminrole,$kelas2);
+            }
+
+            return Redirect::route('admins.'.$this->kelaspath.'.index')->with('sucessmessage', 'Admin <b><i>' .$name. '</i></b> telah berhasil ditambah.');
+
+        }catch (Exception $e){
+            return Redirect::back()->withInput()->with('errormessage',$e->getMessage());
         }
-        $name = Input::get('name');
-        $username = Input::get('username');
-
-        $admin = new Admin();
-
-        $admin->name = $name;
-        $admin->username = $username;
-        $password1 = Input::get('password');
-        $password2 = Input::get('password2');
-
-        $checkusername = Admin::where('username','=',$username)->first();
-
-        if(!empty($checkusername))
-            return Redirect::back()->withInput()->with('errormessage','<b>Username</b> tidak tersedia, silahkan coba <b>Username</b> lain.');
-
-        if($password1 != $password2)
-            return Redirect::back()->withInput()->with('errormessage','<b>Password</b> dengan <b>Konfirmasi Password</b> tidak sama.');
-
-        $admin->password = Hash::make($password1);
-
-        if($admin->save()){
-            $role = new Role();
-            $role->name = $username;
-            $role->save();
-
-            $admin2 = Admin::where('username','=',$username)->first();
-            $admin2->attachRole( $role );
-            $admin2->roles()->attach( $role->id );
-
-            $adminrole = Role::where('name','=',$username)->first();
-            $this->hak_akses($adminrole,$admin2);
-
-            return Redirect::route('admins.admin.index')->with('message', 'Admin <b><i>' .$name. '</i></b> telah berhasil ditambah.');
-        }
-
-        return Redirect::back()->withInput()->with('errormessage','Terjadi kesalahan dalam menambah admin.');
     }
 
     public function edit($id)
     {
-        $admin = Admin::find($id);
+        try{
+            $data = Admin::find($id);
+            $datas2 = Cuprimer::orderBy('name','asc')->get();
 
-        return View::make('admins.admin.edit', compact('admin'));
+            return View::make('admins.'.$this->kelaspath.'.edit', compact('data','datas2'));
+        }catch (Exception $e){
+            return Redirect::back()->withInput()->with('errormessage',$e->getMessage());
+        }
     }
 
-    public function update($id)
+    public function edit_password($id)
     {
-        $admin = Admin::findOrFail($id);
-        //dd(Input::all());
+        try{
+            $data = Admin::find($id);
 
-        //validasi
-        $validator = Validator::make($data = Input::all(), Admin::$rules);
-        if ($validator->fails())
-        {
-            return Redirect::back()->withErrors($validator)->withInput();
+            return View::make('admins.'.$this->kelaspath.'.edit_password', compact('data'));
+        }catch (Exception $e){
+            return Redirect::back()->withInput()->with('errormessage',$e->getMessage());
         }
+    }
 
-        $name = Input::get('name');
 
-        $admin->name = $name;
-        $admin->username = Input::get('username');
 
-        $oldpassword = $admin->password;
-        $oldpassword2 = Input::get('oldpassword');
-        if (Hash::check($oldpassword2, $oldpassword)) {
-            $admin->password = Hash::make(Input::get('password'));
-        } else {
-            return Redirect::back()->withInput()->with('errormessage', 'Password lama anda tidak sesuai.');
+    public function update_password($id)
+    {
+        try{
+            $kelas = Admin::findOrFail($id);
+
+            $validator = Validator::make($data = Input::all(), Admin::$rules);
+            if ($validator->fails())
+            {
+                return Redirect::back()->withErrors($validator)->withInput();
+            }
+
+            $username = Input::get('username');
+            $kelas->username = $username;
+            $password1 = Input::get('password');
+            $password2 = Input::get('password2');
+
+            if($password1 != $password2)
+                return Redirect::back()->withInput()->with('errormessage', 'Password lama anda tidak sesuai.');
+
+            $kelas->password = Hash::make(Input::get('password'));
+
+            $kelas->update();
+            return Redirect::route('admins.'.$this->kelaspath.'.index')->with('sucessmessage', 'Admin <b><i>' . $username . '</i></b> telah berhasil diubah.');
+
+        }catch (Exception $e){
+            return Redirect::back()->withInput()->with('errormessage',$e->getMessage());
         }
-
-        //simpan
-        if($admin->update())
-            return Redirect::route('admins.admin.index')->with('message', 'Admin <b><i>' . $name . '</i></b> telah berhasil diubah.');
-
-
-        return Redirect::back()->withInput()->with('errormessage','Terjadi kesalahan dalam mengubah admin.');
     }
 
     public function destroy()
     {
-        $id = Input::get('id');
-        $admin = Admin::where('id','=',$id)->first();
-        $name = $admin->name;
-        $roles = Role::where('name','=',$admin->username)->first();
+        try{
+            $id = Input::get('id');
+            $kelas = Admin::where('id','=',$id)->first();
+            $name = $kelas->name;
+            $roles = Role::where('name','=',$kelas->username)->first();
 
-        if(!is_null($roles)){
-            $roles->perms()->detach();
-            Role::destroy($roles->id);
+            if(!is_null($roles)) {
+                if ($kelas->cu > 0) {
+                    $roles->detach();
+                } else{
+                    $roles->perms()->detach();
+                    Role::destroy($roles->id);
+                }
+            }
+
+            Admin::destroy($id);
+
+            return Redirect::route('admins.'.$this->kelaspath.'.index')->with('sucessmessage', 'Admin <b><i>' . $name . '</i></b> telah berhasil di hapus.');
+        }catch (Exception $e){
+            return Redirect::back()->withInput()->with('errormessage',$e->getMessage());
         }
-
-        Admin::destroy($id);
-
-        return Redirect::route('admins.admin.index')->with('message', 'Admin <b><i>' . $name . '</i></b> telah berhasil di hapus.');
     }
 
     public function update_status(){
-        $id = Input::get('id');
-        $status = Input::get('status');
-        $admin = Admin::findOrFail($id);
-        $name = $admin->name;
-        $admin->status = $status;
+        try{
+            $id = Input::get('id');
+            $status = Input::get('status');
+            $kelas = Admin::findOrFail($id);
+            $name = $kelas->name;
+            $kelas->status = $status;
 
-        if($status == 0)
-            $statusname = "non-aktifkan";
-        else
-            $statusname = "diaktifkan";
+            if($status == 0)
+                $statusname = "non-aktifkan";
+            else
+                $statusname = "diaktifkan";
 
-        if($admin->update())
-            return Redirect::route('admins.admin.index')->with('message', 'Status admin <b><i>' . $name . '</i></b> telah <b>' . $statusname . '</b>.');
+            $kelas->update();
+            return Redirect::route('admins.'.$this->kelaspath.'.index')->with('sucessmessage', 'Status admin <b><i>' . $name . '</i></b> telah <b>' . $statusname . '</b>.');
 
-
-        return Redirect::back()->withInput()->with('errormessage','Terjadi kesalahan dalam mengubah status admin.');
-    }
-
-    public function edit_hak_akses($id)
-    {
-        $admin = Admin::find($id);
-
-        return View::make('admins.admin.edit_hak_akses', compact('admin'));
+        }catch (Exception $e){
+            return Redirect::back()->withInput()->with('errormessage',$e->getMessage());
+        }
     }
 
     public function update_hak_akses(){
-        if(Input::get('simpan')) {
+        try{
             $id = Input::get('id');
-            $admin = Admin::where('id', '=', $id)->first();
-            $name = $admin->name;
-            $adminrole = Role::where('name', '=', $admin->username)->first();
-            $this->hak_akses($adminrole, $admin);
+            $kelas = Admin::where('id', '=', $id)->first();
+            $name = $kelas->name;
+            $adminrole = Role::where('name', '=', $kelas->username)->first();
+            $this->hak_akses($adminrole, $kelas);
 
-            return Redirect::route('admins.admin.index')->with('message', 'Hak akses <b><i>' . $name . '</i></b> telah berhasil diubah.');
-        }elseif(Input::get('batal')){
-            return Redirect::route('admins.admin.index');
+            return Redirect::route('admins.'.$this->kelaspath.'.index')->with('sucessmessage', 'Hak akses <b><i>' . $name . '</i></b> telah berhasil diubah.');
+        }catch (Exception $e){
+            return Redirect::back()->withInput()->with('errormessage',$e->getMessage());
         }
     }
 

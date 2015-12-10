@@ -2,105 +2,128 @@
 
 class AdminKegiatanController extends \BaseController{
 
+    protected $kelaspath = 'kegiatan';
+
     public function index()
     {
-        $kegiatans = kegiatan::with('Admin')
-                    ->orderBy('status', 'asc')
-                    ->orderBy('name','asc')
-                    ->get();;
-        return View::make('admins.kegiatan.index', compact('kegiatans'));
+        try{
+            $datas = kegiatan::with('Admin')
+                        ->orderBy('status', 'asc')
+                        ->orderBy('name','asc')
+                        ->get();;
+            return View::make('admins.'.$this->kelaspath.'.index', compact('datas'));
+        }catch (Exception $e){
+            return Redirect::back()->withInput()->with('errormessage',$e->getMessage());
+        }
     }
 
     public function create()
     {
-        return View::make('admins.kegiatan.create');
+        try{
+            return View::make('admins.'.$this->kelaspath.'.create');
+        }catch (Exception $e){
+            return Redirect::back()->withInput()->with('errormessage',$e->getMessage());
+        }
     }
 
 
     public function store()
     {
-        $validator = Validator::make($data = Input::all(), Kegiatan::$rules);
+        try{
+            $validator = Validator::make($data = Input::all(), Kegiatan::$rules);
 
-        if ($validator->fails())
-        {
-            return Redirect::back()->withErrors($validator)->withInput();
-        }
+            if ($validator->fails())
+            {
+                return Redirect::back()->withErrors($validator)->withInput();
+            }
 
-        $name = Input::get('name');
-        $data2 = $this->input_data($data);
+            $name = Input::get('name');
+            $data2 = $this->input_data($data);
 
-        if(kegiatan::create($data2)) {
+            kegiatan::create($data2);
+
             if (Input::Get('simpan2'))
-                return Redirect::route('admins.kegiatan.create')->with('message', 'Kegiatan <b><i>' . $name . '</i></b> Telah berhasil ditambah.');
+                return Redirect::route('admins.'.$this->kelaspath.'.create')->with('sucessmessage', 'Kegiatan <b><i>' . $name . '</i></b> Telah berhasil ditambah.');
             else
-                return Redirect::route('admins.kegiatan.index')->with('message', 'Kegiatan <b><i>' . $name . '</i></b> Telah berhasil ditambah.');
+                return Redirect::route('admins.'.$this->kelaspath.'.index')->with('sucessmessage', 'Kegiatan <b><i>' . $name . '</i></b> Telah berhasil ditambah.');
+            return Redirect::back()->withInput()->with('errormessage','Terjadi kesalahan dalam penambahan kegiatan.');
+        }catch (Exception $e){
+            return Redirect::back()->withInput()->with('errormessage',$e->getMessage());
         }
-        return Redirect::back()->withInput()->with('errormessage','Terjadi kesalahan dalam penambahan kegiatan.');
     }
 
     public function edit($id)
     {
-        $kegiatan = kegiatan::find($id);
+        try{
+            $data = kegiatan::find($id);
 
-        return View::make('admins.kegiatan.edit', compact('kegiatan'));
+            return View::make('admins.'.$this->kelaspath.'.edit', compact('data'));
+        }catch (Exception $e){
+            return Redirect::back()->withInput()->with('errormessage',$e->getMessage());
+        }
     }
 
     public function update($id)
     {
-        //validasi
-        $validator = Validator::make($data = Input::all(), Kegiatan::$rules);
-        if ($validator->fails())
-        {
-            return Redirect::back()->withErrors($validator)->withInput();
-        }
+        try{
+            $validator = Validator::make($data = Input::all(), Kegiatan::$rules);
+            if ($validator->fails())
+            {
+                return Redirect::back()->withErrors($validator)->withInput();
+            }
 
-        $name = Input::get('name');
-        $kegiatan = Kegiatan::findOrFail($id);
-        $data2 = $this->input_data($data);
+            $name = Input::get('name');
+            $kegiatan = Kegiatan::findOrFail($id);
+            $data2 = $this->input_data($data);
 
+            $kegiatan->update($data2);
 
-        //simpan
-        if($kegiatan->update($data2)) {
             if (Input::Get('simpan2'))
-                return Redirect::route('admins.kegiatan.create')->with('message', 'Kegiatan <b><i>' . $name . '</i></b> Telah berhasil diubah.');
+                return Redirect::route('admins.'.$this->kelaspath.'.create')->with('sucessmessage', 'Kegiatan <b><i>' . $name . '</i></b> Telah berhasil diubah.');
             else
-                return Redirect::route('admins.kegiatan.index')->with('message', 'Kegiatan <b><i>' . $name . '</i></b> Telah berhasil diubah.');
+                return Redirect::route('admins.'.$this->kelaspath.'.index')->with('sucessmessage', 'Kegiatan <b><i>' . $name . '</i></b> Telah berhasil diubah.');
+        }catch (Exception $e){
+            return Redirect::back()->withInput()->with('errormessage',$e->getMessage());
         }
-        return Redirect::back()->withInput()->with('errormessage','Terjadi kesalahan dalam pengubahan informasi kegiatan.');
     }
 
     public function update_mulai(){
-        $id = Input::get('id');
-        $kegiatan = Kegiatan::findOrFail($id);
+        try{
+            $id = Input::get('id');
+            $kelas = Kegiatan::findOrFail($id);
 
-        $timestamp = strtotime(Input::get('tanggal'));
-        $tanggal = date('Y-m-d',$timestamp);
-        $kegiatan->tanggal = $tanggal;
+            $timestamp = strtotime(Input::get('tanggal'));
+            $tanggal = date('Y-m-d',$timestamp);
+            $kelas->tanggal = $tanggal;
 
-        $name = $kegiatan->name;
+            $name = $kelas->name;
 
-        //simpan
-        if($kegiatan->update())
-            return Redirect::route('admins.kegiatan.index')->with('message', 'Tanggal mulai kegiatan <b><i>' .$name. '</i></b> Telah berhasil di ubah.');
+            $kelas->update();
 
-        return Redirect::back()->withInput()->with('errormessage','Terjadi kesalahan dalam pengubahan tanggal mulai kegiatan.');
+            return Redirect::route('admins.'.$this->kelaspath.'.index')->with('sucessmessage', 'Tanggal mulai kegiatan <b><i>' .$name. '</i></b> Telah berhasil di ubah.');
+        }catch (Exception $e){
+            return Redirect::back()->withInput()->with('errormessage',$e->getMessage());
+        }
     }
 
     public function update_selesai(){
-        $id = Input::get('id');
-        $kegiatan = Kegiatan::findOrFail($id);
+        try{
+            $id = Input::get('id');
+            $kelas = Kegiatan::findOrFail($id);
 
-        $timestamp = strtotime(Input::get('tanggal'));
-        $tanggal = date('Y-m-d',$timestamp);
-        $kegiatan->tanggal2 = $tanggal;
+            $timestamp = strtotime(Input::get('tanggal'));
+            $tanggal = date('Y-m-d',$timestamp);
+            $kelas->tanggal2 = $tanggal;
 
-        $name = $kegiatan->name;
+            $name = $kelas->name;
 
-        //simpan
-        if($kegiatan->update())
-            return Redirect::route('admins.kegiatan.index')->with('message', 'Tanggal selesai kegiatan <b><i>' .$name. '</i></b> Telah berhasil di ubah.');
+            $kelas->update();
 
-        return Redirect::back()->withInput()->with('errormessage','Terjadi kesalahan dalam pengubahan tanggal selesai kegiatan.');
+            return Redirect::route('admins.'.$this->kelaspath.'.index')->with('sucessmessage', 'Tanggal selesai kegiatan <b><i>' .$name. '</i></b> Telah berhasil di ubah.');
+
+        }catch (Exception $e){
+            return Redirect::back()->withInput()->with('errormessage',$e->getMessage());
+        }
     }
 
     public function input_data($data){
@@ -118,11 +141,15 @@ class AdminKegiatanController extends \BaseController{
 
     public function destroy()
     {
+        try{
         $id = Input::get('id');
 
-        if(Kegiatan::destroy($id))
-            return Redirect::route('admins.kegiatan.index')->with('message', 'Informasi kegiatan telah berhasil di hapus.');
+        Kegiatan::destroy($id);
 
-        return Redirect::back()->withInput()->with('errormessage','Terjadi kesalahan dalam penghapusan informasi kegiatan.');
+        return Redirect::route('admins.'.$this->kelaspath.'.index')->with('sucessmessage', 'Informasi kegiatan telah berhasil di hapus.');
+
+        }catch (Exception $e){
+            return Redirect::back()->withInput()->with('errormessage',$e->getMessage());
+        }
     }
 }

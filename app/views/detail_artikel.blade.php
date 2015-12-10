@@ -13,6 +13,7 @@
     </div>
 </div>
 <!-- Page Title -->
+@include('_layouts.event')
 <div class="section">
     <div class="container">
         <div class="row">

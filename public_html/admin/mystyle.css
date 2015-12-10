@@ -1,0 +1,10 @@
+.modalphotos img:hover{
+    cursor: pointer;
+    cursor: hand;
+}
+
+td, th {
+    word-wrap: break-word;
+    word-break: normal;
+    white-space: pre-wrap;
+}

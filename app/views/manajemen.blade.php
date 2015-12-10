@@ -12,6 +12,7 @@
     </div>
 </div>
 <!-- /Page Title -->
+@include('_layouts.event')
 <!--manajemen-->
 <div class="section">
     <div class="container">

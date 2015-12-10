@@ -2,20 +2,27 @@
 
 class AdminSaranController extends \BaseController {
 
+    protected $indexpath = 'admins.saran.index';
+
     public function index()
     {
-        $sarans = Saran::orderBy('created_at','desc')->get();;
-        return View::make('admins.saran.index', compact('sarans'));
+        try{
+            $datas = Saran::orderBy('created_at','desc')->get();;
+            return View::make($this->indexpath, compact('datas'));
+        }catch (Exception $e){
+            return Redirect::back()->withInput()->with('errormessage',$e->getMessage());
+        }
     }
 
     public function destroy()
     {
-        $id = Input::get('id');
+        try{
+            $id = Input::get('id');
 
-        if(Saran::destroy($id)) {
-            return Redirect::route('admins.saran.index')->with('message', 'Saran atau kritik telah berhasil di hapus.');
+            Saran::destroy($id);
+            return Redirect::route($this->indexpath)->with('sucessmessage', 'Saran atau kritik telah berhasil di hapus.');
+        }catch (Exception $e){
+            return Redirect::back()->withInput()->with('errormessage',$e->getMessage());
         }
-
-        return Redirect::back()->withInput()->with('errormessage','Terjadi kesalahan dalam penghapusan saram atau kritik.');
     }
 }

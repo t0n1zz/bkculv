@@ -143,7 +143,7 @@ class PublicController extends \BaseController{
     }
 
     public function manajemen(){
-        $manajemens = Staff::where('tingkat','=','3')
+        $manajemens = Staf::where('tingkat','=','3')
             ->where('cu','=','0')
             ->get();
 

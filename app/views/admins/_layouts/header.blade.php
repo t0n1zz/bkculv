@@ -1,53 +1,66 @@
-<div class="navbar-header">
-    <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
-        <span class="sr-only">Toggle navigation</span>
-        <span class="icon-bar"></span>
-        <span class="icon-bar"></span>
-        <span class="icon-bar"></span>
-    </button>
-    <a class="navbar-brand" href="{{ route('admins') }}">
-    <img class="img-responsive pull-left"
-         src="{{ asset('images/logo.png') }}" width="23" height="23"
-         alt="Logo Puskopdit BKCU Kalimantan"> &nbsp Puskopdit BKCU Kalimantan
+<header class="main-header">
+    <!-- logo -->
+    <a class="logo" href="{{ route('admins') }}" style="font-size: 1em">
+        Puskopdit <b>BKCU Kalimantan</b>
     </a>
-</div>
-<!-- /.navbar-header -->
+    <!-- /logo -->
+    <!-- header navbar -->
+    <nav class="navbar navbar-static-top" role="navigation">
+        <!-- toggle -->
+        <a href="#" class="sidebar-toggle" data-toggle="offcanvas" role="button">
+            <span class="sr-only">Toggle Navigation</span>
+        </a>
+        <!-- /toggle -->
+        <!-- navbar right menu -->
+        <div class="navbar-custom-menu">
+            <ul class="nav navbar-nav">
+                <li class="dropdown user user-menu">
+                    <?php
+                        $gambar = Auth::user()->getGambar();
+                        $imagepath = 'images/';
 
-<ul class="nav navbar-top-links navbar-right">
-    <!-- alert -->
-    <?php
-    if(Auth::check()) { $id = Auth::user()->getId();}
-    $admin = Admin::find($id);
-    $date = new Date($admin->logout);
-    ?>
-    <li class="dropdown">
-        <a href="#" style="cursor: default">
-            @if($admin->logout != "0000-00-00 00:00:00")
-                <i class="fa fa-clock-o fa-fw"></i>  Terakhir login pada : {{ $date->format('d/n/Y, H:i') }}
-            @else
-                <i class="fa fa-clock-o fa-fw"></i> Terakhir login pada : Belum pernah login
-           @endif
-        </a>
-    </li>
-    <!-- /alert -->
-    <!-- user -->
-    <li class="dropdown">
-        <!--<a class="dropdown-toggle" data-toggle="dropdown" href="#">
-            <i class="fa fa-user fa-fw"></i>  <i class="fa fa-caret-down"></i>
-        </a>
-        <ul class="dropdown-menu dropdown-user">
-            <li><a href="#"><i class="fa fa-user fa-fw"></i> Profil</a>
-            </li>
-            <li><a href="#"><i class="fa fa-gear fa-fw"></i> Pengaturan</a>
-            </li>
-            <li class="divider"></li>
-            <li><a href="logout.php"><i class="fa fa-sign-out fa-fw"></i> Logout</a>
-            </li>
-        </ul>-->
+                        if(Auth::user()->getLogout() != "0000-00-00 00:00:00"){
+                            $date = new Date(Auth::user()->getLogout());
+                            $tanggal = $date->format('l, j F Y, H:i:s');
+                        }else{
+                            $tanggal = "Belum pernah login";
+                        }
+                    ?>
+                    <a href="#" class="dropdown-toggle" data-toggle="dropdown">
+                        @if(!empty($gambar) && is_file($imagepath.$gambar.".jpg"))
+                            <img src="{{ asset($imagepath.$gambar.".jpg") }}" class="user-image" alt="User Image" />
+                        @else
+                            <img src="{{ asset($imagepath."user.png") }}" class="user-image" alt="User Image" />
+                        @endif
+                        <span class="hidden-xs">{{ Auth::user()->getName(); }}</span>
+                    </a>
+                    <ul class="dropdown-menu">
+                        <!-- User image -->
+                        <li class="user-header">
+                            @if(!empty($gambar) && is_file($imagepath.$gambar.".jpg"))
+                                <img src="{{ asset($imagepath.$gambar.".jpg") }}" class="img-circle" alt="User Image" />
+                            @else
+                                <img src="{{ asset($imagepath."user.png") }}" class="img-circle" alt="User Image" />
+                            @endif
+                            <p>
+                                {{ Auth::user()->getName(); }}
+                                <small>Terakhir login pada : <br/>{{ $tanggal }}</small>
+                            </p>
+                        </li>
+                        <li class="user-footer">
+                            <div class="pull-left">
+                                <a href="#" class="btn btn-default btn-flat">Profile</a>
+                            </div>
+                            <div class="pull-right">
+                                <a href="{{ route('admins.logout') }}" class="btn btn-default btn-flat">Sign out</a>
+                            </div>
+                        </li>
+                    </ul>
+                </li>
+            </ul>
+        </div>
+        <!-- /navbar right menu -->
+    </nav>
+    <!-- /header navbar -->
+</header>
 
-        <a href="{{ route('admins.logout') }}">
-            <i class="fa fa-sign-out fa-fw"></i>  Logout</i>
-        </a>
-    </li>
-    <!-- /user -->
-</ul>

@@ -2,62 +2,75 @@
 
 class AdminWilayahCuprimerController extends \BaseController{
 
+    protected $kelaspath = 'wilayahcuprimer';
+
     public function index()
     {
-        $wilayahcuprimers = WilayahCuprimer::orderBy('name','asc')->get();;
-        return View::make('admins.wilayahcuprimer.index', compact('wilayahcuprimers'));
+        try{
+            $datas = WilayahCuprimer::orderBy('name','asc')->get();;
+            return View::make('admins.'.$this->kelaspath.'.index', compact('datas'));
+        }catch (Exception $e){
+            return Redirect::back()->withInput()->with('errormessage',$e->getMessage());
+        }
     }
 
     public function store()
     {
-        $validator = Validator::make($data = Input::all(), WilayahCuprimer::$rules);
+        try{
+            $validator = Validator::make($data = Input::all(), WilayahCuprimer::$rules);
 
-        if ($validator->fails())
-        {
-            return Redirect::back()->withErrors($validator)->withInput();
+            if ($validator->fails())
+            {
+                return Redirect::back()->withErrors($validator)->withInput();
+            }
+            $name = Input::get('name');
+
+            WilayahCuprimer::create($data);
+
+            return Redirect::route('admins.'.$this->kelaspath.'.index')->with('sucessmessage', 'Wilayah CU <b><i>' .$name. '</i></b> Telah berhasil ditambah.');
+        }catch (Exception $e){
+            return Redirect::back()->withInput()->with('errormessage',$e->getMessage());
         }
-        $name = Input::get('name');
-
-        if(WilayahCuprimer::create($data))
-            return Redirect::route('admins.wilayahcuprimer.index')->with('message', 'Wilayah CU <b><i>' .$name. '</i></b> Telah berhasil ditambah.');
-
-        return Redirect::back()->withInput()->with('errormessage','Terjadi kesalahan dalam penambahan wilayah cu.');
     }
 
 
     public function update()
     {
-        //validasi
-        $validator = Validator::make($data = Input::all(), WilayahCuprimer::$rules);
-        if ($validator->fails())
-        {
-            return Redirect::back()->withErrors($validator)->withInput();
+        try{
+            $validator = Validator::make($data = Input::all(), WilayahCuprimer::$rules);
+            if ($validator->fails())
+            {
+                return Redirect::back()->withErrors($validator)->withInput();
+            }
+
+            $name = Input::get('name');
+            $id = Input::get('id');
+            $kelas = WilayahCuprimer::findOrFail($id);
+
+            //simpan
+            $kelas->update($data);
+
+            return Redirect::route('admins.'.$this->kelaspath.'.index')->with('sucessmessage', 'Wilayah cu  <b><i>' .$name. '</i></b> Telah berhasil diubah.');
+        }catch (Exception $e){
+            return Redirect::back()->withInput()->with('errormessage',$e->getMessage());
         }
-
-        $name = Input::get('name');
-        $id = Input::get('id');
-        $wilayahcuprimer = WilayahCuprimer::findOrFail($id);
-
-        //simpan
-        if($wilayahcuprimer->update($data))
-            return Redirect::route('admins.wilayahcuprimer.index')->with('message', 'Wilayah cu  <b><i>' .$name. '</i></b> Telah berhasil diubah.');
-
-        return Redirect::back()->withInput()->with('errormessage','Terjadi kesalahan dalam pengubahan wilayah cu.');
     }
 
 
     public function destroy()
     {
-        $id = Input::get('id');
-        $wilayahcuprimer = WilayahCuprimer::find($id);
+        try{
+            $id = Input::get('id');
+            $kelas = WilayahCuprimer::find($id);
 
-        if($wilayahcuprimer->jumlah == 0) {
-            if(WilayahCuprimer::destroy($id))
-                return Redirect::route('admins.wilayahcuprimer.index')->with('message', 'Wilayah CU telah berhasil di hapus.');
-
-            return Redirect::back()->withInput()->with('errormessage','Terjadi kesalahan dalam penghapusan wilayah CU.');
+            if($kelas->hascuprimer->count() > 0) {
+                WilayahCuprimer::destroy($id);
+                return Redirect::route('admins.'.$this->kelaspath.'.index')->with('sucessmessage', 'Wilayah CU telah berhasil di hapus.');
+            }else{
+                return Redirect::back()->withInput()->with('errormessage','Maaf terdapat informasi CU pada wilayah ini, silahkan hapus informasi CU tersebut.');
+            }
+        }catch (Exception $e){
+            return Redirect::back()->withInput()->with('errormessage',$e->getMessage());
         }
-
-        return Redirect::back()->withInput()->with('errormessage','Terdapat CU pada wilayah ini, silahkan ganti terlebih dahulu.');
     }
 }

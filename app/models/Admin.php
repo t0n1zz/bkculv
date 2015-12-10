@@ -18,9 +18,9 @@ class Admin extends Eloquent implements UserInterface, RemindableInterface {
         'password' => 'required'
     ];
 
-    protected $fillable = ['username','password','password_confirmation',
-        'email','confirmation_code','confirmed',
-        'name','status','login','logout'];
+    protected $fillable = ['username','password',
+        'name','logout','login',
+        'cu','status'];
 
 	/**
 	 * The database table used by the model.
@@ -39,5 +39,29 @@ class Admin extends Eloquent implements UserInterface, RemindableInterface {
     public function getId()
     {
         return $this->id;
+    }
+
+    public function getName()
+    {
+        return $this->name;
+    }
+
+    public function getUsername()
+    {
+        return $this->username;
+    }
+
+    public function getGambar()
+    {
+        return $this->gambar;
+    }
+
+    public function getLogout()
+    {
+        return $this->logout;
+    }
+
+    public function cuprimer(){
+        return $this->belongsTo('Cuprimer','cu','id');
     }
 }
